@@ -1,3 +1,13 @@
+#' Convert a data frame to a remote data frame
+#'
+#' Convert a data frame to a remote PostgreSQL data frame
+#' even with a read-only connection.
+#'
+#' @param df data frame
+#' @param conn connection to a PostgreSQL database
+#'
+#' @return tbl_sql
+#' @export
 df_to_pg <- function(df, conn) {
 
     convert_vec <- function(vec) {
@@ -41,6 +51,6 @@ df_to_pg <- function(df, conn) {
 
     temp_sql <- paste0("SELECT ", paste0(temp_starter_sql, collapse = ",\n"))
 
-    temp_df_sql <- tbl(conn, sql(temp_sql))
+    temp_df_sql <- dplyr::tbl(conn, dbplyr::sql(temp_sql))
     return(temp_df_sql)
 }
