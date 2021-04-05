@@ -20,7 +20,7 @@ A tibble with 47 rows and 3 variables:
 apple_events
 }
 \description{
-A dataset containing the dates of Apple media events
+A data set containing the dates of Apple media events
 since 2005.
 }
 \keyword{datasets}
