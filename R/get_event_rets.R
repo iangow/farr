@@ -1,4 +1,4 @@
-#' Produce a table of cumulative event returns
+#' Produce a table of event returns
 #'
 #' Produce a table of event returns from CRSP
 #'
@@ -13,7 +13,7 @@
 #' @return tbl_df
 #' @export
 #' @importFrom rlang .data
-get_event_cum_rets <- function(data, conn,
+get_event_rets <- function(data, conn,
                             permno = "permno",
                             event_date = "event_date",
                             win_start = 0, win_end = 0,
@@ -26,11 +26,13 @@ get_event_cum_rets <- function(data, conn,
         drop_end_event_date <- FALSE
     }
 
-    event_dates <- get_event_dates(data, conn, permno = permno,
+    event_dates <-
+        get_event_dates(data, conn, permno = permno,
                                    event_date = event_date,
                                    win_start = win_start, win_end = win_end,
-                                   end_event_date = end_event_date)
-
+                                   end_event_date = end_event_date) %>%
+        dplyr::select(.data$permno, .data$event_date,
+                      .data$end_event_date, .data$start_date, .data$end_date)
 
     crsp.dsedelist <- dplyr::tbl(conn, dplyr::sql("SELECT * FROM crsp.dsedelist"))
     crsp.dsf <- dplyr::tbl(conn, dplyr::sql("SELECT * FROM crsp.dsf"))
@@ -39,14 +41,13 @@ get_event_cum_rets <- function(data, conn,
 
     dsedelist <-
         crsp.dsedelist %>%
-        dplyr::select(permno, date = .data$dlstdt, .data$dlret) %>%
+        dplyr::select(.data$permno, date = .data$dlstdt, .data$dlret) %>%
         dplyr::filter(!is.na(.data$dlret))
 
     dsf_plus <-
         crsp.dsf %>%
         dplyr::full_join(dsedelist, by = c("permno", "date")) %>%
-        dplyr::mutate(ret = (1 + dplyr::coalesce(.data$ret, 0)) *
-                          (1 + dplyr::coalesce(.data$dlret, 0)) - 1) %>%
+        dplyr::mutate(ret = (1 + dplyr::coalesce(.data$ret, 0)) * (1 + dplyr::coalesce(.data$dlret, 0)) - 1) %>%
         dplyr::select(.data$permno, .data$date, .data$ret)
 
     erdport <-
@@ -65,21 +66,28 @@ get_event_cum_rets <- function(data, conn,
         dsf_w_erdport %>%
         dplyr::left_join(dsi, by = "date")
 
-    results <-
+    results_raw <-
         event_dates %>%
         farr::df_to_pg(conn) %>%
         dplyr::inner_join(rets, by="permno") %>%
-        dplyr::filter(dplyr::between(.data$date, .data$start_date, .data$end_date)) %>%
-        dplyr::group_by(.data$permno, .data$event_date, .data$end_event_date) %>%
-        dplyr::summarize(ret_raw =
-                      exp(sum(dplyr::sql("ln((1 + ret))"), na.rm = TRUE)) - 1,
-                  ret_mkt =
-                      exp(sum(dplyr::sql("ln((1 + ret))"), na.rm = TRUE)) -
-                      exp(sum(dplyr::sql("ln((1 + vwretd))"), na.rm = TRUE)) ,
-                  ret_sz =
-                      exp(sum(dplyr::sql("ln((1 + ret))"), na.rm = TRUE)) -
-                      exp(sum(dplyr::sql("ln((1 + decret))"), na.rm = TRUE)),
-                  .groups = "drop")
+        dplyr::filter(dplyr::between(.data$date, .data$start_date,
+                                     .data$end_date)) %>%
+        dplyr::collect()
+
+    trading_dates <- farr::get_trading_dates(conn)
+
+    event_tds <-
+        event_dates %>%
+        dplyr::inner_join(trading_dates, by=c("event_date"="date")) %>%
+        dplyr::rename(event_td = .data$td) %>%
+        dplyr::select(.data$permno, .data$event_date, .data$event_td)
+
+    results <-
+        results_raw %>%
+        dplyr::inner_join(trading_dates, by="date") %>%
+        dplyr::inner_join(event_tds, by = c("permno", "event_date")) %>%
+        dplyr::mutate(relative_td = .data$td - .data$event_td) %>%
+        dplyr::select(-.data$td, -.data$event_td)
 
     if (drop_end_event_date) {
         results %>%
