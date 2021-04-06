@@ -14,10 +14,10 @@
 #' @export
 #' @importFrom rlang .data
 get_event_rets <- function(data, conn,
-                            permno = "permno",
-                            event_date = "event_date",
-                            win_start = 0, win_end = 0,
-                            end_event_date = NULL) {
+                           permno = "permno",
+                           event_date = "event_date",
+                           win_start = 0, win_end = 0,
+                           end_event_date = NULL) {
 
     if (is.null(end_event_date)) {
         end_event_date <- event_date
@@ -28,11 +28,11 @@ get_event_rets <- function(data, conn,
 
     event_dates <-
         get_event_dates(data, conn, permno = permno,
-                                   event_date = event_date,
-                                   win_start = win_start, win_end = win_end,
-                                   end_event_date = end_event_date) %>%
-        dplyr::select(.data$permno, .data$event_date,
-                      .data$end_event_date, .data$start_date, .data$end_date)
+                        event_date = event_date,
+                        win_start = win_start, win_end = win_end,
+                        end_event_date = end_event_date) %>%
+        dplyr::select(.data$permno, dplyr::one_of(event_date, end_event_date),
+                      .data$start_date, .data$end_date)
 
     crsp.dsedelist <- dplyr::tbl(conn, dplyr::sql("SELECT * FROM crsp.dsedelist"))
     crsp.dsf <- dplyr::tbl(conn, dplyr::sql("SELECT * FROM crsp.dsf"))
@@ -69,7 +69,7 @@ get_event_rets <- function(data, conn,
     results_raw <-
         event_dates %>%
         farr::df_to_pg(conn) %>%
-        dplyr::inner_join(rets, by="permno") %>%
+        dplyr::inner_join(rets, by = "permno") %>%
         dplyr::filter(dplyr::between(.data$date, .data$start_date,
                                      .data$end_date)) %>%
         dplyr::collect()
@@ -78,24 +78,19 @@ get_event_rets <- function(data, conn,
 
     event_tds <-
         event_dates %>%
-        dplyr::inner_join(trading_dates, by=c("event_date"="date")) %>%
+        dplyr::inner_join(trading_dates,
+                          by = structure(names = event_date, .Data = "date")) %>%
         dplyr::rename(event_td = .data$td) %>%
-        dplyr::select(.data$permno, .data$event_date, .data$event_td)
+        dplyr::select(.data$permno, event_date, .data$event_td)
 
     results <-
         results_raw %>%
         dplyr::inner_join(trading_dates, by="date") %>%
-        dplyr::inner_join(event_tds, by = c("permno", "event_date")) %>%
+        dplyr::inner_join(event_tds, c("permno"="permno",
+                                       structure(names = event_date,
+                                                 .Data = event_date))) %>%
         dplyr::mutate(relative_td = .data$td - .data$event_td) %>%
         dplyr::select(-.data$td, -.data$event_td)
 
-    if (drop_end_event_date) {
-        results %>%
-            dplyr::select(-end_event_date) %>%
-            dplyr::collect()
-    } else {
-        results %>%
-            dplyr::collect()
-    }
+    results
 }
-

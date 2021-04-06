@@ -26,11 +26,11 @@ get_event_dates <- function(data, conn,
 
     event_tds <-
         data %>%
-        dplyr::inner_join(annc_dates, by = c(event_date="annc_date")) %>%
+        dplyr::inner_join(annc_dates, by = structure(names = event_date, .Data = "annc_date")) %>%
         dplyr::mutate(td_start = .data$td + win_start) %>%
         dplyr::select(-.data$td) %>%
-        dplyr::inner_join(annc_dates, by = c(end_event_date="annc_date")) %>%
-        dplyr::mutate(td_end = .data$td + .data$win_end) %>%
+        dplyr::inner_join(annc_dates, by = structure(names = end_event_date, .Data = "annc_date")) %>%
+        dplyr::mutate(td_end = .data$td + win_end) %>%
         dplyr::select(-.data$td)
 
     event_dates <-
