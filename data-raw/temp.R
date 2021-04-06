@@ -12,8 +12,8 @@ data <-
     apple_events %>%
     mutate(permno = 14593L)
 
-win_start <- -1
-win_end <- 1
+win_start <- -10
+win_end <- 10
 end_event_date <- "end_event_date"
 conn <- pg
 
