@@ -37,5 +37,5 @@ get_aaers <- function(year) {
 }
 aaer_dates <- bind_rows(lapply(1999:2021, get_aaers))
 
-save(by_tag_year, file="data/aaer_dates.RData",
+save(aaer_dates, file="data/aaer_dates.RData",
      compress = "xz")
