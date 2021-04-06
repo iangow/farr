@@ -27,11 +27,11 @@ get_event_dates <- function(data, conn,
     event_tds <-
         data %>%
         dplyr::inner_join(annc_dates, by = c(event_date="annc_date")) %>%
-        dplyr::mutate(td_start = td + win_start) %>%
-        dplyr::select(-td) %>%
+        dplyr::mutate(td_start = .data$td + win_start) %>%
+        dplyr::select(-.data$td) %>%
         dplyr::inner_join(annc_dates, by = c(end_event_date="annc_date")) %>%
-        dplyr::mutate(td_end = td + win_end) %>%
-        dplyr::select(-td)
+        dplyr::mutate(td_end = .data$td + .data$win_end) %>%
+        dplyr::select(-.data$td)
 
     event_dates <-
         event_tds %>%
@@ -39,7 +39,7 @@ get_event_dates <- function(data, conn,
         dplyr::rename(start_date = date) %>%
         dplyr::inner_join(trading_dates, by=c("td_end"="td")) %>%
         dplyr::rename(end_date = date) %>%
-        dplyr::select(-td_start, -td_end)
+        dplyr::select(-.data$td_start, -.data$td_end)
 
     event_dates
 }

@@ -9,4 +9,5 @@ url <- paste("https://gist.githubusercontent.com/iangow",
 
 by_tag_year <- read_csv(url, col_types = "icii")
 
-save(by_tag_year, file="data/by_tag_year.RData")
+save(by_tag_year, file="data/by_tag_year.RData",
+     compress = "xz")
