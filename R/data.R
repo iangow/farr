@@ -26,3 +26,17 @@
 #'   ...
 #' }
 "by_tag_year"
+
+#' AAER dates from SEC
+#'
+#' A data set containing dates and descriptions for AAERs
+#'
+#' @format A tibble with 40,518 rows and 4 variables:
+#' \describe{
+#'   \item{aaer_num}{AAER number}
+#'   \item{aaer_date}{Date}
+#'   \item{aaer_desc}{Description}
+#'   \item{year}{Year of AAER}
+#'   ...
+#' }
+"aaer_dates"
