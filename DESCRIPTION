@@ -1,6 +1,6 @@
 Package: farr
 Title: Data and Code for Financial Accounting Research
-Version: 0.2.3
+Version: 0.2.4
 Authors@R: 
     person(given = "Ian",
            family = "Gow",
@@ -18,4 +18,5 @@ Imports:
     dplyr,
     magrittr,
     rlang,
-    tidyr
+    tidyr,
+    tibble
