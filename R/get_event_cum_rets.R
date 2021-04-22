@@ -70,7 +70,7 @@ get_event_cum_rets <- function(data, conn,
         farr::df_to_pg(conn) %>%
         dplyr::inner_join(rets, by="permno") %>%
         dplyr::filter(dplyr::between(.data$date, .data$start_date, .data$end_date)) %>%
-        dplyr::group_by(.data$permno, .data$event_date, .data$end_event_date) %>%
+        dplyr::group_by(.data$permno, event_date, end_event_date) %>%
         dplyr::summarize(ret_raw =
                       exp(sum(dplyr::sql("ln((1 + ret))"), na.rm = TRUE)) - 1,
                   ret_mkt =
