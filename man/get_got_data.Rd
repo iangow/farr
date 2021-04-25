@@ -4,20 +4,20 @@
 \alias{get_got_data}
 \title{Ggenerate simulated data as described in Gow, Ormazabal and}
 \usage{
-get_got_data(N, T, Xvol, Evol, rho_X, rho_E)
+get_got_data(N = 400, T = 20, Xvol, Evol, rho_X, rho_E)
 }
 \arguments{
-\item{N}{= Number of firms}
+\item{N}{Number of firms}
 
-\item{T}{= Number of years}
+\item{T}{Number of years}
 
-\item{Xvol}{= Cross-sectional correlation of $X$}
+\item{Xvol}{Cross-sectional correlation of \emph{X}}
 
-\item{Evol}{= Cross-sectional correlation of errors}
+\item{Evol}{Cross-sectional correlation of errors}
 
-\item{rho_X}{= Autocorrelation coefficient for firm-effect portion of $X$}
+\item{rho_X}{Autocorrelation coefficient for firm-effect portion of \emph{X}}
 
-\item{rho_E}{= Autocorrelation coefficient for firm-effect portion of $\\epsilon$}
+\item{rho_E}{Autocorrelation coefficient for firm-effect portion of epsilon}
 }
 \value{
 tibble
