@@ -6,18 +6,18 @@
 <!-- badges: start -->
 <!-- badges: end -->
 
-The goal of farr is to …
+The goal of `farr` is to provide functions and data to support the course book for *Financial Accounting Research*, which is currently available as a *very rough* draft [here](http://iangow.me/far_2021).
 
 ## Installation
 
-You can install the released version of farr from
+Because there is no released version, you *cannot* install the released version of farr from
 [CRAN](https://CRAN.R-project.org) with:
 
 ``` r
 install.packages("farr")
 ```
 
-And the development version from [GitHub](https://github.com/) with:
+Instead, install the development version from [GitHub](https://github.com/) with:
 
 ``` r
 # install.packages("devtools")
