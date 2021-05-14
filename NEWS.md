@@ -1,5 +1,9 @@
 # farr (development version)
 
+# farr 0.2.6
+
+* Now use `DBI::dbQuoteLiteral()` in `df_to_pg()`  function (#1).
+
 # farr 0.2.5
 
 * Added `get_ff_ind` function.

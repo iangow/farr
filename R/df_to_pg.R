@@ -10,47 +10,22 @@
 #' @export
 df_to_pg <- function(df, conn) {
 
-    convert_vec <- function(vec) {
-        if (class(vec)=="character") {
-            convert_char(vec)
-        } else if (class(vec)=="Date") {
-            convert_date(vec)
-        } else if (class(vec)=="integer") {
-            convert_int(vec)
-        } else if (class(vec)=="numeric") {
-            convert_num(vec)
-        }
-    }
-
-    make_string <- function(vec) {
-        paste0("'{", paste(paste0('"', vec, '"'), collapse=","), "}'")
-    }
-
-    convert_char <- function(vec) {
-        paste0(make_string(vec), "::text[]")
-    }
-
-    convert_int <- function(vec) {
-        paste0(make_string(vec), "::integer[]")
-    }
-
-    convert_date <- function(vec) {
-        paste0(make_string(vec), "::date[]")
-    }
-
-    convert_num <- function(vec) {
-        paste0(make_string(vec), "::float8[]")
-    }
-
     temp_starter_sql <- list()
-    for (i in 1:length(df)) {
-        temp_starter_sql[[i]] = paste0("UNNEST (",
-                                       convert_vec(df[[i]]), ") AS ",
-                                       names(df)[[i]])
+    for (i in 1:nrow(df)) {
+        temp_starter_sql[[i]] = db_row(df[i, ], .src = conn)
     }
 
-    temp_sql <- paste0("SELECT ", paste0(temp_starter_sql, collapse = ",\n"))
+    Reduce(dplyr::union_all, temp_starter_sql)
+}
 
-    temp_df_sql <- dplyr::tbl(conn, dbplyr::sql(temp_sql))
-    return(temp_df_sql)
+db_row <- function(..., .src) {
+    data <- dplyr::tibble(...)
+    stopifnot(nrow(data) == 1)
+    values <- unlist(purrr::map(data, DBI::dbQuoteLiteral, conn = .src))
+
+    from <- dbplyr::sql(paste0("SELECT ", paste0(
+        values, " AS ", DBI::dbQuoteIdentifier(.src, names(values)),
+        collapse = ", "
+    )))
+    dplyr::tbl(.src, from, vars = names(values))
 }
