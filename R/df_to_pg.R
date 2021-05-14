@@ -9,13 +9,7 @@
 #' @return tbl_sql
 #' @export
 df_to_pg <- function(df, conn) {
-
-    temp_starter_sql <- list()
-    for (i in 1:nrow(df)) {
-        temp_starter_sql[[i]] = db_row(df[i, ], .src = conn)
-    }
-
-    Reduce(dplyr::union_all, temp_starter_sql)
+    Reduce(dplyr::union_all, purrr::pmap(df, db_row, .src=conn))
 }
 
 db_row <- function(..., .src) {
