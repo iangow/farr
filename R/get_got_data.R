@@ -1,5 +1,4 @@
-#' Ggenerate simulated data as described in Gow, Ormazabal and
-# Taylor (2010).
+#' Generate simulated data as described in Gow, Ormazabal and Taylor (2010).
 #'
 #' Function to generate simulated panel data as described in Gow, Ormazabal and
 #' Taylor (2010).

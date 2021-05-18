@@ -3,6 +3,7 @@
 # farr 0.2.8
 
 * Reverted to earlier form of `df_to_pg()` function (#1).
+* Added `test_scores` data.
 
 # farr 0.2.7
 

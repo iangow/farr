@@ -2,7 +2,7 @@
 % Please edit documentation in R/get_got_data.R
 \name{get_got_data}
 \alias{get_got_data}
-\title{Ggenerate simulated data as described in Gow, Ormazabal and}
+\title{Generate simulated data as described in Gow, Ormazabal and Taylor (2010).}
 \usage{
 get_got_data(N = 400, T = 20, Xvol, Evol, rho_X, rho_E)
 }
