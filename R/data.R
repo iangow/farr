@@ -40,3 +40,27 @@
 #'   ...
 #' }
 "aaer_dates"
+
+#' Data on accruals and auditor choice
+#'
+#' A data set containing data about accruals for 2,000 firms.
+#'
+#' @format A tibble with 16,237 rows and 14 variables:
+#' \describe{
+#'   \item{gvkey}{GVKEY (firm identifier)}
+#'   \item{datadate}{Fiscal year-end}
+#'   \item{fyear}{Fiscal year}
+#'   \item{big_n}{Indicator for Big Four auditor}
+#'   \item{ta}{Total accruals (scaled by assets)}
+#'   \item{roa}{Return on assets}
+#'   \item{cfo}{Cash flow from operating activities (scaled by assets)}
+#'   \item{size}{Size}
+#'   \item{lev}{Leverage}
+#'   \item{mtb}{Market-to-book ratio}
+#'   \item{inv_at}{1/Total assets}
+#'   \item{d_sale}{Change in revenue}
+#'   \item{d_ar}{Change in accounts receivable}
+#'   \item{ppe}{Property, plant & equipment (scaled by assets)}
+#'   ...
+#' }
+"comp"
