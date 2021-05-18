@@ -9,7 +9,7 @@
 #' @return tbl_sql
 #' @export
 df_to_pg <- function(df, conn) {
-    Reduce(dplyr::union_all, purrr::pmap(df, db_row, .src=conn))
+    Reduce(dplyr::union_all, purrr::pmap(df, db_row, .src = conn))
 }
 
 db_row <- function(..., .src) {
