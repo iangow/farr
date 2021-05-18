@@ -36,12 +36,13 @@ comp_pre <-
            mtb, inv_at, d_sale, d_ar, ppe) %>%
     collect()
 
-# Select 1,000 firms at random
+# Get list of all firm IDs
 all_firms <-
     comp %>%
     select(gvkey) %>%
     distinct()
 
+# Select 2,000 firms at random
 set.seed(2021)
 sample_firms <- tibble(gvkey = sample(firms$gvkey, size = 2000, replace = FALSE))
 
