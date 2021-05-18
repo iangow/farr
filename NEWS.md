@@ -1,5 +1,9 @@
 # farr (development version)
 
+# farr 0.2.8
+
+* Reverted to earlier form of `df_to_pg()` function (#1).
+
 # farr 0.2.7
 
 * Added `comp` data set.
