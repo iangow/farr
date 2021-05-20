@@ -5,7 +5,7 @@
 \alias{test_scores}
 \title{Test scores}
 \format{
-A tibble with 47 rows and 3 variables:
+A tibble with 4000 rows and 5 variables:
 \describe{
 \item{id}{Student identifier}
 \item{grade}{School grade at time of test}
@@ -13,9 +13,6 @@ A tibble with 47 rows and 3 variables:
 \item{treat}{Indicator for student attending camp after grade 9}
 \item{score}{Test score}
 }
-}
-\source{
-\url{https://en.wikipedia.org/wiki/List_of_Apple_Inc._media_events}
 }
 \usage{
 test_scores
