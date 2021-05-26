@@ -78,3 +78,43 @@
 #'   \item{score}{Test score}
 #' }
 "test_scores"
+
+#' Dates for Inevitable Disclosure Doctrine (IDD)
+#'
+#' Dates of precedent-setting legal cases adopting or reject the
+#' Inevitable Disclosure Doctrine (IDD) by state.
+#'
+#' @format A tibble with 24 rows and 3 variables:
+#' \describe{
+#'   \item{state}{Two-letter state abbreviation}
+#'   \item{idd_date}{Date of precedent-setting legal case}
+#'   \item{idd_type}{Either "Adopt" or "Reject"}
+#' }
+#' @source \url{https://doi.org/10.1016/j.jfineco.2018.02.008}
+"idd_dates"
+
+#' Data on firm headquarters based on SEC EDGAR filings.
+#'
+#' Data on firm headquarters based on SEC EDGAR filings.
+#' Dates related to SEC filing dates. Rather than provide dates for
+#' all filings, data are aggregated into groups of filings by state and
+#' CIK and dates are collapsed into windows over which
+#' all filings for a given CIK were associated with a given state.
+#' For example, CIK 0000037755 has filings with a CA headquarters from
+#' 1994-06-02 until 1996-03-25, then filings with an OH headquarters from
+#' 1996-05-30 until 1999-04-05, then filings with a CA headquarters from
+#' 1999-06-11 onwards.
+#' To ensure continuous coverage over the sample period, it is assumed that
+#' any change in state occurs the day after the last observed filing for
+#' the previous state.
+#'
+#' @format A tibble with 24 rows and 3 variables:
+#' \describe{
+#'   \item{cik}{SEC's Central Index Key (CIK)}
+#'   \item{ba_state}{Two-letter abbreviation of state}
+#'   \item{min_date}{Date of first filing with CIK-state combination in a contiguous series of filings}
+#'   \item{max_date}{Date of last filing with CIK-state combination in a contiguous series of filings}
+#' }
+#' @source \url{https://sraf.nd.edu/data/augmented-10-x-header-data}
+"state_hq"
+

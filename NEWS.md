@@ -1,5 +1,10 @@
 # farr (development version)
 
+# farr 0.2.9
+
+* Added `idd_dates` (data) and `get_idd_periods()` (function)
+* Added `state_hq` data.
+
 # farr 0.2.8
 
 * Reverted to earlier form of `df_to_pg()` function (#1).
