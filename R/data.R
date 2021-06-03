@@ -118,3 +118,23 @@
 #' @source \url{https://sraf.nd.edu/data/augmented-10-x-header-data}
 "state_hq"
 
+#' GVKEYs used in Li, Lin and Zhang (2018)
+#'
+#' @format A tibble with 5,830 rows and 1 variable:
+#' \describe{
+#'   \item{gvkey}{GVKEY}
+#' }
+#' @source \url{https://research.chicagobooth.edu/-/media/research/arc/docs/journal/online-supplements/llz-datasheet-and-code.zip}
+"llz_2018"
+
+#' Customer names that represent non-disclosures.
+#'
+#' Data to be combined with data in compsegd.seg_customer to create an
+#' indicator for non-disclosure of customer names.
+#'
+#' @format A tibble with 432 rows and 2 variables:
+#' \describe{
+#'   \item{cnms}{Matches field in compsegd.seg_customer (WRDS)}
+#'   \item{disclosure}{Indicator that name is not disclosed}
+#' }
+"undisclosed_names"
