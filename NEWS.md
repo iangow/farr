@@ -1,5 +1,11 @@
 # farr (development version)
 
+# farr 0.2.10
+
+* Added two data sets related to LLZ 2018.
+    * `llz_2018`: GVKEYs.
+    * `undisclosed_names`: For disclosure variable.
+
 # farr 0.2.9
 
 * Added `idd_dates` (data) and `get_idd_periods()` (function)
