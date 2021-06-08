@@ -28,14 +28,16 @@ get_event_cum_rets <- function(data, conn,
     if (is.null(end_event_date)) {
         data_local <-
             data %>%
-            dplyr::select(.data[[permno]], .data[[event_date]])
+            dplyr::select(.data[[permno]], .data[[event_date]]) %>%
+            dplyr::distinct()
         end_event_date <- event_date
         drop_end_event_date <- TRUE
     } else {
         data_local <-
             data %>%
             dplyr::select(.data[[permno]], .data[[event_date]],
-                          .data[[end_event_date]])
+                          .data[[end_event_date]]) %>%
+            dplyr::distinct()
         drop_end_event_date <- FALSE
     }
 
