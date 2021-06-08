@@ -20,14 +20,21 @@ get_event_rets <- function(data, conn,
                            end_event_date = NULL) {
 
     if (is.null(end_event_date)) {
+        data_local <-
+            data %>%
+            dplyr::select(.data[[permno]], .data[[event_date]])
         end_event_date <- event_date
         drop_end_event_date <- TRUE
     } else {
+        data_local <-
+            data %>%
+            dplyr::select(.data[[permno]], .data[[event_date]],
+                          .data[[end_event_date]])
         drop_end_event_date <- FALSE
     }
 
     event_dates <-
-        get_event_dates(data, conn, permno = permno,
+        get_event_dates(data_local, conn, permno = permno,
                         event_date = event_date,
                         win_start = win_start, win_end = win_end,
                         end_event_date = end_event_date) %>%
@@ -81,7 +88,7 @@ get_event_rets <- function(data, conn,
         dplyr::inner_join(trading_dates,
                           by = structure(names = event_date, .Data = "date")) %>%
         dplyr::rename(event_td = .data$td) %>%
-        dplyr::select(.data$permno, event_date, .data$event_td)
+        dplyr::select(.data$permno, .data[[event_date]], .data$event_td)
 
     results <-
         results_raw %>%

@@ -1,5 +1,10 @@
 # farr (development version)
 
+# farr 0.2.11
+
+* Fixes to cumulative returns code.
+* Added monthly returns.
+
 # farr 0.2.10
 
 * Added two data sets related to LLZ 2018.

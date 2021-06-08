@@ -1,4 +1,4 @@
-#' Produce a table of cumulative event returns
+#' Produce a table of cumulative event returns using monthly data
 #'
 #' Produce a table of event returns from CRSP
 #'
@@ -6,8 +6,9 @@
 #' @param permno string representing column containing PERMNOs for events
 #' @param event_date string representing column containing dates for events
 #' @param conn connection to a PostgreSQL database
-#' @param win_start integer representing start of trading window (e.g., -1)
-#' @param win_end integer representing start of trading window (e.g., 1)
+#' @param win_start integer representing start of trading window (e.g., -1) in
+#' months
+#' @param win_end integer representing start of trading window (e.g., 1) in months
 #' @param end_event_date string representing column containing ending dates for
 #' events
 #' @param read_only Indicate that connection is read-only, so no compute() is
@@ -17,7 +18,7 @@
 #' @return tbl_df
 #' @export
 #' @importFrom rlang .data
-get_event_cum_rets <- function(data, conn,
+get_event_cum_rets_mth <- function(data, conn,
                                permno = "permno",
                                event_date = "event_date",
                                win_start = 0, win_end = 0,
@@ -28,80 +29,85 @@ get_event_cum_rets <- function(data, conn,
     if (is.null(end_event_date)) {
         data_local <-
             data %>%
-            dplyr::select(.data[[permno]], .data[[event_date]])
+            dplyr::select(.data[[permno]], .data[[event_date]]) %>%
+            dplyr::distinct()
         end_event_date <- event_date
         drop_end_event_date <- TRUE
     } else {
         data_local <-
             data %>%
             dplyr::select(.data[[permno]], .data[[event_date]],
-                          .data[[end_event_date]])
+                          .data[[end_event_date]]) %>%
+            dplyr::distinct()
         drop_end_event_date <- FALSE
     }
 
-    event_dates <- get_event_dates(data_local, conn, permno = permno,
-                                   event_date = event_date,
-                                   win_start = win_start, win_end = win_end,
-                                   end_event_date = end_event_date)
-
-    rets_exists <- DBI::dbExistsTable(conn, DBI::Id(table = "rets",
+    rets_exists <- DBI::dbExistsTable(conn, DBI::Id(table = "mrets",
                                                   schema = "crsp"))
 
-    crsp.dsi <- dplyr::tbl(conn, dplyr::sql("SELECT * FROM crsp.dsi"))
+    crsp.msi <- dplyr::tbl(conn, dplyr::sql("SELECT * FROM crsp.msi"))
 
     if (rets_exists) {
-        rets <-  dplyr::tbl(conn, dplyr::sql("SELECT * FROM crsp.rets"))
+        mrets <-  dplyr::tbl(conn, dplyr::sql("SELECT * FROM crsp.mrets"))
     } else {
-        crsp.dsedelist <- dplyr::tbl(conn,
-                                     dplyr::sql("SELECT * FROM crsp.dsedelist"))
-        crsp.dsf <- dplyr::tbl(conn,
-                               dplyr::sql("SELECT * FROM crsp.dsf"))
-        crsp.erdport1 <- dplyr::tbl(conn,
-                                    dplyr::sql("SELECT * FROM crsp.erdport1"))
+        crsp.msedelist <- dplyr::tbl(conn,
+                                     dplyr::sql("SELECT * FROM crsp.msedelist"))
+        crsp.msf <- dplyr::tbl(conn,
+                               dplyr::sql("SELECT * FROM crsp.msf"))
+        crsp.ermport1 <- dplyr::tbl(conn,
+                                    dplyr::sql("SELECT * FROM crsp.ermport1"))
 
-        dsedelist <-
-            crsp.dsedelist %>%
+        msedelist <-
+            crsp.msedelist %>%
             dplyr::select(permno, date = .data$dlstdt, .data$dlret) %>%
             dplyr::filter(!is.na(.data$dlret))
 
-        dsf_plus <-
-            crsp.dsf %>%
-            dplyr::full_join(dsedelist, by = c("permno", "date")) %>%
+        msf_plus <-
+            crsp.msf %>%
+            dplyr::full_join(msedelist, by = c("permno", "date")) %>%
             dplyr::filter(!is.na(.data$ret) | !is.na(.data$dlret)) %>%
             dplyr::mutate(ret = (1 + dplyr::coalesce(.data$ret, 0)) *
                               (1 + dplyr::coalesce(.data$dlret, 0)) - 1) %>%
             dplyr::select(.data$permno, .data$date, .data$ret)
 
-        erdport <-
-            crsp.erdport1 %>%
+        ermport <-
+            crsp.ermport1 %>%
             dplyr::select(.data$permno, .data$date, .data$decret)
 
-        dsf_w_erdport <-
-            dsf_plus %>%
-            dplyr::left_join(erdport, by = c("permno", "date"))
+        msf_w_ermport <-
+            msf_plus %>%
+            dplyr::left_join(ermport, by = c("permno", "date"))
 
-        dsi <-
-            crsp.dsi %>%
+        msi <-
+            crsp.msi %>%
             dplyr::select(.data$date, .data$vwretd)
 
-        rets <-
-            dsf_w_erdport %>%
-            dplyr::left_join(dsi, by = "date")
+        mrets <-
+            msf_w_ermport %>%
+            dplyr::left_join(msi, by = "date")
     }
 
     events <-
-        event_dates %>%
+        data_local %>%
         farr::df_to_pg(conn, read_only = read_only)
 
     if (!read_only) {
         events <- dplyr::compute(events)
     }
 
+    begin_date_sql <- paste0("date_trunc('MONTH', ", event_date, ") + (",
+                             win_start, " * interval '1 month')")
+    begin_date <- dplyr::sql(begin_date_sql)
+
+    end_date_sql <- paste0("(date_trunc('MONTH', ", end_event_date, ") + ",
+                           "interval '1 month' - interval '1 day') + (",
+                           win_end, " * interval '1 month')")
+    end_date <- dplyr::sql(end_date_sql)
+
     results <-
         events %>%
-        dplyr::inner_join(rets, by = "permno") %>%
-        dplyr::filter(dplyr::between(.data$date,
-                                     .data$start_date, .data$end_date)) %>%
+        dplyr::inner_join(mrets, by = "permno") %>%
+        dplyr::filter(dplyr::between(.data$date, !!begin_date, !!end_date)) %>%
         dplyr::group_by(dplyr::across(dplyr::all_of(c("permno",
                                                       !!event_date,
                                                       !!end_event_date)))) %>%
@@ -119,4 +125,3 @@ get_event_cum_rets <- function(data, conn,
                            dplyr::one_of(c("ret_raw", "ret_mkt", "ret_sz")))
     results
 }
-

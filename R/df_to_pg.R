@@ -5,10 +5,11 @@
 #'
 #' @param df data frame
 #' @param conn connection to a PostgreSQL database
+#' @param read_only Indicate that connection is read-only, so no compute() is possible
 #'
 #' @return tbl_sql
 #' @export
-df_to_pg <- function(df, conn) {
+df_to_pg <- function(df, conn, read_only = TRUE) {
 
     convert_vec <- function(vec) {
         if (class(vec)=="character") {
@@ -23,7 +24,10 @@ df_to_pg <- function(df, conn) {
     }
 
     make_string <- function(vec) {
-        paste0("'{", paste(paste0('"', vec, '"'), collapse=","), "}'")
+        vec <- as.character(vec)
+        vec[!is.na(vec)] <- paste0('"', vec[!is.na(vec)], '"')
+        vec[is.na(vec)] <- "NULL"
+        paste0("'{", paste(vec, collapse=","), "}'")
     }
 
     convert_char <- function(vec) {
@@ -52,5 +56,9 @@ df_to_pg <- function(df, conn) {
     temp_sql <- paste0("SELECT ", paste0(temp_starter_sql, collapse = ",\n"))
 
     temp_df_sql <- dplyr::tbl(conn, dbplyr::sql(temp_sql))
-    return(temp_df_sql)
+    if (read_only) {
+        return(temp_df_sql)
+    } else {
+        return(dplyr::compute(temp_df_sql))
+    }
 }

@@ -22,10 +22,20 @@ get_event_dates <- function(data, conn,
     trading_dates <- farr::get_trading_dates(conn)
     annc_dates <- farr::get_annc_dates(conn)
 
-    if (is.null(end_event_date)) { end_event_date <- event_date }
+    if (is.null(end_event_date)) {
+        data_local <-
+            data %>%
+            dplyr::select(.data[[permno]], .data[[event_date]])
+        end_event_date <- event_date
+    } else {
+        data_local <-
+            data %>%
+            dplyr::select(.data[[permno]], .data[[event_date]],
+                          .data[[end_event_date]])
+    }
 
     event_tds <-
-        data %>%
+        data_local %>%
         dplyr::inner_join(annc_dates, by = structure(names = event_date, .Data = "annc_date")) %>%
         dplyr::mutate(td_start = .data$td + win_start) %>%
         dplyr::select(-.data$td) %>%

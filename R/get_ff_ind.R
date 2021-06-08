@@ -18,7 +18,7 @@ get_ff_ind <- function(ind) {
                                                           c("ff_ind",
                                                             "ff_ind_short_desc",
                                                             "temp")),
-                 col_types = "icc") %>%
+                        col_types = "icc") %>%
         dplyr::mutate(ff_ind_desc = dplyr::if_else(!is.na(.data$ff_ind), .data$temp, NA_character_),
                       sic_range = dplyr::if_else(is.na(.data$ff_ind), .data$temp, NA_character_)) %>%
         dplyr::select(-.data$temp) %>%
