@@ -1,5 +1,9 @@
 # farr (development version)
 
+# farr 0.2.12
+
+* Added `get_test_scores()` function.
+
 # farr 0.2.11
 
 * Fixes to cumulative returns code.
