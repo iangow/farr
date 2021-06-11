@@ -1,0 +1,73 @@
+#' A function returning data on test_scores.
+#'
+#'  A function returning simulated data on test_scores.
+#'
+#' @param effect_size Effect of attending camp on subsequent test scores.
+#' @param n_students Number of students in simulated data set.
+#' @param n_grades Number of grades in simulated data set.
+#' @param include_unobservables Include talent in returned data (TRUE or FALSE)
+#'
+#' @return tbl_df
+#' @export
+#' @importFrom rlang .data
+get_test_scores <- function(effect_size = 15, n_students = 1000L,
+                            n_grades = 4L, include_unobservables = FALSE) {
+  assign_score <- function(x) {
+    temp <- 1 - (x - min(x))/(max(x) - min(x))
+    stats::runif(n = length(x)) * temp
+  }
+
+  treatment_grade <- 10L
+  sd_e <- 5
+  sd_talent <- 5
+  mean_talent <- 15
+  mean_score <- 400
+  grades <- seq(from = as.integer(treatment_grade - (n_grades)/2), by = 1,
+                length.out = n_grades)
+  grade_effects <- c(80, 98, 103, 119, 130, 132, 138, 156,
+                     163, 171, 178, 190)
+  grade_effects <- grade_effects[1:n_grades]
+
+  talents <-
+    dplyr::tibble(id = 1:n_students) %>%
+    dplyr::mutate(talent = stats::rnorm(n = n_students, mean = mean_talent,
+                                        sd = sd_talent))
+
+  grade_effect_data <- dplyr::tibble(grade = grades,
+                                     grade_effect = grade_effects)
+  test_scores_pre <-
+    expand.grid(grade = grades,
+                id = 1:n_students) %>%
+    dplyr::inner_join(talents, by = "id") %>%
+    dplyr::inner_join(grade_effect_data, by = "grade") %>%
+    dplyr::mutate(score = stats::rnorm(n = length(grades) * n_students,
+                                       mean = mean_score, sd = sd_e) +
+             .data$talent + .data$grade_effect) %>%
+    dplyr::as_tibble()
+
+  treatment <-
+    test_scores_pre %>%
+    dplyr::filter(.data$grade == treatment_grade - 1L) %>%
+    dplyr::mutate(treat_score = assign_score(.data$score)) %>%
+    dplyr::mutate(treat = .data$treat_score > stats::median(.data$treat_score)) %>%
+    dplyr::select(.data$id, .data$treat)
+
+  test_scores <-
+    test_scores_pre %>%
+    dplyr::inner_join(treatment, by = "id") %>%
+    dplyr::mutate(post = .data$grade >= treatment_grade) %>%
+    dplyr::mutate(score =
+      dplyr::case_when(.data$treat & .data$post ~ .data$score + effect_size,
+                       TRUE ~ .data$score)) %>%
+    dplyr::select(.data$id, .data$grade, .data$post, .data$treat, .data$score,
+                  .data$talent, .data$grade_effect) %>%
+    dplyr::as_tibble()
+
+    if (include_unobservables) {
+      return(test_scores)
+    } else {
+      return(dplyr::select(test_scores, -c("talent", -"grade_effect")))
+    }
+
+
+}
