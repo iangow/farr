@@ -1,5 +1,9 @@
 # farr (development version)
 
+# farr 0.2.13
+
+* Use dbQuoteLiteral() in df_to_pg().
+
 # farr 0.2.12
 
 * Added `get_test_scores()` function.
