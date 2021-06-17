@@ -1,5 +1,9 @@
 # farr (development version)
 
+# farr 0.2.14
+
+* Tweaked `df_to_pg()` to use `VALUES`.
+
 # farr 0.2.13
 
 * Use dbQuoteLiteral() in df_to_pg().

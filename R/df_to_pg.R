@@ -11,25 +11,24 @@
 #' @export
 df_to_pg <- function(df, conn, read_only = TRUE) {
 
-    convert_vec <- function(vec) {
-        paste0('ARRAY[', paste0(DBI::dbQuoteLiteral(conn, vec),
-                                collapse = ", "), ']')
-    }
+    collapse <- function(x) paste0("(", paste(x, collapse = ", "), ")")
 
-    temp_starter_sql <- list()
-    for (i in 1:length(df)) {
-        temp_starter_sql[[i]] =
-            paste0("UNNEST (",
-                   convert_vec(df[[i]]), ") AS ",
-                   DBI::dbQuoteIdentifier(conn, names(df)[[i]]))
-    }
+    names <- paste(DBI::dbQuoteIdentifier(conn, names(df)), collapse = ", ")
 
-    temp_sql <- paste0("SELECT ", paste0(temp_starter_sql, collapse = ",\n"))
+    values <-
+        df %>%
+        lapply(DBI::dbQuoteLiteral, conn = conn) %>%
+        purrr::transpose() %>%
+        lapply(collapse) %>%
+        paste(collapse = ",\n")
 
-    temp_df_sql <- dplyr::tbl(conn, dbplyr::sql(temp_sql))
+    the_sql <- paste("SELECT * FROM (VALUES", values, ") AS t (", names, ")")
+
+    temp_df_sql <- dplyr::tbl(conn, dplyr::sql(the_sql))
     if (read_only) {
         return(temp_df_sql)
     } else {
         return(dplyr::compute(temp_df_sql))
     }
 }
+
