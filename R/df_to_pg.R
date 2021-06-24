@@ -5,7 +5,6 @@
 #'
 #' @param df data frame
 #' @param conn connection to a PostgreSQL database
-#' @param read_only Indicate that connection is read-only, so no compute() is possible
 #'
 #' @return tbl_sql
 #' @export
