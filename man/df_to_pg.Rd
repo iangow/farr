@@ -4,14 +4,12 @@
 \alias{df_to_pg}
 \title{Convert a data frame to a remote data frame}
 \usage{
-df_to_pg(df, conn, read_only = TRUE)
+df_to_pg(df, conn)
 }
 \arguments{
 \item{df}{data frame}
 
 \item{conn}{connection to a PostgreSQL database}
-
-\item{read_only}{Indicate that connection is read-only, so no compute() is possible}
 }
 \value{
 tbl_sql
