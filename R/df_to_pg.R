@@ -9,7 +9,7 @@
 #'
 #' @return tbl_sql
 #' @export
-df_to_pg <- function(df, conn, read_only = TRUE) {
+df_to_pg <- function(df, conn) {
 
     collapse <- function(x) paste0("(", paste(x, collapse = ", "), ")")
 
@@ -22,13 +22,8 @@ df_to_pg <- function(df, conn, read_only = TRUE) {
         lapply(collapse) %>%
         paste(collapse = ",\n")
 
-    the_sql <- paste("SELECT * FROM (VALUES", values, ") AS t (", names, ")")
+    inline_sql <- paste("SELECT * FROM (VALUES", values, ") AS t (", names, ")")
 
-    temp_df_sql <- dplyr::tbl(conn, dplyr::sql(the_sql))
-    if (read_only) {
-        return(temp_df_sql)
-    } else {
-        return(dplyr::compute(temp_df_sql))
-    }
+    dplyr::tbl(conn, dplyr::sql(inline_sql))
 }
 
