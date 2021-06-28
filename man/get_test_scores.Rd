@@ -8,7 +8,8 @@ get_test_scores(
   effect_size = 15,
   n_students = 1000L,
   n_grades = 4L,
-  include_unobservables = FALSE
+  include_unobservables = FALSE,
+  random_assignment = FALSE
 )
 }
 \arguments{
@@ -19,6 +20,8 @@ get_test_scores(
 \item{n_grades}{Number of grades in simulated data set.}
 
 \item{include_unobservables}{Include talent in returned data (TRUE or FALSE)}
+
+\item{random_assignment}{Is assignment to treatment completely random? (TRUE or FALSE)}
 }
 \value{
 tbl_df
