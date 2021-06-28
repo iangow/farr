@@ -32,9 +32,9 @@ get_test_scores <- function(effect_size = 15, n_students = 1000L,
   grades <- seq(from = as.integer(treatment_grade - (n_grades)/2), by = 1,
                 length.out = n_grades)
   grade_effect_data <- dplyr::tibble(grade = 1:12L,
-                                     grade_effect = c(130, 132, 138, 156,
+                                     grade_effect = c(50, 52, 58, 76,
                                                       80, 98, 103, 119,
-                                                      163, 171, 178, 190))
+                                                      123, 131, 138, 150))
 
   talents <-
     dplyr::tibble(id = 1:n_students) %>%
