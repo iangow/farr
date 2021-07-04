@@ -1,5 +1,9 @@
 # farr (development version)
 
+# farr 0.2.16
+
+* Removed `read_only` arguments.
+
 # farr 0.2.15
 
 * Added random assignment option to `get_test_scores`.

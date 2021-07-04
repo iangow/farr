@@ -12,7 +12,6 @@ get_event_cum_rets(
   win_start = 0,
   win_end = 0,
   end_event_date = NULL,
-  read_only = TRUE,
   suffix = ""
 )
 }
@@ -31,9 +30,6 @@ get_event_cum_rets(
 
 \item{end_event_date}{string representing column containing ending dates for
 events}
-
-\item{read_only}{Indicate that connection is read-only, so no compute() is
-possible}
 
 \item{suffix}{Text to be appended after "ret" in variable names.}
 }

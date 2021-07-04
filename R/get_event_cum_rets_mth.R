@@ -11,8 +11,6 @@
 #' @param win_end integer representing start of trading window (e.g., 1) in months
 #' @param end_event_date string representing column containing ending dates for
 #' events
-#' @param read_only Indicate that connection is read-only, so no compute() is
-#' possible
 #' @param suffix Text to be appended after "ret" in variable names.
 #'
 #' @return tbl_df
@@ -23,7 +21,6 @@ get_event_cum_rets_mth <- function(data, conn,
                                event_date = "event_date",
                                win_start = 0, win_end = 0,
                                end_event_date = NULL,
-                               read_only = TRUE,
                                suffix = "") {
 
     if (is.null(end_event_date)) {
@@ -89,11 +86,7 @@ get_event_cum_rets_mth <- function(data, conn,
 
     events <-
         data_local %>%
-        farr::df_to_pg(conn, read_only = read_only)
-
-    if (!read_only) {
-        events <- dplyr::compute(events)
-    }
+        farr::df_to_pg(conn)
 
     begin_date_sql <- paste0("date_trunc('MONTH', ", event_date, ") + (",
                              win_start, " * interval '1 month')")

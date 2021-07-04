@@ -10,8 +10,6 @@
 #' @param win_end integer representing start of trading window (e.g., 1)
 #' @param end_event_date string representing column containing ending dates for
 #' events
-#' @param read_only Indicate that connection is read-only, so no compute() is
-#' possible
 #' @param suffix Text to be appended after "ret" in variable names.
 #'
 #' @return tbl_df
@@ -22,7 +20,6 @@ get_event_cum_rets <- function(data, conn,
                                event_date = "event_date",
                                win_start = 0, win_end = 0,
                                end_event_date = NULL,
-                               read_only = TRUE,
                                suffix = "") {
 
     if (is.null(end_event_date)) {
@@ -93,11 +90,7 @@ get_event_cum_rets <- function(data, conn,
 
     events <-
         event_dates %>%
-        farr::df_to_pg(conn, read_only = read_only)
-
-    if (!read_only) {
-        events <- dplyr::compute(events)
-    }
+        farr::df_to_pg(conn)
 
     results <-
         events %>%
