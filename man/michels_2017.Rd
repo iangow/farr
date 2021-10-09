@@ -3,7 +3,7 @@
 \docType{data}
 \name{michels_2017}
 \alias{michels_2017}
-\title{Customer names that represent non-disclosures.}
+\title{Data on firms suffering natural disasters.}
 \format{
 A tibble with 423 rows and 12 variables:
 \describe{

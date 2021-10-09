@@ -138,3 +138,26 @@
 #'   \item{disclosure}{Indicator that name is not disclosed}
 #' }
 "undisclosed_names"
+
+#' Data on firms suffering natural disasters.
+#'
+#' Data on firms suffering natural disasters based on the sample
+#' in Michels (2017).
+#'
+#' @format A tibble with 423 rows and 12 variables:
+#' \describe{
+#'   \item{cusip}{CUSIP supplied by Michels (2017)}
+#'   \item{eventdate}{Date of relevant natural disaster supplied by Michels (2017)}
+#'   \item{cik}{Matched CIK (SEC firm identifier)}
+#'   \item{permno}{Matched PERMNO (CRSP security identifier)}
+#'   \item{gvkey}{Matched GVKEY (Compustat firm identifier)}
+#'   \item{date_filed}{Date of next filing of type 10-Q, 10-K, 10QSB, 10-K405 after event}
+#'   \item{form_types}{List of relevant form types filed on date_filed}
+#'   \item{next_period_end}{Next fiscal period-end after event date}
+#'   \item{next_fqtr}{Fiscal quarter of next period-end after event date}
+#'   \item{prev_period_end}{Last fiscal period-end before event date}
+#'   \item{prev_fqtr}{Fiscal quarter of last period-end before event date}
+#'   \item{recognize}{Indicator for event being recognized (next_period_end before date_filed)}
+#' }
+"michels_2017"
+
