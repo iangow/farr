@@ -161,3 +161,28 @@
 #' }
 "michels_2017"
 
+#' Data on public float.
+#'
+#' Data on public float of listed companies from Iliev (2010).
+#'
+#' @format A tibble with 7,213 and 6 variables:
+#' \describe{
+#'   \item{gvkey}{Compustat firm identifier (GVKEY)}
+#'   \item{fyear}{Fiscal year}
+#'   \item{fdate}{Date of end of fiscal year}
+#'   \item{pfdate}{Date for public float value}
+#'   \item{pfyear}{Year for public float value}
+#'   \item{publicfloat}{Public float in $ million}
+#' }
+"iliev_2010"
+
+#' Firm-years in RDD analysis of Bloomfield (2021).
+#'
+#' Firm-years in RDD analysis of Bloomfield (2021).
+#'
+#' @format A tibble with 1,855 rows and 2 variables:
+#' \describe{
+#'   \item{fyear}{Fiscal year}
+#'   \item{permco}{CRSP firm identifier (PERMCO)}
+#' }
+"bloomfield_2021"
