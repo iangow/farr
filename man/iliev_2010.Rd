@@ -5,7 +5,7 @@
 \alias{iliev_2010}
 \title{Data on public float.}
 \format{
-A tibble with 7,213 and 6 variables:
+A tibble with 7,213 and 9 variables:
 \describe{
 \item{gvkey}{Compustat firm identifier (GVKEY)}
 \item{fyear}{Fiscal year}

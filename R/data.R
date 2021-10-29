@@ -165,7 +165,7 @@
 #'
 #' Data on public float of listed companies from Iliev (2010).
 #'
-#' @format A tibble with 7,213 and 6 variables:
+#' @format A tibble with 7,213 and 9 variables:
 #' \describe{
 #'   \item{gvkey}{Compustat firm identifier (GVKEY)}
 #'   \item{fyear}{Fiscal year}
