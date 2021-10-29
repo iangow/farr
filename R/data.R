@@ -173,6 +173,9 @@
 #'   \item{pfdate}{Date for public float value}
 #'   \item{pfyear}{Year for public float value}
 #'   \item{publicfloat}{Public float in $ million}
+#'   \item{mr}{Indicator for filing of a management report}
+#'   \item{af}{Indicator for accelerator filer}
+#'   \item{cik}{SEC firm identifier (CIK)}
 #' }
 "iliev_2010"
 
