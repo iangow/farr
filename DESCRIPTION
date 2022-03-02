@@ -1,6 +1,6 @@
 Package: farr
 Title: Data and Code for Financial Accounting Research
-Version: 0.2.20
+Version: 0.2.21
 Authors@R: 
     person(given = "Ian",
            family = "Gow",
@@ -23,6 +23,7 @@ Imports:
     readr,
     stringr,
     DBI,
+    lubridate,
     purrr
 Depends: 
     R (>= 2.10)

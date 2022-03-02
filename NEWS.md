@@ -1,5 +1,9 @@
 # farr (development version)
 
+# farr 0.2.20
+
+* Added `get_size_rets_monthly` function.
+
 # farr 0.2.16
 
 * Removed `read_only` arguments.
