@@ -2,7 +2,7 @@
 
 # farr 0.2.20
 
-* Added `get_size_rets_monthly` function.
+* Added `get_size_rets_monthly` and `get_me_breakpoints` functions.
 
 # farr 0.2.16
 
