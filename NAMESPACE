@@ -2,6 +2,7 @@
 
 export("%>%")
 export(df_to_pg)
+export(form_deciles)
 export(get_annc_dates)
 export(get_event_cum_rets)
 export(get_event_cum_rets_mth)

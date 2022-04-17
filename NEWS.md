@@ -1,6 +1,10 @@
 # farr (development version)
 
-# farr 0.2.20
+# farr 0.2.22
+
+* Added `form_deciles` function.
+
+# farr 0.2.21
 
 * Added `get_size_rets_monthly` and `get_me_breakpoints` functions.
 
