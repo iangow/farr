@@ -189,3 +189,29 @@
 #'   \item{permco}{CRSP firm identifier (PERMCO)}
 #' }
 "bloomfield_2021"
+
+#' Treatment indicators for SHO pilot firms
+#'
+#' A data set containing the tickers, GVKEYs, and
+#' treatment indicator for SHO pilot program.
+#'
+#' @format A tibble with 3,030 rows × 4 variables.
+#' \describe{
+#'   \item{ticker}{Ticker}
+#'   \item{gvkey}{GVKEY (firm identifier)}
+#'   \item{permno}{PERMNO (CRSP security identifier)}
+#'   \item{pilot}{SHO pilot program treatment indicator}
+#' }
+"sho_pilot"
+
+#' Firm-years for replication of Fang, Huang and Karpoff (2016)
+#'
+#' A data set containing the GVKEYs and
+#' datadates for firm-years used in Fang, Huang and Karpoff (2016).
+#'
+#' @format A tibble with 60,272 rows × 2 variables.
+#' \describe{
+#'   \item{gvkey}{GVKEY (firm identifier)}
+#'   \item{datadate}{Fiscal year-end}
+#' }
+"sho_firm_years"

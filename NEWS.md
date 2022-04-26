@@ -6,6 +6,10 @@
 
 # farr 0.2.21
 
+* Added Reg SHO data sets (`sho_pilot` and `sho_firm_years`).
+
+# farr 0.2.20
+
 * Added `get_size_rets_monthly` and `get_me_breakpoints` functions.
 
 # farr 0.2.16
