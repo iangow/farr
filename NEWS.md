@@ -1,5 +1,9 @@
 # farr (development version)
 
+# farr 0.2.23
+
+* Added `sho_tickers` data set.
+
 # farr 0.2.22
 
 * Added `form_deciles` function.

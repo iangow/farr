@@ -215,3 +215,17 @@
 #'   \item{datadate}{Fiscal year-end}
 #' }
 "sho_firm_years"
+
+#' Tickers of pilot firms for Reg SHO.
+#'
+#' A data set containing the tickers and
+#' company names for pilot firms from Reg SHO pilot.
+#' Data are scraped from the SEC's own website.
+#'
+#' @format A tibble with 986 rows × 2 variables.
+#' \describe{
+#'   \item{ticker}{Ticker}
+#'   \item{co_name}{Company name}
+#' }
+#' @source \url{https://www.sec.gov/rules/other/34-50104.htm}
+"sho_tickers"
