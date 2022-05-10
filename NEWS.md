@@ -1,5 +1,10 @@
 # farr (development version)
 
+# farr 0.2.24
+
+* Added `sho_r3000` data set.
+* Renamed FHK data sets.
+
 # farr 0.2.23
 
 * Added `sho_tickers` data set.

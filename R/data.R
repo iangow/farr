@@ -202,7 +202,7 @@
 #'   \item{permno}{PERMNO (CRSP security identifier)}
 #'   \item{pilot}{SHO pilot program treatment indicator}
 #' }
-"sho_pilot"
+"fhk_pilot"
 
 #' Firm-years for replication of Fang, Huang and Karpoff (2016)
 #'
@@ -214,7 +214,7 @@
 #'   \item{gvkey}{GVKEY (firm identifier)}
 #'   \item{datadate}{Fiscal year-end}
 #' }
-"sho_firm_years"
+"fhk_firm_years"
 
 #' Tickers of pilot firms for Reg SHO.
 #'
@@ -229,3 +229,16 @@
 #' }
 #' @source \url{https://www.sec.gov/rules/other/34-50104.htm}
 "sho_tickers"
+
+#' Russell 3000 firms at time of SEC Reg SHO sample formation.
+#'
+#' A data set containing the tickers and
+#' company names for Russell 3000 at time SEC created the pilot sample.
+#' Data are created from sample supplied by FHK.
+#'
+#' @format A tibble with 3000 rows × 2 variables.
+#' \describe{
+#'   \item{russell_ticker}{Ticker}
+#'   \item{russell_name}{Company name}
+#' }
+"sho_r3000"
