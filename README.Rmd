@@ -48,10 +48,10 @@ pg <- dbConnect(RPostgres::Postgres(), bigint = "integer", sslmode='require')
 url <- "https://github.com/tidyverse/dbplyr/files/6239289/temp.RDS.zip"
 t <- tempfile(fileext = ".zip")
 download.file(url, t)
-temp <- as.tbl(readRDS(unzip(t)))
+temp <- as_tibble(readRDS(unzip(t)))
 unlink("temp.RDS")
 
-temp2 <- df_to_pg(temp, pg)
+temp2 <- dbplyr::copy_inline(pg, temp)
 
 temp
 
