@@ -90,7 +90,7 @@ get_event_cum_rets <- function(data, conn,
 
     events <-
         event_dates %>%
-        farr::df_to_pg(conn)
+        dbplyr::copy_inline(conn, df = .data)
 
     results <-
         events %>%

@@ -86,7 +86,7 @@ get_event_cum_rets_mth <- function(data, conn,
 
     events <-
         data_local %>%
-        farr::df_to_pg(conn)
+        dbplyr::copy_inline(conn, df = .data)
 
     begin_date_sql <- paste0("date_trunc('MONTH', ", event_date, ") + (",
                              win_start, " * interval '1 month')")
