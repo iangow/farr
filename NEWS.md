@@ -1,5 +1,9 @@
 # farr (development version)
 
+# farr 0.2.25
+
+* Replaced `df_to_pg()` with `copy_inline()` from `dbplyr` package.
+
 # farr 0.2.24
 
 * Added `sho_r3000` data set.
