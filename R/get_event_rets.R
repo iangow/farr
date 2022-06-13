@@ -75,7 +75,7 @@ get_event_rets <- function(data, conn,
 
     results_raw <-
         event_dates %>%
-        dbplyr::copy_inline(conn, df = .data) %>%
+        dbplyr::copy_inline(con = conn, df = .data) %>%
         dplyr::inner_join(rets, by = "permno") %>%
         dplyr::filter(dplyr::between(.data$date, .data$start_date,
                                      .data$end_date)) %>%
