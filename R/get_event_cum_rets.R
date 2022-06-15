@@ -88,9 +88,7 @@ get_event_cum_rets <- function(data, conn,
             dplyr::left_join(dsi, by = "date")
     }
 
-    events <-
-        event_dates %>%
-        dbplyr::copy_inline(con = conn, df = .data)
+    events <- dbplyr::copy_inline(con = conn, df = event_dates)
 
     results <-
         events %>%
