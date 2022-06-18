@@ -1,5 +1,10 @@
 # farr (development version)
 
+# farr 0.2.26
+
+* Added `sho_r3000_sample` data set.
+* Added `sho_r3000_gvkeys` data set.
+
 # farr 0.2.25
 
 * Replaced `df_to_pg()` with `copy_inline()` from `dbplyr` package.

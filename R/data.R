@@ -230,7 +230,7 @@
 #' @source \url{https://www.sec.gov/rules/other/34-50104.htm}
 "sho_tickers"
 
-#' Russell 3000 firms at time of SEC Reg SHO sample formation.
+#' Russell 3000 stocks at time of SEC Reg SHO sample formation.
 #'
 #' A data set containing the tickers and
 #' company names for Russell 3000 at time SEC created the pilot sample.
@@ -242,3 +242,32 @@
 #'   \item{russell_name}{Company name}
 #' }
 "sho_r3000"
+
+#' Russell 3000 sample used by SEC
+#'
+#' A data set containing the tickers, PERMNOs, and
+#' treatment assignments for Russell 3000 sample used by SEC.
+#'
+#' @format A tibble with 2,954 rows × 3 variables.
+#' \describe{
+#'   \item{ticker}{Ticker}
+#'   \item{permno}{PERMNO (CRPS security identifier)}
+#'   \item{pilot}{Indicator for stock being part of Reg SHO pilot program}
+#' }
+#' @source \url{http://iangow.me/far_book/natural-revisited.html#the-sho-pilot-sample}
+"sho_r3000_sample"
+
+#' Russell 3000 sample used by SEC with GVKEYs
+#'
+#' A data set containing the tickers, PERMNOs, GVKEYs, and
+#' treatment assignments for Russell 3000 sample used by SEC.
+#'
+#' @format A tibble with 2,951 rows × 3 variables.
+#' \describe{
+#'   \item{ticker}{Ticker}
+#'   \item{permno}{PERMNO (CRPS security identifier)}
+#'   \item{gvkey}{GVKEY (Compustat firm identifier)}
+#'   \item{pilot}{Indicator for stock being part of Reg SHO pilot program}
+#' }
+#' @source \url{http://iangow.me/far_book/natural-revisited.html#the-sho-pilot-sample}
+"sho_r3000_gvkeys"
