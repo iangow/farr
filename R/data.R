@@ -251,7 +251,7 @@
 #' @format A tibble with 2,954 rows × 3 variables.
 #' \describe{
 #'   \item{ticker}{Ticker}
-#'   \item{permno}{PERMNO (CRPS security identifier)}
+#'   \item{permno}{PERMNO (CRSP security identifier)}
 #'   \item{pilot}{Indicator for stock being part of Reg SHO pilot program}
 #' }
 #' @source \url{http://iangow.me/far_book/natural-revisited.html#the-sho-pilot-sample}
@@ -265,7 +265,7 @@
 #' @format A tibble with 2,951 rows × 3 variables.
 #' \describe{
 #'   \item{ticker}{Ticker}
-#'   \item{permno}{PERMNO (CRPS security identifier)}
+#'   \item{permno}{PERMNO (CRSP security identifier)}
 #'   \item{gvkey}{GVKEY (Compustat firm identifier)}
 #'   \item{pilot}{Indicator for stock being part of Reg SHO pilot program}
 #' }
