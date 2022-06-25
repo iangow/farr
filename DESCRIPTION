@@ -7,7 +7,7 @@ Authors@R:
            role = c("aut", "cre"),
            email = "iandgow@gmail.com",
            comment = c(ORCID = "0000-0002-6243-8409"))
-Description: This package provides handy functions and data to support the book "Accounting Research: An Introductory Course", which is the course book for Financial Accounting Research.
+Description: Provides handy functions and data to support the book "Accounting Research: An Introductory Course", which is the course book for Financial Accounting Research.
 License: MIT + file LICENSE
 Encoding: UTF-8
 LazyData: true
@@ -26,3 +26,7 @@ Imports:
     lubridate
 Depends: 
     R (>= 3.5.0)
+Suggests: 
+    knitr,
+    rmarkdown
+VignetteBuilder: knitr

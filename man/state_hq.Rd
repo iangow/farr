@@ -14,7 +14,7 @@ A tibble with 24 rows and 3 variables:
 }
 }
 \source{
-\url{https://sraf.nd.edu/data/augmented-10-x-header-data}
+\url{https://sraf.nd.edu/data/augmented-10-x-header-data/}
 }
 \usage{
 state_hq

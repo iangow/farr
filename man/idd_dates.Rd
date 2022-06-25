@@ -13,7 +13,7 @@ A tibble with 24 rows and 3 variables:
 }
 }
 \source{
-\url{https://doi.org/10.1016/j.jfineco.2018.02.008}
+\doi{10.1016/j.jfineco.2018.02.008}
 }
 \usage{
 idd_dates

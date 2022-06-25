@@ -8,7 +8,7 @@
 A tibble with 2,954 rows × 3 variables.
 \describe{
 \item{ticker}{Ticker}
-\item{permno}{PERMNO (CRPS security identifier)}
+\item{permno}{PERMNO (CRSP security identifier)}
 \item{pilot}{Indicator for stock being part of Reg SHO pilot program}
 }
 }
