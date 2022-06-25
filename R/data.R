@@ -90,7 +90,7 @@
 #'   \item{idd_date}{Date of precedent-setting legal case}
 #'   \item{idd_type}{Either "Adopt" or "Reject"}
 #' }
-#' @source \url{https://doi.org/10.1016/j.jfineco.2018.02.008}
+#' @source \doi{10.1016/j.jfineco.2018.02.008}
 "idd_dates"
 
 #' Data on firm headquarters based on SEC EDGAR filings.
@@ -115,7 +115,7 @@
 #'   \item{min_date}{Date of first filing with CIK-state combination in a contiguous series of filings}
 #'   \item{max_date}{Date of last filing with CIK-state combination in a contiguous series of filings}
 #' }
-#' @source \url{https://sraf.nd.edu/data/augmented-10-x-header-data}
+#' @source \url{https://sraf.nd.edu/data/augmented-10-x-header-data/}
 "state_hq"
 
 #' GVKEYs used in Li, Lin and Zhang (2018)
