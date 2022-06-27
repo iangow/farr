@@ -7,7 +7,8 @@ Authors@R:
            role = c("aut", "cre"),
            email = "iandgow@gmail.com",
            comment = c(ORCID = "0000-0002-6243-8409"))
-Description: Provides handy functions and data to support the book "Accounting Research: An Introductory Course", which is the course book for Financial Accounting Research.
+Description: Provides handy functions and data to support a course book for accounting research.
+   Gow, Ian and Tongqing Ding (2022) "Accounting Research: An Introductory Course" <https://iangow.github.io/far_book>.
 License: MIT + file LICENSE
 Encoding: UTF-8
 LazyData: true
