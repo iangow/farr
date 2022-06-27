@@ -9,6 +9,10 @@
 #'
 #' @return vector
 #' @export
+#' @examples
+#' winsorized <- winsorize(1:100, prob = 0.05)
+#' min(winsorized, na.rm = TRUE)
+#' max(winsorized, na.rm = TRUE)
 winsorize <- function(x, prob = 0.01, p_low = prob, p_high = 1 - prob) {
     cuts <- stats::quantile(x, probs = c(p_low, p_high), type = 2, na.rm = TRUE)
     x[x < cuts[1]] <- cuts[1]

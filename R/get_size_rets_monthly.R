@@ -31,13 +31,16 @@ read_data <- function(start, end) {
 #' @return tbl_df
 #' @export
 #' @importFrom rlang .data
+#' @examples
+#' library(dplyr, warn.conflicts = FALSE)
+#' get_size_rets_monthly() %>% filter(month == "2022-04-01")
 get_size_rets_monthly <- function() {
 
     # Download the data
     url <- paste0("http://mba.tuck.dartmouth.edu",
                   "/pages/faculty/ken.french/ftp/",
                   "Portfolios_Formed_on_ME_CSV.zip")
-    utils::download.file(url, "Portfolios_Formed_on_ME_CSV.zip")
+    utils::download.file(url, "Portfolios_Formed_on_ME_CSV.zip", quiet = TRUE)
 
     # Determine breakpoints (lines) for different tables
     temp <- readr::read_lines("Portfolios_Formed_on_ME_CSV.zip")

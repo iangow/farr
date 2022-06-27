@@ -21,3 +21,8 @@ vector
 \description{
 Winsorize a vector at prob and 1 - prob.
 }
+\examples{
+winsorized <- winsorize(1:100, prob = 0.05)
+min(winsorized, na.rm = TRUE)
+max(winsorized, na.rm = TRUE)
+}

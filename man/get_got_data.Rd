@@ -26,3 +26,9 @@ tibble
 Function to generate simulated panel data as described in Gow, Ormazabal and
 Taylor (2010).
 }
+\examples{
+set.seed(2021)
+test <- get_got_data(N = 500, T = 10, Xvol = 0.75,
+                     Evol = 0.75, rho_X = 0.5, rho_E = 0.5)
+test
+}

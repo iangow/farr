@@ -7,6 +7,14 @@
 #' @return tbl_df
 #' @export
 #' @importFrom rlang .data
+#' @examples
+#' ## Not run:
+#' library(DBI)
+#' library(dplyr, warn.conflicts = FALSE)
+#' library(RPostgres)
+#' pg <- dbConnect(Postgres())
+#' get_annc_dates(pg)
+#' ## End(Not run)
 get_annc_dates <- function(conn) {
 
     dsi <- dplyr::tbl(conn, dplyr::sql("SELECT * FROM crsp.dsi"))
@@ -16,7 +24,7 @@ get_annc_dates <- function(conn) {
     annc_dates <-
         dplyr::tibble(annc_date = seq(min(trading_dates$date),
                                max(trading_dates$date), 1)) %>%
-        dplyr::left_join(trading_dates, by=c("annc_date"="date")) %>%
+        dplyr::left_join(trading_dates, by = c("annc_date"="date")) %>%
         tidyr::fill(.data$td, .direction = "up")
 
     annc_dates

@@ -11,6 +11,9 @@
 #' @return tbl_df
 #' @export
 #' @importFrom rlang .data
+#' @examples
+#' library(dplyr, warn.conflicts = FALSE)
+#' get_test_scores() %>% head()
 get_test_scores <- function(effect_size = 15, n_students = 1000L,
                             n_grades = 4L, include_unobservables = FALSE,
                             random_assignment = FALSE) {

@@ -1,4 +1,9 @@
-# farr (development version)
+# farr
+
+# farr 0.2.27
+
+* Added tests
+* Added examples
 
 # farr 0.2.26
 

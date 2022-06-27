@@ -29,3 +29,7 @@ tbl_df
 \description{
 A function returning simulated data on test_scores.
 }
+\examples{
+library(dplyr, warn.conflicts = FALSE)
+get_test_scores() \%>\% head()
+}

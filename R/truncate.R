@@ -10,6 +10,10 @@
 #'
 #' @return vector
 #' @export
+#' @examples
+#' trunced <- truncate(1:100, prob = 0.05)
+#' min(trunced, na.rm = TRUE)
+#' max(trunced, na.rm = TRUE)
 truncate <- function(x, prob = 0.01, p_low = prob, p_high = 1 - prob) {
     cuts <- stats::quantile(x, probs = c(p_low, p_high), type = 2, na.rm = TRUE)
     x[x < cuts[1]] <- NA

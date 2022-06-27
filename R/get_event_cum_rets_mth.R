@@ -16,6 +16,16 @@
 #' @return tbl_df
 #' @export
 #' @importFrom rlang .data
+#' @examples
+#' ## Not run:
+#' library(DBI)
+#' library(dplyr, warn.conflicts = FALSE)
+#' library(RPostgres)
+#' pg <- dbConnect(Postgres())
+#' events <- tibble(permno = c(14593L, 10107L),
+#'                  event_date = as.Date(c("2019-01-31", "2019-01-31")))
+#' get_event_cum_rets_mth(events, pg)
+#' ## End(Not run)
 get_event_cum_rets_mth <- function(data, conn,
                                permno = "permno",
                                event_date = "event_date",

@@ -3,12 +3,15 @@
 #' @return tbl_df
 #' @export
 #' @importFrom rlang .data
+#' @examples
+#' library(dplyr, warn.conflicts = FALSE)
+#' get_me_breakpoints() %>% filter(month == '2022-04-01')
 get_me_breakpoints <- function() {
     t <- tempfile(fileext = ".zip")
     url <- paste0("http://mba.tuck.dartmouth.edu",
                   "/pages/faculty/ken.french/ftp/",
                   "ME_Breakpoints_CSV.zip")
-    utils::download.file(url, t)
+    utils::download.file(url, t, quiet = TRUE)
 
     temp <- readr::read_lines(t)
 

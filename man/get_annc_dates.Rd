@@ -15,3 +15,12 @@ tbl_df
 \description{
 Produce a table mapping announcements to trading dates
 }
+\examples{
+## Not run:
+library(DBI)
+library(dplyr, warn.conflicts = FALSE)
+library(RPostgres)
+pg <- dbConnect(Postgres())
+get_annc_dates(pg)
+## End(Not run)
+}

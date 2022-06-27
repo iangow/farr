@@ -13,6 +13,11 @@
 #' @return tibble
 #' @export
 #' @importFrom tibble tibble
+#' @examples
+#' set.seed(2021)
+#' test <- get_got_data(N = 500, T = 10, Xvol = 0.75,
+#'                      Evol = 0.75, rho_X = 0.5, rho_E = 0.5)
+#' test
 get_got_data <- function(N = 400, T = 20, Xvol, Evol, rho_X, rho_E) {
 
   # Basic assumptions about stochastic processes

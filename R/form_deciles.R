@@ -5,7 +5,7 @@ get_deciles <- function(x) {
   list(breaks)
 }
 
-#' Form deciles.
+#' Form deciles
 #'
 #' Calculate deciles for a variable.
 #'
@@ -13,7 +13,16 @@ get_deciles <- function(x) {
 #'
 #' @return vector
 #' @export
+#' @examples
+#' library(farr)
+#' library(dplyr, warn.conflicts = FALSE)
+#'
+#' df <-
+#'     tibble(x = rnorm(100)) %>%
+#'     mutate(dec_x = form_deciles(x))
+#' df
 form_deciles <- function(x) {
   cuts <- get_deciles(x)
   cut(x, cuts[[1]], labels = FALSE, include.lowest = TRUE)
 }
+

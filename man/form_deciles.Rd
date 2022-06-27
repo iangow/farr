@@ -2,7 +2,7 @@
 % Please edit documentation in R/form_deciles.R
 \name{form_deciles}
 \alias{form_deciles}
-\title{Form deciles.}
+\title{Form deciles}
 \usage{
 form_deciles(x)
 }
@@ -14,4 +14,13 @@ vector
 }
 \description{
 Calculate deciles for a variable.
+}
+\examples{
+library(farr)
+library(dplyr, warn.conflicts = FALSE)
+
+df <-
+    tibble(x = rnorm(100)) \%>\%
+    mutate(dec_x = form_deciles(x))
+df
 }

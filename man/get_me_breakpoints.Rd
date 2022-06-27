@@ -12,3 +12,7 @@ tbl_df
 \description{
 Create a table of with cut-offs for size portfolios
 }
+\examples{
+library(dplyr, warn.conflicts = FALSE)
+get_me_breakpoints() \%>\% filter(month == '2022-04-01')
+}

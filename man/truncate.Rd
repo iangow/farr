@@ -22,3 +22,8 @@ vector
 Truncate a vector at prob and 1 - prob.
 Extreme values are turned in NA values.
 }
+\examples{
+trunced <- truncate(1:100, prob = 0.05)
+min(trunced, na.rm = TRUE)
+max(trunced, na.rm = TRUE)
+}

@@ -1,6 +1,6 @@
 Package: farr
 Title: Data and Code for Financial Accounting Research
-Version: 0.2.26
+Version: 0.2.27
 Authors@R: 
     person(given = "Ian",
            family = "Gow",
@@ -28,6 +28,9 @@ Imports:
 Depends: 
     R (>= 3.5.0)
 Suggests: 
+    RPostgres,
     knitr,
-    rmarkdown
+    rmarkdown,
+    testthat (>= 3.0.0)
 VignetteBuilder: knitr
+Config/testthat/edition: 3
