@@ -360,7 +360,7 @@ to <code>get_annc_dates()</code> and
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(DBI)</span></code></pre></div>
 <p>We recommend that you use <strong>environment variables</strong> to
 set up your connection to WRDS. The easiest way to do this within R is
-to executve a line like the following:</p>
+to execute a line like the following:</p>
 <div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">Sys.setenv</span>(<span class="at">PGHOST =</span> <span class="st">&quot;wrds-pgdata.wharton.upenn.edu&quot;</span>,</span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>           <span class="at">PGPORT =</span> 9737L,</span>
 <span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>           <span class="at">PGDATABASE =</span> <span class="st">&quot;wrds&quot;</span>,</span>
@@ -374,7 +374,7 @@ need to run it again during the same session (i.e., until you close and
 reopen R).</p>
 <p>If the only PostgreSQL database you access is the WRDS database, you
 could put the values above in <code>.Renviron</code>, a special file
-that is opened every time you open R (see <a href="https://support.rstudio.com/hc/en-us/articles/360047157094-Managing-R-with-Rprofile-Renviron-Rprofile-site-Renviron-site-rsession-conf-and-repos-conf">here</a>
+that is opened every time you open R (see <a href="https://support.rstudio.com/hc/en-us/articles/360047157094-Managing-R-with-Rprofile-Renviron-Rprofile-site-Renviron-site-rsession-conf-and-repos-conf/">here</a>
 for more information on this file).<a href="#fn1" class="footnote-ref" id="fnref1"><sup>1</sup></a> The contents of this file would look
 something like this:</p>
 <div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>PGHOST <span class="ot">=</span> <span class="st">&quot;wrds-pgdata.wharton.upenn.edu&quot;</span></span>

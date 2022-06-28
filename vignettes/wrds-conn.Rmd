@@ -51,7 +51,7 @@ Obviously, you should replace `your_WRDS_ID` and `your_WRDS_password` with your 
 To access WRDS data, this code will need to be run each time you open R.
 But once you have run this code, you do not need to run it again during the same session (i.e., until you close and reopen R).
 
-If the only PostgreSQL database you access is the WRDS database, you could put the values above in `.Renviron`, a special file that is opened every time you open R (see [here](https://support.rstudio.com/hc/en-us/articles/360047157094-Managing-R-with-Rprofile-Renviron-Rprofile-site-Renviron-site-rsession-conf-and-repos-conf) for more information on this file).^[We put our passwords in a special password file, as described [here](https://www.postgresql.org/docs/current/libpq-pgpass.html), so we don't need to set `PGPASSWORD`.
+If the only PostgreSQL database you access is the WRDS database, you could put the values above in `.Renviron`, a special file that is opened every time you open R (see [here](https://support.rstudio.com/hc/en-us/articles/360047157094-Managing-R-with-Rprofile-Renviron-Rprofile-site-Renviron-site-rsession-conf-and-repos-conf/) for more information on this file).^[We put our passwords in a special password file, as described [here](https://www.postgresql.org/docs/current/libpq-pgpass.html), so we don't need to set `PGPASSWORD`.
 It's obviously not a good idea to put your password in code.]
 The contents of this file would look something like this:
 
