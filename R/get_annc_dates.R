@@ -10,11 +10,13 @@
 #' @importFrom rlang .data
 #' @examples
 #' ## Not run:
+#' \dontrun{
 #' library(DBI)
 #' library(dplyr, warn.conflicts = FALSE)
 #' library(RPostgres)
 #' pg <- dbConnect(Postgres())
 #' get_annc_dates(pg)
+#' }
 #' ## End(Not run)
 get_annc_dates <- function(conn) {
 

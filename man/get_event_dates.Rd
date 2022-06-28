@@ -38,11 +38,13 @@ See \code{vignette("wrds-conn", package = "farr")} for more on using this functi
 }
 \examples{
 ## Not run:
+\dontrun{
 library(DBI)
 library(dplyr, warn.conflicts = FALSE)
 pg <- dbConnect(RPostgres::Postgres())
 events <- tibble(permno = c(14593L, 10107L),
                  event_date = as.Date(c("2019-01-31", "2019-01-31")))
 get_event_dates(events, pg, win_start = -3, win_end = + 3)
+}
 ## End(Not run)
 }

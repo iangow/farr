@@ -18,10 +18,12 @@ See \code{vignette("wrds-conn", package = "farr")} for more on using this functi
 }
 \examples{
 ## Not run:
+\dontrun{
 library(DBI)
 library(dplyr, warn.conflicts = FALSE)
 library(RPostgres)
 pg <- dbConnect(Postgres())
 get_annc_dates(pg)
+}
 ## End(Not run)
 }

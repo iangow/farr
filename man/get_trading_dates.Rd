@@ -15,12 +15,15 @@ tbl_df
 \description{
 Produce a table mapping dates on CRSP to "trading days".
 Returned table has two columns: date, a trading date on CRSP;
-td, a sequence of integers ordered by date
+td, a sequence of integers ordered by date.
+See \code{vignette("wrds-conn", package = "farr")} for more on using this function.
 }
 \examples{
+\dontrun{
 library(DBI)
 library(dplyr, warn.conflicts = FALSE)
 pg <- dbConnect(RPostgres::Postgres())
 get_trading_dates(pg) \%>\%
   filter(between(date, as.Date("2022-03-18"), as.Date("2022-03-31")))
+}
 }

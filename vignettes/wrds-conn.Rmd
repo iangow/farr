@@ -37,7 +37,7 @@ library(DBI)
 ```
 
 We recommend that you use **environment variables** to set up your connection to WRDS.
-The easiest way to do this within R is to executve a line like the following:
+The easiest way to do this within R is to execute a line like the following:
 
 ```{r db_connect, eval=FALSE}
 Sys.setenv(PGHOST = "wrds-pgdata.wharton.upenn.edu",
