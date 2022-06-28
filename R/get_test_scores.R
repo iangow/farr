@@ -12,6 +12,7 @@
 #' @export
 #' @importFrom rlang .data
 #' @examples
+#' set.seed(2021)
 #' library(dplyr, warn.conflicts = FALSE)
 #' get_test_scores() %>% head()
 get_test_scores <- function(effect_size = 15, n_students = 1000L,

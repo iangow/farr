@@ -13,7 +13,8 @@ get_annc_dates(conn)
 tbl_df
 }
 \description{
-Produce a table mapping announcements to trading dates
+Produce a table mapping announcements to trading dates.
+See \code{vignette("wrds-conn", package = "farr")} for more on using this function.
 }
 \examples{
 ## Not run:

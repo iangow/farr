@@ -1,6 +1,7 @@
 #' Produce a table mapping announcements to trading dates
 #'
-#' Produce a table of event dates for linking with CRSP
+#' Produce a table of event dates for linking with CRSP.
+#' See \code{vignette("wrds-conn", package = "farr")} for more on using this function.
 #'
 #' @param data data frame containing data on events
 #' @param permno string representing column containing PERMNOs for events

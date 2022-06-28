@@ -39,6 +39,7 @@ tbl_df
 }
 \description{
 Produce a table of event returns from CRSP
+See \code{vignette("wrds-conn", package = "farr")} for more on using this function.
 }
 \examples{
 ## Not run:

@@ -15,7 +15,7 @@ get_ff_ind <- function(ind) {
     t <- tempfile(fileext = ".zip")
     url <- stringr::str_c("http://mba.tuck.dartmouth.edu/pages/",
                           "faculty/ken.french/ftp/Siccodes", ind, ".zip")
-    utils::download.file(url, t)
+    utils::download.file(url, t, quiet = TRUE)
 
     t %>%
         readr::read_fwf(col_positions = readr::fwf_widths(c(3, 7, NA),

@@ -1,6 +1,7 @@
 #' Produce a table of cumulative event returns using monthly data
 #'
 #' Produce a table of event returns from CRSP
+#' See \code{vignette("wrds-conn", package = "farr")} for more on using this function.
 #'
 #' @param data data frame containing data on events
 #' @param permno string representing column containing PERMNOs for events
