@@ -374,15 +374,14 @@ need to run it again during the same session (i.e., until you close and
 reopen R).</p>
 <p>If the only PostgreSQL database you access is the WRDS database, you
 could put the values above in <code>.Renviron</code>, a special file
-that is opened every time you open R (see <a href="https://support.rstudio.com/hc/en-us/articles/360047157094-Managing-R-with-Rprofile-Renviron-Rprofile-site-Renviron-site-rsession-conf-and-repos-conf/">here</a>
-for more information on this file).<a href="#fn1" class="footnote-ref" id="fnref1"><sup>1</sup></a> The contents of this file would look
+that is opened every time you open R.<a href="#fn1" class="footnote-ref" id="fnref1"><sup>1</sup></a> The contents of this file would look
 something like this:</p>
 <div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>PGHOST <span class="ot">=</span> <span class="st">&quot;wrds-pgdata.wharton.upenn.edu&quot;</span></span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>PGPORT <span class="ot">=</span> 9737L</span>
 <span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>PGDATABASE <span class="ot">=</span> <span class="st">&quot;wrds&quot;</span></span>
 <span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>PGUSER <span class="ot">=</span> <span class="st">&quot;your_WRDS_ID&quot;</span></span>
 <span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>PGPASSWORD<span class="ot">=</span><span class="st">&quot;your_WRDS_password&quot;</span></span></code></pre></div>
-<p>We recommend the approaches above as they keeps the user-specific
+<p>I recommend the approaches above as they keeps the user-specific
 aspects of your code separate from the parts of the code that should
 work for everyone. By using environment variables in <a href="https://iangow.github.io/far_book/introduction.html">Accounting
 Research: An Introductory Course</a>, we can ensure that the code in the
@@ -461,9 +460,9 @@ the windows around each Apple event.</p>
 <div class="footnotes footnotes-end-of-document">
 <hr />
 <ol>
-<li id="fn1"><p>We put our passwords in a special password file, as
+<li id="fn1"><p>I put my passwords in a special password file, as
 described <a href="https://www.postgresql.org/docs/current/libpq-pgpass.html">here</a>,
-so we don’t need to set <code>PGPASSWORD</code>. It’s obviously not a
+so I don’t need to set <code>PGPASSWORD</code>. It’s obviously not a
 good idea to put your password in code.<a href="#fnref1" class="footnote-back">↩︎</a></p></li>
 <li id="fn2"><p>See <a href="https://en.wikipedia.org/wiki/List_of_Apple_Inc._media_events">here</a>.<a href="#fnref2" class="footnote-back">↩︎</a></p></li>
 <li id="fn3"><p>For more on <code>get_event_dates</code>, type
