@@ -1,9 +1,13 @@
 # farr
 
+# farr 0.2.28
+
+* Added Zhang (2007) data.
+
 # farr 0.2.27
 
-* Added tests
-* Added examples
+* Added tests.
+* Added examples.
 
 # farr 0.2.26
 
