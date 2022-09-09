@@ -18,4 +18,3 @@ usethis::use_data(zhang_2007_windows,
                   version = 3, compress="xz", overwrite=TRUE)
 usethis::use_data(zhang_2007_events,
                   version = 3, compress="xz", overwrite=TRUE)
-
