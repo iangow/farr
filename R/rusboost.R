@@ -1,33 +1,46 @@
-# Random under-sampling
-rus <- function(y_train, wts, ir = 1) {
-  # ir = Imbalance Ratio. (how many times majority instances are over minority instances)
+#' Random under-sampling function
+#' Function to create temporary training dataset using distribution implied
+# by weights.
+#'
+#' @param y_train Data on the target variable.
+#' @param weights Weights to be used in sampling data.
+#' @param ir Imbalance ratio. Specifies how many times the under-sampled majority instances are over minority instances.
+#'
+#' @return vector
+#'
+rus <- function(y_train, w, ir = 1) {
 
-  tab <- table(y_train)
-  maj_class = ifelse(tab[2] >= tab[1], names(tab[2]), names(tab[1]))
+    # Determine the majority class empirically
+    tab <- table(y_train)
+    maj_class = ifelse(tab[2] >= tab[1], names(tab[2]), names(tab[1]))
 
-  p <- which(y_train != maj_class)
-  n <- sample(which(y_train == maj_class), length(p) * ir, replace = TRUE)
-  rows <- c(p, n)
-  w <- wts[rows]/sum(wts[rows])
+    p <- which(y_train != maj_class)
+    n <- sample(which(y_train == maj_class), length(p) * ir, replace = TRUE)
+    rows <- c(p, n)
+    w <- w[rows]/sum(w[rows])
 
-  sample(rows, length(rows), replace = TRUE, prob = w)
+    sample(rows, length(rows), replace = TRUE, prob = w)
 }
 
-w.update <- function(prob, prediction, actual, w, smooth, learn_rate = 1) {
+w.update <- function(prediction, actual, w, smooth, learn_rate = 1) {
 
-  # Pseudo-loss calculation for AdaBoost.M2
-  f <- which(prediction != actual)
-  diff <- ifelse(actual[f] == "1", prob[f, "0"], prob[f, "1"])
-  err <- sum( w[f] * diff)
+    # Pseudo-loss calculation for original AdaBoost
+    # p.343 of Efron and Hastie (2016)
+    misclass <- as.integer(prediction != actual)
+    err <- sum(w * misclass)/sum(w)
 
-  # Update weights with prediction smoothing, dealing with err == 0
-  alpha <- learn_rate * (err + smooth) / (1 - err + smooth)
-  w[f] <- rep(1/length(f), length(f)) * alpha^(1 - diff)
+    # Update weights with prediction smoothing
+    if(err > 0) {
+        alpha <- log((1 - err)/err)
+    } else {
+        alpha <- 0
+    }
+    w <- pmax(w * exp(alpha * misclass), 1e-8)
 
-  # Scale weights
-  w <- w / sum(w)
+    # Scale weights
+    w <- w / sum(w)
 
-  return(list(w = w, alpha = alpha))
+    return(list(w = w, alpha = alpha))
 }
 
 #' RUSBoost for two-class problems
@@ -45,31 +58,40 @@ w.update <- function(prob, prediction, actual, w, smooth, learn_rate = 1) {
 #'
 rusboost <- function(formula, data, size, ir = 1, learn_rate = 1,
                      control) {
+
+    # Prepare data
     target <- as.character(stats::as.formula(formula)[[2]])
-    weakLearners <- list()
-    alpha <- 0
-    w <- rep(1/nrow(data), nrow(data))
+    data[[target]] <- ifelse
     label <- data[, target]
+
+    # Set up variables
+    alpha <- 0
+    weakLearners <- list()
+    ws <- list()
+
+    # Set initial weights
+    w <- rep(1/nrow(data), nrow(data))
 
     for (i in 1:size) {
 
-        # Get training sample
+        # Get training sample and fit model
         rows_final <- rus(data[[target]], w, ir)
-
-        # Fit model
         fm <- rpart::rpart(formula, data = data[rows_final, ],
                            control = control)
-        prob <- predict(fm, data, type = "prob")
-        pred <- predict(fm, data, type = "class")
+
+        pred <- sign(predict(fm, data))
 
         # Get updated weights
-        new <- w.update(prob = prob, prediction = pred, learn_rate = learn_rate,
-                          actual = label, w = w, smooth = 1/length(rows_final))
+        new <- w.update(prediction = pred, learn_rate = learn_rate,
+                        actual = label, w = w, smooth = 1/length(rows_final))
         w <- new[["w"]]
+
+        # Append model and alpha value to sequence
         weakLearners[[i]] <- fm
         alpha[i] <- new[["alpha"]]
+        ws[[i]] <- w
     }
-    result <- list(weakLearners = weakLearners, alpha = alpha)
+    result <- list(weakLearners = weakLearners, alpha = alpha, w = ws)
     attr(result, "class") <- "rusboost"
     return(result)
 }
@@ -77,25 +99,25 @@ rusboost <- function(formula, data, size, ir = 1, learn_rate = 1,
 #' @method predict rusboost
 #' @export
 predict.rusboost <- function(object, newdata, type = "prob", ...) {
-  models <- object[["weakLearners"]]
-  alpha <- object[["alpha"]]
+    models <- object[["weakLearners"]]
+    alpha <- object[["alpha"]]
 
-  a <- log(1/alpha) / sum(log(1/alpha)) # normalize alpha values
+    a <- log(1/alpha) / sum(log(1/alpha)) # normalize alpha values
 
-  predict_pos <- function(model) {
-    predict(model, newdata, type = "prob")[, "1"]
-  }
+    predict_pos <- function(model) {
+        predict(model, newdata, type = "prob")[, "1"]
+    }
 
-  probs <- lapply(models, predict_pos)
+    probs <- lapply(models, predict_pos)
 
-  # Weight models
-  prob <- rowSums(mapply("*", probs, a))
+    # Weight models
+    prob <- rowSums(mapply("*", probs, a))
 
-  if (type == "class") {
-    pred <- as.factor(as.integer(prob > 0.5))
-    return(pred)
-  }
-  else if (type == "prob") {
-    return(prob)
-  }
+    if (type == "class") {
+        pred <- as.factor(as.integer(prob > 0.5))
+        return(pred)
+    }
+    else if (type == "prob") {
+        return(prob)
+    }
 }
