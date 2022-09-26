@@ -1,5 +1,9 @@
 # farr
 
+# farr 0.2.29
+
+* Added `rusboost` function.
+
 # farr 0.2.28
 
 * Added Zhang (2007) data.
