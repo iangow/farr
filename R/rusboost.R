@@ -22,7 +22,7 @@ rus <- function(y_train, w, ir = 1) {
     sample(rows, length(rows), replace = TRUE, prob = w)
 }
 
-w.update <- function(prediction, actual, w, smooth, learn_rate = 1) {
+w.update <- function(prediction, actual, w, smooth) {
 
     # Pseudo-loss calculation for original AdaBoost
     # p.343 of Efron and Hastie (2016)
@@ -61,7 +61,7 @@ rusboost <- function(formula, data, size, ir = 1, learn_rate = 1,
 
     # Prepare data
     target <- as.character(stats::as.formula(formula)[[2]])
-    data[[target]] <- ifelse
+    data[[target]] <- ifelse(data[[target]]=="1", 1, -1)
     label <- data[, target]
 
     # Set up variables
@@ -82,7 +82,7 @@ rusboost <- function(formula, data, size, ir = 1, learn_rate = 1,
         pred <- sign(predict(fm, data))
 
         # Get updated weights
-        new <- w.update(prediction = pred, learn_rate = learn_rate,
+        new <- w.update(prediction = pred,
                         actual = label, w = w, smooth = 1/length(rows_final))
         w <- new[["w"]]
 
@@ -96,28 +96,31 @@ rusboost <- function(formula, data, size, ir = 1, learn_rate = 1,
     return(result)
 }
 
+rowCumSums <- function(x) {
+    t(apply(x, MARGIN=1, cumsum))
+}
+
+sigmoidal <- function(x) {
+    1/(1 + exp(-2 * x))
+}
+
 #' @method predict rusboost
 #' @export
 predict.rusboost <- function(object, newdata, type = "prob", ...) {
     models <- object[["weakLearners"]]
     alpha <- object[["alpha"]]
 
-    a <- log(1/alpha) / sum(log(1/alpha)) # normalize alpha values
-
-    predict_pos <- function(model) {
-        predict(model, newdata, type = "prob")[, "1"]
-    }
-
-    probs <- lapply(models, predict_pos)
+    c_b <- lapply(models, function(x) sign(predict(x, newdata)))
+    g_b <- mapply("*", c_b, alpha)
+    G_b <- rowCumSums(g_b)
 
     # Weight models
-    prob <- rowSums(mapply("*", probs, a))
+    C_b <- rowSums(G_b)
 
     if (type == "class") {
-        pred <- as.factor(as.integer(prob > 0.5))
-        return(pred)
+        return(sign(C_b))
     }
     else if (type == "prob") {
-        return(prob)
+        return(sigmoidal(C_b))
     }
 }
