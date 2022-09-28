@@ -2,7 +2,7 @@
 #' Function to create temporary training dataset using distribution implied
 # by weights.
 #'
-#' @param y_train Data on the target variable.
+#' @param y_train df on the target variable.
 #' @param weights Weights to be used in sampling data.
 #' @param ir Imbalance ratio. Specifies how many times the under-sampled majority instances are over minority instances.
 #'
@@ -15,38 +15,38 @@ rus <- function(y_train, w, ir = 1) {
     maj_class = ifelse(tab[2] >= tab[1], names(tab[2]), names(tab[1]))
 
     p <- which(y_train != maj_class)
-    n <- sample(which(y_train == maj_class), length(p) * ir, replace = TRUE)
-    rows <- c(p, n)
-    w <- w[rows]/sum(w[rows])
 
-    sample(rows, length(rows), replace = TRUE, prob = w)
+    rows_major_class <- which(y_train == maj_class)
+    w <- w[rows_major_class]/sum(w[rows_major_class])
+
+    n <- sample(rows_major_class, length(p) * ir, replace = FALSE)
+    rows <- c(p, n)
 }
 
-w.update <- function(prediction, actual, w, smooth) {
+w.update <- function(prediction, response, w) {
 
     # Pseudo-loss calculation for original AdaBoost
-    # p.343 of Efron and Hastie (2016)
-    misclass <- as.integer(prediction != actual)
+    # p.339 of ESLII
+    misclass <- as.integer(prediction != response)
     err <- sum(w * misclass)/sum(w)
-
     # Update weights with prediction smoothing
     if(err > 0) {
         alpha <- log((1 - err)/err)
     } else {
         alpha <- 0
     }
-    w <- pmax(w * exp(alpha * misclass), 1e-8)
+    w <- w * exp(alpha * misclass)
 
     # Scale weights
     w <- w / sum(w)
 
-    return(list(w = w, alpha = alpha))
+    return(list(w = w, alpha = alpha, err = err))
 }
 
 #' RUSBoost for two-class problems
 #'
 #' @param formula A formula specify predictors and target variable. Target variable should be a factor of 0 and 1. Predictors can be either numerical and categorical.
-#' @param data A data frame used for training the model, i.e. training set.
+#' @param df A df frame used for training the model, i.e. training set.
 #' @param size Ensemble size, i.e. number of weak learners in the ensemble model
 #' @param ir Imbalance ratio. Specifies how many times the under-sampled majority instances are over minority instances.
 #' @param learn_rate Learning rate.
@@ -56,13 +56,14 @@ w.update <- function(prediction, actual, w, smooth) {
 #' @importFrom stats predict
 #' @export
 #'
-rusboost <- function(formula, data, size, ir = 1, learn_rate = 1,
-                     control) {
+rusboost <- function(formula, df, size, ir = 1, control) {
 
-    # Prepare data
+
+    # Prepare df
+    df <- as.data.frame(df)
     target <- as.character(stats::as.formula(formula)[[2]])
-    data[[target]] <- ifelse(data[[target]]=="1", 1, -1)
-    label <- data[, target]
+    df[[target]] <- ifelse(df[[target]]=="1", 1, -1)
+    label <- df[[target]]
 
     # Set up variables
     alpha <- 0
@@ -70,28 +71,36 @@ rusboost <- function(formula, data, size, ir = 1, learn_rate = 1,
     ws <- list()
 
     # Set initial weights
-    w <- rep(1/nrow(data), nrow(data))
-
+    # df$wt <- rep(1/nrow(df), nrow(df))
+    df$wt <- rep(1/nrow(df), nrow(df))
     for (i in 1:size) {
 
         # Get training sample and fit model
-        rows_final <- rus(data[[target]], w, ir)
-        fm <- rpart::rpart(formula, data = data[rows_final, ],
+        rows_final <- rus(df[[target]], df$wt, ir)
+        wts <- df[rows_final, ]$wt
+        # print(wts)
+        fm <- rpart::rpart(formula = formula,
+                           data = df[rows_final, ],
+                           weights = wts,
+                           method = "class",
                            control = control)
 
-        pred <- sign(predict(fm, data))
+        # fm <- tree::tree(formula, data_rus, data_rus$wt,
+        #                 control = tree.control(minsize = 5))
+        pred <- as.integer(as.character(predict(fm, df, type = "class")))
 
         # Get updated weights
-        new <- w.update(prediction = pred,
-                        actual = label, w = w, smooth = 1/length(rows_final))
-        w <- new[["w"]]
+        new <- w.update(prediction = pred, response = label, w = df$wt)
+        if (new[["err"]] > 0.5) break
+        df$wt <- new[["w"]]
 
         # Append model and alpha value to sequence
         weakLearners[[i]] <- fm
         alpha[i] <- new[["alpha"]]
-        ws[[i]] <- w
+        ws[[i]] <- df$wt
     }
-    result <- list(weakLearners = weakLearners, alpha = alpha, w = ws)
+    result <- list(weakLearners = weakLearners, alpha = alpha, w = ws,
+                   formula = formula)
     attr(result, "class") <- "rusboost"
     return(result)
 }
@@ -110,12 +119,16 @@ predict.rusboost <- function(object, newdata, type = "prob", ...) {
     models <- object[["weakLearners"]]
     alpha <- object[["alpha"]]
 
-    c_b <- lapply(models, function(x) sign(predict(x, newdata)))
+    predict_class <- function(x, newdata) {
+        temp <- predict(x, newdata, type = "class") == "1"
+    }
+
+    c_b <- lapply(models, predict_class)
     g_b <- mapply("*", c_b, alpha)
-    G_b <- rowCumSums(g_b)
+    # G_b <- rowCumSums(g_b)
 
     # Weight models
-    C_b <- rowSums(G_b)
+    C_b <- rowSums(g_b)
 
     if (type == "class") {
         return(sign(C_b))
@@ -124,3 +137,4 @@ predict.rusboost <- function(object, newdata, type = "prob", ...) {
         return(sigmoidal(C_b))
     }
 }
+
