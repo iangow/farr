@@ -16,8 +16,6 @@ rusboost(formula, df, size, ir = 1, control)
 \item{ir}{Imbalance ratio. Specifies how many times the under-sampled majority instances are over minority instances.}
 
 \item{control}{Control object passed onto rpart function.}
-
-\item{learn_rate}{Learning rate.}
 }
 \value{
 rusboost object

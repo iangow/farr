@@ -8,7 +8,7 @@
 #'
 #' @return vector
 #'
-rus <- function(y_train, w, ir = 1) {
+rus <- function(y_train, weights, ir = 1) {
 
     # Determine the majority class empirically
     tab <- table(y_train)
@@ -49,7 +49,6 @@ w.update <- function(prediction, response, w) {
 #' @param df A df frame used for training the model, i.e. training set.
 #' @param size Ensemble size, i.e. number of weak learners in the ensemble model
 #' @param ir Imbalance ratio. Specifies how many times the under-sampled majority instances are over minority instances.
-#' @param learn_rate Learning rate.
 #' @param control Control object passed onto rpart function.
 #'
 #' @return rusboost object
@@ -58,7 +57,7 @@ w.update <- function(prediction, response, w) {
 #'
 rusboost <- function(formula, df, size, ir = 1, control) {
 
-    formula <- as.formula(formula)
+    formula <- stats::as.formula(formula)
     environment(formula) <- environment()
 
     # Prepare df
@@ -80,15 +79,12 @@ rusboost <- function(formula, df, size, ir = 1, control) {
         # Get training sample and fit model
         rows_final <- rus(df[[target]], df$wt, ir)
         wts <- df[rows_final, ]$wt
-        # print(wts)
         fm <- rpart::rpart(formula = formula,
                            data = df[rows_final, ],
                            weights = wts,
                            method = "class",
                            control = control)
 
-        # fm <- tree::tree(formula, data_rus, data_rus$wt,
-        #                 control = tree.control(minsize = 5))
         pred <- as.integer(as.character(predict(fm, df, type = "class")))
 
         # Get updated weights

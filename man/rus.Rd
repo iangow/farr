@@ -5,14 +5,14 @@
 \title{Random under-sampling function
 Function to create temporary training dataset using distribution implied}
 \usage{
-rus(y_train, w, ir = 1)
+rus(y_train, weights, ir = 1)
 }
 \arguments{
 \item{y_train}{df on the target variable.}
 
-\item{ir}{Imbalance ratio. Specifies how many times the under-sampled majority instances are over minority instances.}
-
 \item{weights}{Weights to be used in sampling data.}
+
+\item{ir}{Imbalance ratio. Specifies how many times the under-sampled majority instances are over minority instances.}
 }
 \value{
 vector
