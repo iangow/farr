@@ -60,6 +60,7 @@ rusboost <- function(formula, df, size, ir = 1, control) {
 
     formula <- as.formula(formula)
     environment(formula) <- environment()
+
     # Prepare df
     df <- as.data.frame(df)
     target <- as.character(stats::as.formula(formula)[[2]])
