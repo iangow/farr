@@ -1,14 +1,14 @@
 #' Random under-sampling function
 #' Function to create temporary training dataset using distribution implied
-# by weights.
+# by w.
 #'
 #' @param y_train df on the target variable.
-#' @param weights Weights to be used in sampling data.
+#' @param w w to be used in sampling data.
 #' @param ir Imbalance ratio. Specifies how many times the under-sampled majority instances are over minority instances.
 #'
 #' @return vector
 #'
-rus <- function(y_train, weights, ir = 1) {
+rus <- function(y_train, w, ir = 1) {
 
     # Determine the majority class empirically
     tab <- table(y_train)
@@ -23,21 +23,22 @@ rus <- function(y_train, weights, ir = 1) {
     rows <- c(p, n)
 }
 
-w.update <- function(prediction, response, w) {
+w.update <- function(prediction, response, w, learn_rate) {
 
     # Pseudo-loss calculation for original AdaBoost
     # p.339 of ESLII
     misclass <- as.integer(prediction != response)
     err <- sum(w * misclass)/sum(w)
     # Update weights with prediction smoothing
-    if(err > 0) {
+    if(err > 0 && err < 1/2) {
         alpha <- log((1 - err)/err)
     } else {
         alpha <- 0
     }
-    w <- w * exp(alpha * misclass)
 
-    # Scale weights
+    w <- w * exp(learn_rate * alpha * misclass)
+
+    # Scale w
     w <- w / sum(w)
 
     return(list(w = w, alpha = alpha, err = err))
@@ -49,13 +50,15 @@ w.update <- function(prediction, response, w) {
 #' @param df A df frame used for training the model, i.e. training set.
 #' @param size Ensemble size, i.e. number of weak learners in the ensemble model
 #' @param ir Imbalance ratio. Specifies how many times the under-sampled majority instances are over minority instances.
+#' @param learn_rate Default of 1.
+#' @param rus TRUE for random undersampling; FALSE for AdaBoost with full sample
 #' @param control Control object passed onto rpart function.
 #'
 #' @return rusboost object
 #' @importFrom stats predict
 #' @export
 #'
-rusboost <- function(formula, df, size, ir = 1, control) {
+rusboost <- function(formula, df, size, ir = 1, learn_rate = 1, rus = TRUE, control) {
 
     formula <- stats::as.formula(formula)
     environment(formula) <- environment()
@@ -71,28 +74,41 @@ rusboost <- function(formula, df, size, ir = 1, control) {
     weakLearners <- list()
     ws <- list()
 
-    # Set initial weights
+    # Set initial w
     # df$wt <- rep(1/nrow(df), nrow(df))
     df$wt <- rep(1/nrow(df), nrow(df))
+
     for (i in 1:size) {
 
         # Get training sample and fit model
-        rows_final <- rus(df[[target]], df$wt, ir)
-        wts <- df[rows_final, ]$wt
+        if (rus) {
+            rows_final <- rus(df[[target]], df$wt, ir)
+            wts <- df[rows_final, ]$wt
+            train_data <- df[rows_final, ]
+        } else {
+            train_data <- df
+            wts <- df$wt
+        }
+
         fm <- rpart::rpart(formula = formula,
-                           data = df[rows_final, ],
-                           weights = wts,
+                           data = train_data,
+                           w = wts,
                            method = "class",
                            control = control)
 
         pred <- as.integer(as.character(predict(fm, df, type = "class")))
 
-        # Get updated weights
-        new <- w.update(prediction = pred, response = label, w = df$wt)
-        if (new[["err"]] > 0.5) break
+        # Get updated w
+        new <- w.update(prediction = pred, response = label, w = df$wt,
+                        learn_rate = learn_rate)
+
+        # If alpha is zero (perhaps because err > 0.5) *and*
+        # we're running regular AdaBoost, then stop here.
+        # May make sense to continue if using RUSBoost due to randomness of sampling.
+        if (new[["alpha"]] == 0 && !rus) break
         df$wt <- new[["w"]]
 
-        # Append model and alpha value to sequence
+        # Append model, alpha value, and weight vector to sequence
         weakLearners[[i]] <- fm
         alpha[i] <- new[["alpha"]]
         ws[[i]] <- df$wt
