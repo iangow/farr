@@ -58,7 +58,8 @@ w.update <- function(prediction, response, w) {
 #'
 rusboost <- function(formula, df, size, ir = 1, control) {
 
-
+    formula <- as.formula(formula)
+    environment(formula) <- environment()
     # Prepare df
     df <- as.data.frame(df)
     target <- as.character(stats::as.formula(formula)[[2]])
@@ -119,8 +120,8 @@ predict.rusboost <- function(object, newdata, type = "prob", ...) {
     models <- object[["weakLearners"]]
     alpha <- object[["alpha"]]
 
-    predict_class <- function(x, newdata) {
-        temp <- predict(x, newdata, type = "class") == "1"
+    predict_class <- function(x) {
+        predict(x, newdata, type = "class") == "1"
     }
 
     c_b <- lapply(models, predict_class)

@@ -4,20 +4,20 @@
 \alias{rusboost}
 \title{RUSBoost for two-class problems}
 \usage{
-rusboost(formula, data, size, ir = 1, learn_rate = 1, control)
+rusboost(formula, df, size, ir = 1, control)
 }
 \arguments{
 \item{formula}{A formula specify predictors and target variable. Target variable should be a factor of 0 and 1. Predictors can be either numerical and categorical.}
 
-\item{data}{A data frame used for training the model, i.e. training set.}
+\item{df}{A df frame used for training the model, i.e. training set.}
 
 \item{size}{Ensemble size, i.e. number of weak learners in the ensemble model}
 
 \item{ir}{Imbalance ratio. Specifies how many times the under-sampled majority instances are over minority instances.}
 
-\item{learn_rate}{Learning rate.}
-
 \item{control}{Control object passed onto rpart function.}
+
+\item{learn_rate}{Learning rate.}
 }
 \value{
 rusboost object
