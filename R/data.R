@@ -301,3 +301,56 @@
 #' }
 #' @source \url{https://doi.org/10.1016/j.jacceco.2007.02.002}
 "zhang_2007_events"
+
+
+#' AAERs from Bao et al. (2020)
+#'
+#' A data set containing AAER firms-years used in Bao et al. (2020).
+#'
+#' @format A tibble with 415 rows and 4 variables:
+#' \describe{
+#'   \item{gkvey}{GVKEY (firm identifier)}
+#'   \item{p_aaer}{AAER identifier}
+#'   \item{min_year}{First affected year}
+#'   \item{max_year}{Last affected year}
+#'}
+"aaer_firm_year"
+
+#' Compustat features from Bao et al. (2020)
+#'
+#' A data set containing features used in Bao et al. (2020).
+#'
+#' @format A tibble with 146,045 rows and 30 variables:
+#' \describe{
+#'    \item{fyear}{ }
+#'    \item{gvkey}{GVKEY (firm identifier)}
+#'    \item{act}{ }
+#'    \item{ap}{ }
+#'    \item{at}{ }
+#'    \item{ceq}{ }
+#'    \item{che}{ }
+#'    \item{cogs}{ }
+#'    \item{csho}{ }
+#'    \item{dlc}{ }
+#'    \item{dltis}{ }
+#'    \item{dltt}{ }
+#'    \item{dp}{ }
+#'    \item{ib}{ }
+#'    \item{invt}{ }
+#'    \item{ivao}{ }
+#'    \item{ivst}{ }
+#'    \item{lct}{ }
+#'    \item{lt}{ }
+#'    \item{ni}{ }
+#'    \item{ppegt}{ }
+#'    \item{pstk}{ }
+#'    \item{re}{ }
+#'    \item{rect}{ }
+#'    \item{sale}{ }
+#'    \item{sstk}{ }
+#'    \item{txp}{ }
+#'    \item{txt}{ }
+#'    \item{xint}{ }
+#'    \item{prcc_f}{ }
+#'}
+"jar_fraud_features"
