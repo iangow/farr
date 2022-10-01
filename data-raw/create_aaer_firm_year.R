@@ -19,11 +19,4 @@ aaer_firm_year <-
     group_by(gvkey, p_aaer) %>%
     summarize(min_year = min(fyear), max_year = max(fyear), .groups = 'drop')
 
-aaer_firm_year %>%
-    rowwise() %>%
-    mutate(years = list(seq(min_year, max_year, by = 1))) %>%
-    select(gvkey, p_aaer, years) %>%
-    unnest(years) %>%
-    rename(fyear = years)
-
 usethis::use_data(aaer_firm_year, version = 3, compress="xz", overwrite=TRUE)
