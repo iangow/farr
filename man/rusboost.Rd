@@ -4,7 +4,7 @@
 \alias{rusboost}
 \title{RUSBoost for two-class problems}
 \usage{
-rusboost(formula, df, size, ir = 1, control)
+rusboost(formula, df, size, ir = 1, learn_rate = 1, rus = TRUE, control)
 }
 \arguments{
 \item{formula}{A formula specify predictors and target variable. Target variable should be a factor of 0 and 1. Predictors can be either numerical and categorical.}
@@ -14,6 +14,10 @@ rusboost(formula, df, size, ir = 1, control)
 \item{size}{Ensemble size, i.e. number of weak learners in the ensemble model}
 
 \item{ir}{Imbalance ratio. Specifies how many times the under-sampled majority instances are over minority instances.}
+
+\item{learn_rate}{Default of 1.}
+
+\item{rus}{TRUE for random undersampling; FALSE for AdaBoost with full sample}
 
 \item{control}{Control object passed onto rpart function.}
 }
