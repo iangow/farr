@@ -309,8 +309,8 @@
 #'
 #' @format A tibble with 415 rows and 4 variables:
 #' \describe{
-#'   \item{gkvey}{GVKEY (firm identifier)}
 #'   \item{p_aaer}{AAER identifier}
+#'   \item{gkvey}{GVKEY (firm identifier)}
 #'   \item{min_year}{First affected year}
 #'   \item{max_year}{Last affected year}
 #'}
