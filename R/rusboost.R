@@ -29,18 +29,19 @@ w.update <- function(prediction, response, w, learn_rate) {
     # p.339 of ESLII
     misclass <- as.integer(prediction != response)
     err <- sum(w * misclass)/sum(w)
+    # print(paste("err:", err))
     # Update weights with prediction smoothing
-    if(err > 0 && err < 1/2) {
-        alpha <- log((1 - err)/err)
+    if (err > 0 && err < 1/2) {
+        alpha <- learn_rate * log((1 - err)/err)
     } else {
         alpha <- 0
     }
 
-    w <- w * exp(learn_rate * alpha * misclass)
+    w <- w * exp(alpha * misclass)
 
     # Scale w
     w <- w / sum(w)
-
+    # print(paste("sum(w):", sum(w)))
     return(list(w = w, alpha = alpha, err = err))
 }
 
@@ -92,7 +93,7 @@ rusboost <- function(formula, df, size, ir = 1, learn_rate = 1, rus = TRUE, cont
 
         fm <- rpart::rpart(formula = formula,
                            data = train_data,
-                           w = wts,
+                           weights = wts,
                            method = "class",
                            control = control)
 
@@ -134,7 +135,7 @@ predict.rusboost <- function(object, newdata, type = "prob", ...) {
     alpha <- object[["alpha"]]
 
     predict_class <- function(x) {
-        predict(x, newdata, type = "class") == "1"
+        ifelse(predict(x, newdata, type = "class") == "1", 1, -1)
     }
 
     c_b <- lapply(models, predict_class)
@@ -146,9 +147,8 @@ predict.rusboost <- function(object, newdata, type = "prob", ...) {
 
     if (type == "class") {
         return(sign(C_b))
-    }
-    else if (type == "prob") {
-        return(sigmoidal(C_b))
+    } else if (type =="prob") {
+        rowSums(ifelse(g_b > 0, 1, 0)*alpha)/sum(alpha)
     }
 }
 
