@@ -5,22 +5,25 @@
 #' @param y_train df on the target variable.
 #' @param w w to be used in sampling data.
 #' @param ir Imbalance ratio. Specifies how many times the under-sampled majority instances are over minority instances.
-#'
+#' @details
+#' Following MATLAB, function samples observations of the minority class with
+#' replacement and observations of the majority class without replacement.
 #' @return vector
 #'
-rus <- function(y_train, w, ir = 1) {
+rus <- function(y_train, ir = 1) {
 
     # Determine the majority class empirically
     tab <- table(y_train)
     maj_class = ifelse(tab[2] >= tab[1], names(tab[2]), names(tab[1]))
 
-    p <- which(y_train != maj_class)
+    rows_minor_class <- which(y_train != maj_class)
+    p <- sample(rows_minor_class, length(rows_minor_class), replace = TRUE)
 
     rows_major_class <- which(y_train == maj_class)
-    w <- w[rows_major_class]/sum(w[rows_major_class])
-
     n <- sample(rows_major_class, length(p) * ir, replace = FALSE)
+
     rows <- c(p, n)
+    return(rows)
 }
 
 w.update <- function(prediction, response, w, learn_rate) {
@@ -83,7 +86,7 @@ rusboost <- function(formula, df, size, ir = 1, learn_rate = 1, rus = TRUE, cont
 
         # Get training sample and fit model
         if (rus) {
-            rows_final <- rus(df[[target]], df$wt, ir)
+            rows_final <- rus(df[[target]], ir)
             wts <- df[rows_final, ]$wt
             train_data <- df[rows_final, ]
         } else {
