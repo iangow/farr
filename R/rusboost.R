@@ -3,7 +3,6 @@
 # by w.
 #'
 #' @param y_train df on the target variable.
-#' @param w w to be used in sampling data.
 #' @param ir Imbalance ratio. Specifies how many times the under-sampled majority instances are over minority instances.
 #' @details
 #' Following MATLAB, function samples observations of the minority class with
