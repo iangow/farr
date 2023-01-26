@@ -1,6 +1,6 @@
 Package: farr
 Title: Data and Code for Financial Accounting Research
-Version: 0.2.29
+Version: 0.2.30
 Authors@R: 
     person(given = "Ian",
            family = "Gow",
@@ -13,7 +13,7 @@ License: MIT + file LICENSE
 Encoding: UTF-8
 LazyData: true
 Roxygen: list(markdown = TRUE)
-RoxygenNote: 7.2.2
+RoxygenNote: 7.2.3
 Imports: 
     dbplyr (>= 2.2.0),
     dplyr,

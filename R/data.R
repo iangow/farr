@@ -315,3 +315,43 @@
 #'   \item{max_year}{Last affected year}
 #'}
 "aaer_firm_year"
+
+#' Australian banks
+#'
+#' A data set containing identifying information for 10 Australian banks.
+#'
+#' @format A tibble with 10 rows and 3 variables:
+#' \describe{
+#'   \item{gkvey}{GVKEY (firm identifier)}
+#'   \item{ticker}{Stock exchange ticker}
+#'   \item{co_name}{Bank name}
+#'}
+"aus_banks"
+
+#' Australian bank fundamental data
+#'
+#' A data set containing fundamental financial information for Australian banks.
+#'
+#' @format A tibble with 283 rows and 7 variables:
+#' \describe{
+#'   \item{gkvey}{GVKEY (firm identifier)}
+#'   \item{datadate}{Fiscal year-end}
+#'   \item{at}{Total assets}
+#'   \item{ib}{Income before extraordinary items}
+#'   \item{xi}{Extraordinary items}
+#'   \item{do}{Income from discontinued operations}
+#'}
+"aus_bank_funds"
+
+#' Australian bank stock market data
+#'
+#' A data set containing fundamental financial information for Australian banks.
+#'
+#' @format A tibble with 3,053 rows and 4 variables:
+#' \describe{
+#'   \item{gkvey}{GVKEY (firm identifier)}
+#'   \item{datadate}{Last trading date of month}
+#'   \item{ret}{Stock return for month}
+#'   \item{mkt_cap}{Market capitalization on datadate}
+#'}
+"aus_bank_rets"
