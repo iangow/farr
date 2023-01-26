@@ -1,5 +1,9 @@
 # farr
 
+# farr 0.2.30
+
+* Added `aus_banks` data sets.
+
 # farr 0.2.29
 
 * Added `rusboost` function.
