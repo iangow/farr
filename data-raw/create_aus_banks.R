@@ -30,13 +30,10 @@ aus_bank_funds <-
     select(gvkey, datadate, at, ceq, ib, xi, do) %>%
     collect()
 
-mkt_cap <-
-    g_secd %>%
-    select(gvkey, iid, datadate, prccd, cshoc)
-
 month_rets <-
     g_secd %>%
-    filter(monthend == 1, !is.na(prccd))  %>%
+    filter(monthend == 1, !is.na(prccd)) %>%
+    filter(datadate != "2022-11-07") %>%
     semi_join(aus_bank_stocks, by = c("gvkey", "iid")) %>%
     mutate(gret = prccd / ajexdi * trfd,
            mkt_cap = prccd * cshoc/1e6) %>%

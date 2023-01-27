@@ -322,7 +322,7 @@
 #'
 #' @format A tibble with 10 rows and 3 variables:
 #' \describe{
-#'   \item{gkvey}{GVKEY (firm identifier)}
+#'   \item{gvkey}{GVKEY (firm identifier)}
 #'   \item{ticker}{Stock exchange ticker}
 #'   \item{co_name}{Bank name}
 #'}
@@ -334,7 +334,7 @@
 #'
 #' @format A tibble with 283 rows and 7 variables:
 #' \describe{
-#'   \item{gkvey}{GVKEY (firm identifier)}
+#'   \item{gvkey}{GVKEY (firm identifier)}
 #'   \item{datadate}{Fiscal year-end}
 #'   \item{at}{Total assets}
 #'   \item{ib}{Income before extraordinary items}
@@ -347,9 +347,9 @@
 #'
 #' A data set containing fundamental financial information for Australian banks.
 #'
-#' @format A tibble with 3,053 rows and 4 variables:
+#' @format A tibble with 3,047 rows and 4 variables:
 #' \describe{
-#'   \item{gkvey}{GVKEY (firm identifier)}
+#'   \item{gvkey}{GVKEY (firm identifier)}
 #'   \item{datadate}{Last trading date of month}
 #'   \item{ret}{Stock return for month}
 #'   \item{mkt_cap}{Market capitalization on datadate}

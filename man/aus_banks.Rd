@@ -7,7 +7,7 @@
 \format{
 A tibble with 10 rows and 3 variables:
 \describe{
-\item{gkvey}{GVKEY (firm identifier)}
+\item{gvkey}{GVKEY (firm identifier)}
 \item{ticker}{Stock exchange ticker}
 \item{co_name}{Bank name}
 }

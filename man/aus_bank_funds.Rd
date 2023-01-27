@@ -7,7 +7,7 @@
 \format{
 A tibble with 283 rows and 7 variables:
 \describe{
-\item{gkvey}{GVKEY (firm identifier)}
+\item{gvkey}{GVKEY (firm identifier)}
 \item{datadate}{Fiscal year-end}
 \item{at}{Total assets}
 \item{ib}{Income before extraordinary items}

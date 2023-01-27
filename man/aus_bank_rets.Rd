@@ -5,9 +5,9 @@
 \alias{aus_bank_rets}
 \title{Australian bank stock market data}
 \format{
-A tibble with 3,053 rows and 4 variables:
+A tibble with 3,047 rows and 4 variables:
 \describe{
-\item{gkvey}{GVKEY (firm identifier)}
+\item{gvkey}{GVKEY (firm identifier)}
 \item{datadate}{Last trading date of month}
 \item{ret}{Stock return for month}
 \item{mkt_cap}{Market capitalization on datadate}
