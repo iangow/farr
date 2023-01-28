@@ -99,7 +99,7 @@ ndcg <- function(scores, response, k = 0.01) {
 #'
 #' @return vector including AUC
 #' @export
-#' @source \url{https://blog.mbq.me/augh-roc}
+#' @source \url{https://blog.mbq.me/augh-roc/}
 #' @source \url{https://stackoverflow.com/questions/4903092/calculate-auc-in-r}
 auc <- function(scores, response) {
   response <- as.integer(response)

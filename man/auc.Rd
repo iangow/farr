@@ -4,7 +4,7 @@
 \alias{auc}
 \title{Area under curve}
 \source{
-\url{https://blog.mbq.me/augh-roc}
+\url{https://blog.mbq.me/augh-roc/}
 
 \url{https://stackoverflow.com/questions/4903092/calculate-auc-in-r}
 }

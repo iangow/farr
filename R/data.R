@@ -283,7 +283,7 @@
 #'   \item{beg_date}{First date of event window}
 #'   \item{end_date}{Last date of event window}
 #' }
-#' @source \url{https://doi.org/10.1016/j.jacceco.2007.02.002}
+#' @source \doi{10.1016/j.jacceco.2007.02.002}
 "zhang_2007_windows"
 
 #' Event dates from Zhang (2007)
@@ -299,7 +299,7 @@
 #'   \item{date}{Date of event}
 #'   \item{event_desc}{Description of the event}
 #' }
-#' @source \url{https://doi.org/10.1016/j.jacceco.2007.02.002}
+#' @source \doi{10.1016/j.jacceco.2007.02.002}
 "zhang_2007_events"
 
 

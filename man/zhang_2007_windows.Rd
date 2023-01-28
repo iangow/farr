@@ -13,7 +13,7 @@ A tibble with 17 rows × 3 variables.
 }
 }
 \source{
-\url{https://doi.org/10.1016/j.jacceco.2007.02.002}
+\doi{10.1016/j.jacceco.2007.02.002}
 }
 \usage{
 zhang_2007_windows
