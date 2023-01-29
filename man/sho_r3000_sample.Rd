@@ -13,7 +13,7 @@ A tibble with 2,954 rows × 3 variables.
 }
 }
 \source{
-\url{http://iangow.me/far_book/natural-revisited.html#the-sho-pilot-sample}
+\url{https://iangow.github.io/far_book/natural-revisited.html#the-sho-pilot-sample}
 }
 \usage{
 sho_r3000_sample

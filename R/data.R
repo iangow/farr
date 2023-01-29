@@ -254,7 +254,7 @@
 #'   \item{permno}{PERMNO (CRSP security identifier)}
 #'   \item{pilot}{Indicator for stock being part of Reg SHO pilot program}
 #' }
-#' @source \url{http://iangow.me/far_book/natural-revisited.html#the-sho-pilot-sample}
+#' @source \url{https://iangow.github.io/far_book/natural-revisited.html#the-sho-pilot-sample}
 "sho_r3000_sample"
 
 #' Russell 3000 sample used by SEC with GVKEYs
@@ -269,7 +269,7 @@
 #'   \item{gvkey}{GVKEY (Compustat firm identifier)}
 #'   \item{pilot}{Indicator for stock being part of Reg SHO pilot program}
 #' }
-#' @source \url{http://iangow.me/far_book/natural-revisited.html#the-sho-pilot-sample}
+#' @source \url{https://iangow.github.io/far_book/natural-revisited.html#the-sho-pilot-sample}
 "sho_r3000_gvkeys"
 
 #' Event windows from Zhang (2007)

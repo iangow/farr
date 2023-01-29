@@ -1,5 +1,9 @@
 # farr
 
+# farr 0.2.31
+
+* Updated URLs.
+
 # farr 0.2.30
 
 * Added `aus_banks` data sets.
