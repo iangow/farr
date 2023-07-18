@@ -2,8 +2,7 @@ library(DBI)
 library(dplyr, warn.conflicts = FALSE)
 
 pg <- dbConnect(RPostgres::Postgres(), bigint = "integer")
-seg_customer_hist <- tbl(pg, sql("SELECT * FROM compsegd.seg_customer"))
-
+seg_customer_hist <- tbl(pg, sql("SELECT * FROM comp_segments_hist_daily.seg_customer"))
 customers <-
     seg_customer_hist %>%
     filter(ctype == "COMPANY") %>%
@@ -108,7 +107,8 @@ undisclosed_manual <-
 
 undisclosed_names <-
     undisclosed_regex %>%
-    union_all(undisclosed_manual)
+    union_all(undisclosed_manual) %>%
+    distinct()
 
 usethis::use_data(undisclosed_names,
                   version = 3, compress="xz", overwrite=TRUE)

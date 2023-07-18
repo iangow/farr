@@ -132,7 +132,7 @@
 #' Data to be combined with data in compsegd.seg_customer to create an
 #' indicator for non-disclosure of customer names.
 #'
-#' @format A tibble with 432 rows and 2 variables:
+#' @format A tibble with 445 rows and 2 variables:
 #' \describe{
 #'   \item{cnms}{Matches field in compsegd.seg_customer (WRDS)}
 #'   \item{disclosure}{Indicator that name is not disclosed}

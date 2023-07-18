@@ -5,7 +5,7 @@
 \alias{undisclosed_names}
 \title{Customer names that represent non-disclosures.}
 \format{
-A tibble with 432 rows and 2 variables:
+A tibble with 445 rows and 2 variables:
 \describe{
 \item{cnms}{Matches field in compsegd.seg_customer (WRDS)}
 \item{disclosure}{Indicator that name is not disclosed}
