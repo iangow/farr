@@ -22,7 +22,6 @@
 #'   \item{tag}{Tag}
 #'   \item{number}{Number of questions with tag during year}
 #'   \item{year_total}{Total number of questions with tag during year}
-#'   ...
 #' }
 "by_tag_year"
 
@@ -30,7 +29,7 @@
 #'
 #' A data set containing dates and descriptions for AAERs
 #'
-#' @format A tibble with 40,518 rows and 4 variables:
+#' @format A tibble with 2,920 rows and 4 variables:
 #' \describe{
 #'   \item{aaer_num}{AAER number}
 #'   \item{aaer_date}{Date}
@@ -66,7 +65,7 @@
 #'
 #' A simulated data set of test scores.
 #'
-#' @format A tibble with 4000 rows and 5 variables:
+#' @format A tibble with 4,000 rows and 5 variables:
 #' \describe{
 #'   \item{id}{Student identifier}
 #'   \item{grade}{School grade at time of test}
@@ -90,7 +89,7 @@
 #' @source \doi{10.1016/j.jfineco.2018.02.008}
 "idd_dates"
 
-#' Data on firm headquarters based on SEC EDGAR filings.
+#' Data on firm headquarters based on SEC EDGAR filings
 #'
 #' Data on firm headquarters based on SEC EDGAR filings.
 #' Dates related to SEC filing dates. Rather than provide dates for
@@ -136,7 +135,7 @@
 #' }
 "undisclosed_names"
 
-#' Data on firms suffering natural disasters.
+#' Data on firms suffering natural disasters
 #'
 #' Data on firms suffering natural disasters based on the sample
 #' in Michels (2017).
@@ -158,7 +157,7 @@
 #' }
 "michels_2017"
 
-#' Data on public float.
+#' Data on public float
 #'
 #' Data on public float of listed companies from Iliev (2010).
 #'
@@ -176,7 +175,7 @@
 #' }
 "iliev_2010"
 
-#' Firm-years in RDD analysis of Bloomfield (2021).
+#' Firm-years in RDD analysis of Bloomfield (2021)
 #'
 #' Firm-years in RDD analysis of Bloomfield (2021).
 #'
