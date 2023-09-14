@@ -5,5 +5,5 @@ test_that("get_ff_ind(5) works", {
                    select(ff_ind) %>%
                    distinct() %>%
                    pull() %>%
-                   length(), 4)
+                   length(), 5)
 })
