@@ -12,7 +12,7 @@ A tibble with 986 rows × 2 variables.
 }
 }
 \source{
-\url{https://www.sec.gov/rules/other/34-50104.htm}
+\url{https://www.sec.gov/rule-release/34-50104}
 }
 \usage{
 sho_tickers
