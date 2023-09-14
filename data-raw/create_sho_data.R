@@ -38,7 +38,7 @@ fhk_firm_years <-
 usethis::use_data(fhk_firm_years, version = 3, compress="xz", overwrite=TRUE)
 
 # sho_tickers
-res <- "https://www.sec.gov/rules/other/34-50104.htm"
+res <- "https://www.sec.gov/files/rules/other/34-50104.htm"
 tickers_vector <-
     res %>%
     read_html() %>%

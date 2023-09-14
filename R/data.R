@@ -227,7 +227,7 @@
 #'   \item{ticker}{Ticker}
 #'   \item{co_name}{Company name}
 #' }
-#' @source \url{https://www.sec.gov/rules/other/34-50104.htm}
+#' @source \url{https://www.sec.gov/rule-release/34-50104}
 "sho_tickers"
 
 #' Russell 3000 stocks at time of SEC Reg SHO sample formation.
