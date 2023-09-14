@@ -1,5 +1,13 @@
 # farr
 
+# farr 0.2.33
+
+* Updated tests.
+
+# farr 0.2.32
+
+* Removed duplicates from names data.
+
 # farr 0.2.31
 
 * Updated URLs.

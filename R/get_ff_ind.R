@@ -25,8 +25,8 @@ get_ff_ind <- function(ind) {
                         col_types = "icc") %>%
         dplyr::mutate(ff_ind_desc = dplyr::if_else(!is.na(.data$ff_ind), .data$temp, NA_character_),
                       sic_range = dplyr::if_else(is.na(.data$ff_ind), .data$temp, NA_character_)) %>%
-        dplyr::select(-.data$temp) %>%
-        tidyr::fill(.data$ff_ind, .data$ff_ind_short_desc, .data$ff_ind_desc) %>%
+        dplyr::select(-"temp") %>%
+        tidyr::fill("ff_ind", "ff_ind_short_desc", "ff_ind_desc") %>%
         dplyr::filter(!is.na(.data$sic_range)) %>%
         tidyr::extract(.data$sic_range,
                        into = c("sic_min", "sic_max", "sic_desc"),

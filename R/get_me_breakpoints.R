@@ -22,7 +22,7 @@ get_me_breakpoints <- function() {
                  col_types = "c",
                  n_max = grep("^Copyright", temp) - 3) %>%
         dplyr::mutate(month = lubridate::ymd(paste0(.data$month, "01"))) %>%
-        dplyr::select(-dplyr::ends_with("5"), -.data$n) %>%
+        dplyr::select(-dplyr::ends_with("5"), -"n") %>%
         tidyr::pivot_longer(cols = - "month",
                      names_to = "decile",
                      values_to = "cutoff") %>%

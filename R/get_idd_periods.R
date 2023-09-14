@@ -28,7 +28,7 @@ get_idd_periods <- function(min_date, max_date) {
         dplyr::mutate(start_date = min_date,
                end_date = .data$idd_date) %>%
         dplyr::mutate(period_type = "Pre-adoption") %>%
-        dplyr::select(.data$state, .data$period_type, .data$start_date, .data$end_date)
+        dplyr::select("state", "period_type", "start_date", "end_date")
 
     df_never <-
         dplyr::tibble(state = c("DC", datasets::state.abb)) %>%
@@ -45,8 +45,8 @@ get_idd_periods <- function(min_date, max_date) {
                       end_date = dplyr::coalesce(dplyr::lead(.data$idd_date), max_date)) %>%
         dplyr::filter(.data$idd_type == "Adopt") %>%
         dplyr::mutate(period_type = "Post-adoption") %>%
-        dplyr::select(.data$state, .data$period_type, .data$start_date,
-                      .data$end_date)
+        dplyr::select("state", "period_type", "start_date",
+                      "end_date")
 
     df_post_reject <-
         farr::idd_dates %>%
@@ -54,8 +54,8 @@ get_idd_periods <- function(min_date, max_date) {
                       end_date = max_date) %>%
         dplyr::filter(.data$idd_type == "Reject") %>%
         dplyr::mutate(period_type = "Post-rejection") %>%
-        dplyr::select(.data$state, .data$period_type, .data$start_date,
-                      .data$end_date)
+        dplyr::select("state", "period_type", "start_date",
+                      "end_date")
 
     idd_periods <-
         dplyr::bind_rows(df_never, df_pre, df_post_adopt, df_post_reject) %>%
