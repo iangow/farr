@@ -1,5 +1,9 @@
 # farr
 
+# farr 0.2.34
+
+* Fixes to data and documentation.
+
 # farr 0.2.33
 
 * Updated tests.
