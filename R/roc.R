@@ -62,9 +62,9 @@ confusion_stats <- function(scores, response, predicted = NULL, k = NULL) {
     precision = tp/(tp + fp))
 }
 
-#'  Calculate metric metric: NDCG at k
+#'  Calculate metric: NDCG at k
 #'
-#'  A function returning NDCG at k metric.
+#'  A function returning NDCG-at-k metric.
 #'
 #' @param scores Probability that response is true or 1.
 #' @param response Responses coded as logical or {0, 1}.

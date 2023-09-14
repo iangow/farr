@@ -2,8 +2,7 @@
 % Please edit documentation in R/rusboost.R
 \name{rus}
 \alias{rus}
-\title{Random under-sampling function
-Function to create temporary training dataset using distribution implied}
+\title{Random under-sampling function}
 \usage{
 rus(y_train, ir = 1)
 }
@@ -16,8 +15,8 @@ rus(y_train, ir = 1)
 vector
 }
 \description{
-Random under-sampling function
 Function to create temporary training dataset using distribution implied
+by w.
 }
 \details{
 Following MATLAB, function samples observations of the minority class with

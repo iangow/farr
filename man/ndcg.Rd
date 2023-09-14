@@ -2,7 +2,7 @@
 % Please edit documentation in R/roc.R
 \name{ndcg}
 \alias{ndcg}
-\title{Calculate metric metric: NDCG at k}
+\title{Calculate metric: NDCG at k}
 \usage{
 ndcg(scores, response, k = 0.01)
 }
@@ -17,5 +17,5 @@ ndcg(scores, response, k = 0.01)
 vector including sensitivity and precision
 }
 \description{
-A function returning NDCG at k metric.
+A function returning NDCG-at-k metric.
 }

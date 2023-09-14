@@ -8,7 +8,6 @@
 #'   \item{event}{Description of event}
 #'   \item{event_date}{First date of event}
 #'   \item{end_event_date}{Last date of event}
-#'   ...
 #' }
 #' @source \url{https://en.wikipedia.org/wiki/List_of_Apple_Inc._media_events}
 "apple_events"
@@ -37,7 +36,6 @@
 #'   \item{aaer_date}{Date}
 #'   \item{aaer_desc}{Description}
 #'   \item{year}{Year of AAER}
-#'   ...
 #' }
 "aaer_dates"
 
@@ -61,7 +59,6 @@
 #'   \item{d_sale}{Change in revenue}
 #'   \item{d_ar}{Change in accounts receivable}
 #'   \item{ppe}{Property, plant & equipment (scaled by assets)}
-#'   ...
 #' }
 "comp"
 
@@ -108,7 +105,7 @@
 #' any change in state occurs the day after the last observed filing for
 #' the previous state.
 #'
-#' @format A tibble with 24 rows and 3 variables:
+#' @format A tibble with 53,133 rows and 4 variables:
 #' \describe{
 #'   \item{cik}{SEC's Central Index Key (CIK)}
 #'   \item{ba_state}{Two-letter abbreviation of state}
@@ -132,7 +129,7 @@
 #' Data to be combined with data in compsegd.seg_customer to create an
 #' indicator for non-disclosure of customer names.
 #'
-#' @format A tibble with 445 rows and 2 variables:
+#' @format A tibble with 460 rows and 2 variables:
 #' \describe{
 #'   \item{cnms}{Matches field in compsegd.seg_customer (WRDS)}
 #'   \item{disclosure}{Indicator that name is not disclosed}
@@ -165,7 +162,7 @@
 #'
 #' Data on public float of listed companies from Iliev (2010).
 #'
-#' @format A tibble with 7,213 and 9 variables:
+#' @format A tibble with 7,214 and 9 variables:
 #' \describe{
 #'   \item{gvkey}{Compustat firm identifier (GVKEY)}
 #'   \item{fyear}{Fiscal year}

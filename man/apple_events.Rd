@@ -10,7 +10,6 @@ A tibble with 47 rows and 3 variables:
 \item{event}{Description of event}
 \item{event_date}{First date of event}
 \item{end_event_date}{Last date of event}
-...
 }
 }
 \source{

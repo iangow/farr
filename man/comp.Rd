@@ -21,7 +21,6 @@ A tibble with 16,237 rows and 14 variables:
 \item{d_sale}{Change in revenue}
 \item{d_ar}{Change in accounts receivable}
 \item{ppe}{Property, plant & equipment (scaled by assets)}
-...
 }
 }
 \usage{

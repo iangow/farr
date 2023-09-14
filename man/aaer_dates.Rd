@@ -11,7 +11,6 @@ A tibble with 40,518 rows and 4 variables:
 \item{aaer_date}{Date}
 \item{aaer_desc}{Description}
 \item{year}{Year of AAER}
-...
 }
 }
 \usage{

@@ -1,6 +1,7 @@
 #' Random under-sampling function
+#'
 #' Function to create temporary training dataset using distribution implied
-# by w.
+#' by w.
 #'
 #' @param y_train df on the target variable.
 #' @param ir Imbalance ratio. Specifies how many times the under-sampled majority instances are over minority instances.
