@@ -5,7 +5,7 @@
 \alias{aaer_dates}
 \title{AAER dates from SEC}
 \format{
-A tibble with 40,518 rows and 4 variables:
+A tibble with 2,920 rows and 4 variables:
 \describe{
 \item{aaer_num}{AAER number}
 \item{aaer_date}{Date}

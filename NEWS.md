@@ -1,5 +1,9 @@
 # farr
 
+# farr 0.2.35
+
+* Added `cmsw_2018` data.
+
 # farr 0.2.34
 
 * Fixes to data and documentation.
@@ -11,10 +15,6 @@
 # farr 0.2.32
 
 * Removed duplicates from names data.
-
-# farr 0.2.31
-
-* Updated URLs.
 
 # farr 0.2.30
 

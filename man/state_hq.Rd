@@ -3,7 +3,7 @@
 \docType{data}
 \name{state_hq}
 \alias{state_hq}
-\title{Data on firm headquarters based on SEC EDGAR filings.}
+\title{Data on firm headquarters based on SEC EDGAR filings}
 \format{
 A tibble with 53,133 rows and 4 variables:
 \describe{

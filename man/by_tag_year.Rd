@@ -11,7 +11,6 @@ A tibble with 40,518 rows and 4 variables:
 \item{tag}{Tag}
 \item{number}{Number of questions with tag during year}
 \item{year_total}{Total number of questions with tag during year}
-...
 }
 }
 \usage{

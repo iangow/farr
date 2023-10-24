@@ -3,7 +3,7 @@
 \docType{data}
 \name{michels_2017}
 \alias{michels_2017}
-\title{Data on firms suffering natural disasters.}
+\title{Data on firms suffering natural disasters}
 \format{
 A tibble with 423 rows and 12 variables:
 \describe{

@@ -3,7 +3,7 @@
 \docType{data}
 \name{iliev_2010}
 \alias{iliev_2010}
-\title{Data on public float.}
+\title{Data on public float}
 \format{
 A tibble with 7,214 and 9 variables:
 \describe{

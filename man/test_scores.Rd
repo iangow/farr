@@ -5,7 +5,7 @@
 \alias{test_scores}
 \title{Test scores}
 \format{
-A tibble with 4000 rows and 5 variables:
+A tibble with 4,000 rows and 5 variables:
 \describe{
 \item{id}{Student identifier}
 \item{grade}{School grade at time of test}
