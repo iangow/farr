@@ -352,7 +352,7 @@
 #'}
 "aus_bank_rets"
 
-#' Dates for CMWS
+#' Data for CMSW
 #'
 #' Data on whistleblowers and enforcement actions from Call et al. (2018)
 #'
@@ -373,6 +373,7 @@
 #'   \item{lnuscodecnt}{The natural logarithm of the total number of unique code sections and rules violated (charges) associated with the enforcement action}
 #'   \item{viofraudflag}{n indicator variable equal to one if fraud under 15 USC §§ 77q, 78j(b), or rules promulgated thereunder are included among the charges in the enforcement action}
 #'   \item{misledflag}{An indicator variable equal to one if the violation included violations of 17 CFR 240.13b2-2 that prohibits materially false or misleading statement to an accountant in connection with the preparation of financial statements and zero otherwise}
+#'   \item{empprison_mos}{Total incarceration consisting of jail, prison, home detention, and halfway house in months imposed upon employee respondents named in the enforcement action}
 #'   \item{audit8flag}{An indicator variable equal to one if the misreporting firm used a Big N auditor, and equal to zero otherwise}
 #'   \item{exectermflag}{An indicator variable equal to one if the firm terminated an executive respondent as a result of the violations and equal to zero otherwise}
 #'   \item{coopflag}{An indicator variable equal to one if the firm received credit in the assessment of penalties for cooperation as stated in regulatory enforcement documents during the course of the investigation and equal to zero otherwise}
@@ -385,4 +386,4 @@
 #'   \item{ff12}{Fama-French industry code (12-industry)}
 #' }
 #' @source \doi{10.1111/1475-679X.12177}
-"csmw_2018"
+"cmsw_2018"

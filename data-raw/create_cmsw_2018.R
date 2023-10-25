@@ -1,14 +1,15 @@
 library(haven)
 library(dplyr, warn.conflicts = FALSE)
 
-csmw_url <- paste0("https://research.chicagobooth.edu/-/media/",
-                         "research/arc/docs/journal/online-supplements/",
-                         "csmw-datasheet-and-code.zip")
+cmsw_url <- paste0("https://www.chicagobooth.edu/-/",
+                   "media/research/arc/docs/journal/online-supplements/",
+                   "csmw-datasheet-and-code.zip")
 
 t <- tempfile()
-download.file(csmw_url, t)
+download.file(cmsw_url, t)
 
 vars <- c("recid", "firmpenalty1", "otherpenalty1", "emp_penalty1",
+          "empprison_mos",
           "selfdealflag", "blckownpct", "initabret", "wbflag", "touse_sox",
               "lnvioperiod", "bribeflag", "mobflag", "deter", "lnempclevel_n",
               "lnuscodecnt", "viofraudflag", "misledflag", "audit8flag",
@@ -16,15 +17,14 @@ vars <- c("recid", "firmpenalty1", "otherpenalty1", "emp_penalty1",
               "recidivist", "lnmktcap", "mkt2bk", "lev", "lndistance",
               "ff12")
 
-
-csmw_files <- unzip(t, list  = TRUE)$Name
-csmw_file <- csmw_files[4]
-csmw_data <- unzip(t, csmw_file)
+cmsw_files <- unzip(t, list  = TRUE)$Name
+cmsw_file <- cmsw_files[4]
+cmsw_data <- unzip(t, cmsw_file)
 
 to_logical <- function(x) as.logical(as.integer(x))
 
-csmw_2018 <-
-    read_stata(csmw_data) |>
+cmsw_2018 <-
+    read_stata(cmsw_data) |>
     select(any_of(vars)) |>
     mutate(across(c(ends_with("flag"),
                     "touse_sox", "deter", "recidivist"), to_logical),
@@ -33,5 +33,6 @@ csmw_2018 <-
                 ends_with("1")) |>
     rename_with(\(x) gsub("_", "", x))
 
-unlink(csmw_data)
-usethis::use_data(csmw_2018, version = 3, compress = "xz", overwrite = TRUE)
+unlink(cmsw_data)
+usethis::use_data(cmsw_2018, version = 3, compress = "xz", overwrite = TRUE)
+
