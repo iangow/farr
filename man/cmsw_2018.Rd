@@ -5,7 +5,7 @@
 \alias{cmsw_2018}
 \title{Data for CMSW}
 \format{
-A tibble with 1,133 rows and 28 variables:
+A tibble with 1,133 rows and 31 variables:
 \describe{
 \item{recid}{Two-letter state abbreviation}
 \item{firmpenalty}{The total firm civil and criminal monetary penalties assessed against the firm, its parent and subsidiaries consisting of disgorgement, prejudgment interest, civil fines, criminal restitution, and criminal fines in millions of dollars}
@@ -33,6 +33,8 @@ A tibble with 1,133 rows and 28 variables:
 \item{lev}{Total debt divided by total assets measured at the last fiscal year end prior to the first public announcement the firm may be (is) subject to a regulatory enforcement action}
 \item{lndistance}{The natural logarithm of the distance in miles from the location of the firm’s headquarters to the offices of the regulator assigned to the geographic area of the firm’s headquarter location (closer of the SEC Regional Office or DOJ U.S. District Attorney).}
 \item{ff12}{Fama-French industry code (12-industry)}
+\item{wbtype}{Whistleblower type: tipster or nontipster}
+\item{wbsource}{Whistleblower data source}
 }
 }
 \source{

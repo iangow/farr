@@ -15,7 +15,7 @@ vars <- c("recid", "firmpenalty1", "otherpenalty1", "emp_penalty1",
               "lnuscodecnt", "viofraudflag", "misledflag", "audit8flag",
               "exectermflag", "coopflag", "impedeflag", "pct_ind_dir",
               "recidivist", "lnmktcap", "mkt2bk", "lev", "lndistance",
-              "ff12")
+              "ff12", "nontipsterflag", "tipsterflag", "wbtype")
 
 cmsw_files <- unzip(t, list  = TRUE)$Name
 cmsw_file <- cmsw_files[4]
@@ -31,8 +31,14 @@ cmsw_2018 <-
            ff12 = as.integer(ff12)) |>
     rename_with(\(x) gsub("1$", "", x),
                 ends_with("1")) |>
-    rename_with(\(x) gsub("_", "", x))
-
+    rename_with(\(x) gsub("_", "", x)) |>
+    rename(wbsource = wbtype) |>
+    mutate(wbtype = case_when(tipsterflag == 1 ~ "tipster",
+                              nontipsterflag == 1 ~ "nontipster",
+                              .default = "none")) |>
+    select(-matches("tipster")) |>
+    mutate(wbtype = factor(wbtype,
+                           levels = c("none", "tipster", "nontipster")))
 unlink(cmsw_data)
 usethis::use_data(cmsw_2018, version = 3, compress = "xz", overwrite = TRUE)
 
