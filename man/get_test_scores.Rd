@@ -13,11 +13,11 @@ get_test_scores(
 )
 }
 \arguments{
-\item{effect_size}{Effect of attending camp on subsequent test scores.}
+\item{effect_size}{Effect of attending camp on subsequent test scores}
 
-\item{n_students}{Number of students in simulated data set.}
+\item{n_students}{Number of students in simulated data set}
 
-\item{n_grades}{Number of grades in simulated data set.}
+\item{n_grades}{Number of grades in simulated data set}
 
 \item{include_unobservables}{Include talent in returned data (TRUE or FALSE)}
 

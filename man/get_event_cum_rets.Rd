@@ -31,14 +31,13 @@ get_event_cum_rets(
 \item{end_event_date}{string representing column containing ending dates for
 events}
 
-\item{suffix}{Text to be appended after "ret" in variable names.}
+\item{suffix}{Text to be appended after "ret" in variable names}
 }
 \value{
 tbl_df
 }
 \description{
 Produce a table of event returns from CRSP.
-See \code{vignette("wrds-conn", package = "farr")} for more on using this function.
 }
 \examples{
 ## Not run:

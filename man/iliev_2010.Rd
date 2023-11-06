@@ -18,6 +18,9 @@ A tibble with 7,214 and 9 variables:
 \item{cik}{SEC firm identifier (CIK)}
 }
 }
+\source{
+\doi{10.1111/j.1540-6261.2010.01564.x}
+}
 \usage{
 iliev_2010
 }

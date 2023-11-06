@@ -11,7 +11,7 @@ A tibble with 5,830 rows and 1 variable:
 }
 }
 \source{
-\url{https://research.chicagobooth.edu/-/media/research/arc/docs/journal/online-supplements/llz-datasheet-and-code.zip}
+\doi{10.1111/1475-679X.12187}
 }
 \usage{
 llz_2018

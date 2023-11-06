@@ -3,6 +3,9 @@
 \name{get_got_data}
 \alias{get_got_data}
 \title{Generate simulated data as described in Gow, Ormazabal and Taylor (2010).}
+\source{
+\url{https://www.jstor.org/stable/20744139}
+}
 \usage{
 get_got_data(N = 400, T = 20, Xvol, Evol, rho_X, rho_E)
 }
@@ -30,5 +33,4 @@ Taylor (2010).
 set.seed(2021)
 test <- get_got_data(N = 500, T = 10, Xvol = 0.75,
                      Evol = 0.75, rho_X = 0.5, rho_E = 0.5)
-test
 }

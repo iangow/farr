@@ -1,7 +1,6 @@
 #' Produce a table of cumulative event returns
 #'
 #' Produce a table of event returns from CRSP.
-#' See \code{vignette("wrds-conn", package = "farr")} for more on using this function.
 #'
 #' @param data data frame containing data on events
 #' @param permno string representing column containing PERMNOs for events
@@ -11,7 +10,7 @@
 #' @param win_end integer representing start of trading window (e.g., 1)
 #' @param end_event_date string representing column containing ending dates for
 #' events
-#' @param suffix Text to be appended after "ret" in variable names.
+#' @param suffix Text to be appended after "ret" in variable names
 #'
 #' @return tbl_df
 #' @export

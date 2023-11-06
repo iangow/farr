@@ -11,6 +11,9 @@ A tibble with 1,855 rows and 2 variables:
 \item{permco}{CRSP firm identifier (PERMCO)}
 }
 }
+\source{
+\doi{10.1111/1475-679X.12346}
+}
 \usage{
 bloomfield_2021
 }

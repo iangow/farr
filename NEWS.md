@@ -3,6 +3,7 @@
 # farr 0.2.35
 
 * Added `cmsw_2018` data.
+* Fixes to documentation.
 
 # farr 0.2.34
 

@@ -13,6 +13,9 @@ A tibble with 415 rows and 4 variables:
 \item{max_year}{Last affected year}
 }
 }
+\source{
+\doi{10.1111/1475-679X.12292}
+}
 \usage{
 aaer_firm_year
 }

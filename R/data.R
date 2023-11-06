@@ -120,7 +120,7 @@
 #' \describe{
 #'   \item{gvkey}{GVKEY}
 #' }
-#' @source \url{https://research.chicagobooth.edu/-/media/research/arc/docs/journal/online-supplements/llz-datasheet-and-code.zip}
+#' @source \doi{10.1111/1475-679X.12187}
 "llz_2018"
 
 #' Customer names that represent non-disclosures.
@@ -155,6 +155,7 @@
 #'   \item{prev_fqtr}{Fiscal quarter of last period-end before event date}
 #'   \item{recognize}{Indicator for event being recognized (next_period_end before date_filed)}
 #' }
+#' @source \doi{10.1111/1475-679X.12128}
 "michels_2017"
 
 #' Data on public float
@@ -173,6 +174,7 @@
 #'   \item{af}{Indicator for accelerator filer}
 #'   \item{cik}{SEC firm identifier (CIK)}
 #' }
+#' @source \doi{10.1111/j.1540-6261.2010.01564.x}
 "iliev_2010"
 
 #' Firm-years in RDD analysis of Bloomfield (2021)
@@ -184,13 +186,14 @@
 #'   \item{fyear}{Fiscal year}
 #'   \item{permco}{CRSP firm identifier (PERMCO)}
 #' }
+#' @source \doi{10.1111/1475-679X.12346}
 "bloomfield_2021"
 
 #' Treatment indicators for SHO pilot firms
 #'
 #' A data set containing the tickers, GVKEYs, and
 #' treatment indicator for SHO pilot program.
-#'
+#'i
 #' @format A tibble with 3,030 rows × 4 variables.
 #' \describe{
 #'   \item{ticker}{Ticker}
@@ -198,6 +201,7 @@
 #'   \item{permno}{PERMNO (CRSP security identifier)}
 #'   \item{pilot}{SHO pilot program treatment indicator}
 #' }
+#' @source \doi{10.1111/jofi.12369}
 "fhk_pilot"
 
 #' Firm-years for replication of Fang, Huang and Karpoff (2016)
@@ -210,6 +214,7 @@
 #'   \item{gvkey}{GVKEY (firm identifier)}
 #'   \item{datadate}{Fiscal year-end}
 #' }
+#' @source \doi{10.1111/jofi.12369}
 "fhk_firm_years"
 
 #' Tickers of pilot firms for Reg SHO.
@@ -237,6 +242,7 @@
 #'   \item{russell_ticker}{Ticker}
 #'   \item{russell_name}{Company name}
 #' }
+#' @source \doi{10.1111/jofi.12369}
 "sho_r3000"
 
 #' Russell 3000 sample used by SEC
@@ -310,6 +316,7 @@
 #'   \item{min_year}{First affected year}
 #'   \item{max_year}{Last affected year}
 #'}
+#' @source \doi{10.1111/1475-679X.12292}
 "aaer_firm_year"
 
 #' Australian banks

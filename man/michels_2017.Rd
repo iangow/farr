@@ -21,6 +21,9 @@ A tibble with 423 rows and 12 variables:
 \item{recognize}{Indicator for event being recognized (next_period_end before date_filed)}
 }
 }
+\source{
+\doi{10.1111/1475-679X.12128}
+}
 \usage{
 michels_2017
 }

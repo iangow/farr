@@ -13,11 +13,15 @@ A tibble with 3,030 rows × 4 variables.
 \item{pilot}{SHO pilot program treatment indicator}
 }
 }
+\source{
+\doi{10.1111/jofi.12369}
+}
 \usage{
 fhk_pilot
 }
 \description{
 A data set containing the tickers, GVKEYs, and
 treatment indicator for SHO pilot program.
+i
 }
 \keyword{datasets}

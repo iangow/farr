@@ -16,7 +16,6 @@ tbl_df
 Produce a table mapping dates on CRSP to "trading days".
 Returned table has two columns: date, a trading date on CRSP;
 td, a sequence of integers ordered by date.
-See \code{vignette("wrds-conn", package = "farr")} for more on using this function.
 }
 \examples{
 \dontrun{

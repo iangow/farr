@@ -11,6 +11,9 @@ A tibble with 60,272 rows × 2 variables.
 \item{datadate}{Fiscal year-end}
 }
 }
+\source{
+\doi{10.1111/jofi.12369}
+}
 \usage{
 fhk_firm_years
 }

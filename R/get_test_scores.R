@@ -2,9 +2,9 @@
 #'
 #'  A function returning simulated data on test_scores.
 #'
-#' @param effect_size Effect of attending camp on subsequent test scores.
-#' @param n_students Number of students in simulated data set.
-#' @param n_grades Number of grades in simulated data set.
+#' @param effect_size Effect of attending camp on subsequent test scores
+#' @param n_students Number of students in simulated data set
+#' @param n_grades Number of grades in simulated data set
 #' @param include_unobservables Include talent in returned data (TRUE or FALSE)
 #' @param random_assignment Is assignment to treatment completely random? (TRUE or FALSE)
 #'

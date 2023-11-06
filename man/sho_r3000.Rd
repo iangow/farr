@@ -11,6 +11,9 @@ A tibble with 3000 rows × 2 variables.
 \item{russell_name}{Company name}
 }
 }
+\source{
+\doi{10.1111/jofi.12369}
+}
 \usage{
 sho_r3000
 }
