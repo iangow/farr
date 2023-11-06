@@ -32,7 +32,7 @@ cmsw_2018 <-
     rename_with(\(x) gsub("1$", "", x),
                 ends_with("1")) |>
     rename_with(\(x) gsub("_", "", x)) |>
-    rename(wbsource = wbtype) |>
+    mutate(wbsource = labelled::to_factor(wbtype)) |>
     mutate(wbtype = case_when(tipsterflag == 1 ~ "tipster",
                               nontipsterflag == 1 ~ "nontipster",
                               .default = "none")) |>
