@@ -1,5 +1,9 @@
 # farr
 
+# farr 0.2.36
+
+* Added `gvkey_ciks` data.
+
 # farr 0.2.35
 
 * Added `cmsw_2018` data.

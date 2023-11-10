@@ -399,3 +399,17 @@
 #' }
 #' @source \doi{10.1111/1475-679X.12177}
 "cmsw_2018"
+
+#' GVKEY-CIK links
+#'
+#' Link table from GVKEYs to CIKs
+#'
+#' @format A tibble with 76,346 rows and 5 variables:
+#' \describe{
+#'   \item{gvkey}{GVKEY (Compustat firm identifier)}
+#'   \item{iid}{Issue ID}
+#'   \item{cik}{CIK (SEC firm identifier)}
+#'   \item{first_date}{First link date}
+#'   \item{last_date}{Last link date}
+#' }
+"gvkey_ciks"

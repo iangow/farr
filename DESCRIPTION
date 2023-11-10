@@ -1,6 +1,6 @@
 Package: farr
 Title: Data and Code for Financial Accounting Research
-Version: 0.2.35
+Version: 0.2.36
 Authors@R: 
     person(given = "Ian",
            family = "Gow",
