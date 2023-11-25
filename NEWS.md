@@ -2,6 +2,7 @@
 
 # farr 0.2.36
 
+* Added parquet-related functions: `load_parquet()` and `pg_to_parquet()`.
 * Added `gvkey_ciks` data.
 
 # farr 0.2.35

@@ -31,6 +31,7 @@ Depends:
     R (>= 3.5.0)
 Suggests: 
     RPostgres,
+    duckdb,
     knitr,
     rmarkdown,
     testthat (>= 3.0.0),
