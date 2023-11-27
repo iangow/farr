@@ -4,14 +4,14 @@
 \alias{load_parquet}
 \title{Function to load parquet file into database.}
 \usage{
-load_parquet(conn, schema, table_name, data_dir = Sys.getenv("DATA_DIR"))
+load_parquet(conn, table, schema = "", data_dir = Sys.getenv("DATA_DIR"))
 }
 \arguments{
 \item{conn}{DuckDB connection}
 
-\item{schema}{Database schema for table}
+\item{table}{Name of table to be loaded}
 
-\item{table_name}{Name of table to be loaded}
+\item{schema}{Database schema for table}
 
 \item{data_dir}{Directory for data repository}
 }
