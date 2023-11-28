@@ -11,17 +11,47 @@
 #' @export
 pg_to_parquet <- function(table_name, schema,
                           data_dir = Sys.getenv("DATA_DIR")) {
+    orig_warn <- getOption("warn")
+    options(warn = -1)
+    pg_to_parquet_temp(table_name, schema, data_dir)
+    options(warn = orig_warn)
+}
 
-    conn <- DBI::dbConnect(duckdb::duckdb())
+pg_to_parquet_temp <- function(table_name, schema, data_dir)
+{
+    temp_file <- tempfile()
+    conn <- DBI::dbConnect(duckdb::duckdb(), dbdir = temp_file)
+    DBI::dbExecute(conn, 'DROP TABLE IF EXISTS temp_table')
+    duckdb::dbDisconnect(conn)
+
     pg <- DBI::dbConnect(RPostgres::Postgres())
-    temp <- dplyr::tbl(pg, dbplyr::in_schema(schema, table_name))
-    dplyr::copy_to(conn, df = temp, name = "temp_table", overwrite = TRUE)
+    res <- DBI::dbSendQuery(pg, paste0('SELECT * FROM "', schema, '"."', table_name, '"'))
+
+    write_table <- function(df) {
+        conn <- DBI::dbConnect(duckdb::duckdb(), dbdir = temp_file)
+        duckdb::dbWriteTable(conn, "temp_table", df, append = TRUE, temporary = FALSE)
+        DBI::dbDisconnect(conn)
+    }
+
+    repeat {
+        temp_table <- DBI::dbFetch(res, n = 10000)
+        write_table(temp_table)
+        if (DBI::dbHasCompleted(res)) {
+            DBI::dbClearResult(res)
+            DBI::dbDisconnect(pg)
+            break
+        }
+    }
 
     schema_dir <- file.path(data_dir, schema)
     if (!dir.exists(schema_dir)) dir.create(schema_dir)
     to_file <- file.path(schema_dir, paste0(table_name, ".parquet"))
     to <- paste0("TO '", to_file, "' (format 'parquet')")
-    DBI::dbDisconnect(pg)
+    conn <- DBI::dbConnect(duckdb::duckdb(), dbdir = temp_file)
     res <- DBI::dbExecute(conn, paste("COPY temp_table", to))
+    DBI::dbDisconnect(conn) #, shutdown = TRUE)
+    unlink(temp_file)
     res
 }
+
+
