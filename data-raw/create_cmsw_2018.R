@@ -8,6 +8,11 @@ cmsw_url <- paste0("https://www.chicagobooth.edu/-/",
 t <- tempfile()
 download.file(cmsw_url, t)
 
+data_files <- unzip(t, list  = TRUE)$Name
+cmsw_file <- cmsw_files[4]
+cmsw_data <- unzip(t, cmsw_file)
+
+
 vars <- c("recid", "firmpenalty1", "otherpenalty1", "emp_penalty1",
           "empprison_mos",
           "selfdealflag", "blckownpct", "initabret", "wbflag", "touse_sox",
