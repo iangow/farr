@@ -6,12 +6,13 @@
 <!-- badges: start -->
 <!-- badges: end -->
 
-The goal of `farr` is to provide functions and small data sets as used in
-["Empirical Research in Accounting: Tools and Method""](http://iangow.github.io/far_book/).
+The goal of farr is to provide functions and small data sets as used in
+[“Empirical Research in Accounting: Tools and
+Methods”](https://iangow.github.io/far_book/).
 
 ## Installation
 
-You can install the released version of `farr` from
+You can install the released version of farr from
 [CRAN](https://CRAN.R-project.org) with:
 
 ``` r
