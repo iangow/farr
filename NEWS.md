@@ -1,6 +1,6 @@
 # farr 0.2.38
 
-# farr
+* Tweaks for CRAN submission.
 
 # farr 0.2.36
 
