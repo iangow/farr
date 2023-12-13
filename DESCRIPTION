@@ -38,3 +38,4 @@ Suggests:
     spelling
 Config/testthat/edition: 3
 Language: en-US
+URL: https://github.com/iangow/farr
