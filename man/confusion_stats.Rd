@@ -9,9 +9,9 @@ confusion_stats(scores, response, predicted = NULL, k = NULL)
 \arguments{
 \item{scores}{Probability that response is true or 1.}
 
-\item{response}{Responses coded as logical or {0, 1}.}
+\item{response}{Responses coded as logical or 0-or-1.}
 
-\item{predicted}{Predicted value coded as {0, 1}}
+\item{predicted}{Predicted value coded as 0-or-1.}
 
 \item{k}{Percentage to classify as TRUE or 1.}
 }

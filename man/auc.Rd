@@ -14,7 +14,7 @@ auc(scores, response)
 \arguments{
 \item{scores}{Probability that response is true or 1.}
 
-\item{response}{Responses coded as logical or {0, 1}.}
+\item{response}{Responses coded as logical or 0-or-1.}
 }
 \value{
 vector including AUC

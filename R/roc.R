@@ -3,7 +3,7 @@
 #'  A function returning data for a ROC plot.
 #'
 #' @param scores Probability that response is true or 1.
-#' @param response Responses coded as logical or {0, 1}.
+#' @param response Responses coded as logical or 0-or-1.
 #'
 #' @return tbl_df
 #' @export
@@ -37,8 +37,8 @@ roc <- function(scores, response) {
 #'  A function returning sensitivity and precision.
 #'
 #' @param scores Probability that response is true or 1.
-#' @param response Responses coded as logical or {0, 1}.
-#' @param predicted Predicted value coded as {0, 1}
+#' @param response Responses coded as logical or 0-or-1.
+#' @param predicted Predicted value coded as 0-or-1.
 #' @param k Percentage to classify as TRUE or 1.
 #'
 #' @return vector including sensitivity and precision
@@ -67,7 +67,7 @@ confusion_stats <- function(scores, response, predicted = NULL, k = NULL) {
 #'  A function returning NDCG-at-k metric.
 #'
 #' @param scores Probability that response is true or 1.
-#' @param response Responses coded as logical or {0, 1}.
+#' @param response Responses coded as logical or 0-1.
 #' @param k Percentage to classify as TRUE or 1.
 #'
 #' @return vector including sensitivity and precision
@@ -95,7 +95,7 @@ ndcg <- function(scores, response, k = 0.01) {
 #'  A function returning AUC.
 #'
 #' @param scores Probability that response is true or 1.
-#' @param response Responses coded as logical or {0, 1}.
+#' @param response Responses coded as logical or 0-or-1.
 #'
 #' @return vector including AUC
 #' @export

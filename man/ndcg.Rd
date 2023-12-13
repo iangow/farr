@@ -9,7 +9,7 @@ ndcg(scores, response, k = 0.01)
 \arguments{
 \item{scores}{Probability that response is true or 1.}
 
-\item{response}{Responses coded as logical or {0, 1}.}
+\item{response}{Responses coded as logical or 0-1.}
 
 \item{k}{Percentage to classify as TRUE or 1.}
 }
