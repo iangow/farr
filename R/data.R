@@ -371,7 +371,7 @@
 #'   \item{emppenalty}{The total civil and criminal penalties assessed against all employees consisting of disgorgement, prejudgment interest, civil fines, criminal restitution, and criminal fines in millions of dollars}
 #'   \item{empprisonmos}{Total incarceration consisting of jail, prison, home detention, and halfway house in months imposed upon employee respondents named in the enforcement action}
 #'   \item{selfdealflag}{An indicator variable equal to one if the violation includes self-dealing such as embezzlement and theft by respondents and equal to zero otherwise}
-#'   \item{blckownpct}{The percentage of blockholder ownership, defined as owners with at least five percent of common shares outstanding from the last 10-K or DEF 14A prior to the first public announcement the firm may be (is) subject to a regulatory enforcementaction}
+#'   \item{blckownpct}{The percentage of blockholder ownership, defined as owners with at least five percent of common shares outstanding from the last 10-K or DEF 14A prior to the first public announcement the firm may be (is) subject to a regulatory enforcement action}
 #'   \item{initabret}{The value-weighted market-adjusted return measured at the close of trading on the initial public announcement date that the firm may be (is) subject to a regulatory enforcement action}
 #'   \item{wbflag}{An indicator variable equal to one if a whistleblower is associated with the enforcement action and equal to zero otherwise}
 #'   \item{tousesox}{Post-SOX action flag}
@@ -387,12 +387,12 @@
 #'   \item{exectermflag}{An indicator variable equal to one if the firm terminated an executive respondent as a result of the violations and equal to zero otherwise}
 #'   \item{coopflag}{An indicator variable equal to one if the firm received credit in the assessment of penalties for cooperation as stated in regulatory enforcement documents during the course of the investigation and equal to zero otherwise}
 #'   \item{impedeflag}{An indicator variable equal to one if regulators acknowledged they were deliberately misled and/or charges were included for lying to investigators and equal to zero otherwise}
-#'   \item{pctinddir}{The percentage of the firm’s directors that are independent from the last 10-K or DEF 14A prior to the first public announcement the firm may be (is) subject to a regulatory enforcement action}
+#'   \item{pctinddir}{The percentage of the firm's directors that are independent from the last 10-K or DEF 14A prior to the first public announcement the firm may be (is) subject to a regulatory enforcement action}
 #'   \item{recidivist}{An indicator variable equal to one if the firm was previously the subject of a securities regulatory enforcement action and equal to zero otherwise}
 #'   \item{lnmktcap}{The natural logarithm of the market value of equity measured in millions of dollars prior to the first public announcement that the firm may be (is) subject to a regulatory enforcement action}
 #'   \item{mkt2bk}{The sum of market value of equity plus total assets minus total debt divided by total assets with market value determined below and total assets and total debt measured at the last fiscal year end prior to the first public announcement the firm may be (is) subject to a regulatory enforcement action}
 #'   \item{lev}{Total debt divided by total assets measured at the last fiscal year end prior to the first public announcement the firm may be (is) subject to a regulatory enforcement action}
-#'   \item{lndistance}{The natural logarithm of the distance in miles from the location of the firm’s headquarters to the offices of the regulator assigned to the geographic area of the firm’s headquarter location (closer of the SEC Regional Office or DOJ U.S. District Attorney).}
+#'   \item{lndistance}{The natural logarithm of the distance in miles from the location of the firm's headquarters to the offices of the regulator assigned to the geographic area of the firm's headquarter location (closer of the SEC Regional Office or DOJ U.S. District Attorney).}
 #'   \item{ff12}{Fama-French industry code (12-industry)}
 #'   \item{wbsource}{Whistleblower data source}
 #'   \item{wbtype}{Whistleblower type: tipster or nontipster}
