@@ -12,7 +12,3 @@ tbl_df
 \description{
 Create a table of monthly returns for size portfolios
 }
-\examples{
-library(dplyr, warn.conflicts = FALSE)
-get_size_rets_monthly() \%>\% filter(month == "2022-04-01")
-}

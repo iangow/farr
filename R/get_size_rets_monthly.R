@@ -31,9 +31,6 @@ read_data <- function(start, end) {
 #' @return tbl_df
 #' @export
 #' @importFrom rlang .data
-#' @examples
-#' library(dplyr, warn.conflicts = FALSE)
-#' get_size_rets_monthly() %>% filter(month == "2022-04-01")
 get_size_rets_monthly <- function() {
 
     # Download the data
