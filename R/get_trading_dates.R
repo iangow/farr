@@ -19,8 +19,11 @@
 #' }
 get_trading_dates <- function(conn) {
 
-    dsi <- dplyr::tbl(conn, dplyr::sql("SELECT * FROM crsp.dsi"))
-
+    if (inherits(conn, "duckdb_connection")) {
+        dsi <- farr::load_parquet(conn, "dsi", "crsp")
+    } else {
+        dsi <- dplyr::tbl(conn, dplyr::sql("SELECT * FROM crsp.dsi"))
+    }
     trading_dates <-
         dsi %>%
         dplyr::select(date) %>%

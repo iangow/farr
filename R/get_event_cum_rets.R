@@ -55,20 +55,36 @@ get_event_cum_rets <- function(data, conn,
                                    win_start = win_start, win_end = win_end,
                                    end_event_date = end_event_date)
 
-    rets_exists <- DBI::dbExistsTable(conn, DBI::Id(table = "rets",
-                                                  schema = "crsp"))
+    if (inherits(conn, "duckdb_connection")) {
+        rets_exists <- FALSE
+    } else {
+        rets_exists <- DBI::dbExistsTable(conn, DBI::Id(table = "rets",
+                                                        schema = "crsp"))
+    }
 
-    crsp.dsi <- dplyr::tbl(conn, dplyr::sql("SELECT * FROM crsp.dsi"))
+    if (inherits(conn, "duckdb_connection")) {
+        crsp.dsi <- farr::load_parquet(conn, "dsi", "crsp")
+    } else {
+        crsp.dsi <- dplyr::tbl(conn, dplyr::sql("SELECT * FROM crsp.dsi"))
+    }
 
     if (rets_exists) {
         rets <-  dplyr::tbl(conn, dplyr::sql("SELECT * FROM crsp.rets"))
     } else {
-        crsp.dsedelist <- dplyr::tbl(conn,
-                                     dplyr::sql("SELECT * FROM crsp.dsedelist"))
-        crsp.dsf <- dplyr::tbl(conn,
-                               dplyr::sql("SELECT * FROM crsp.dsf"))
-        crsp.erdport1 <- dplyr::tbl(conn,
-                                    dplyr::sql("SELECT * FROM crsp.erdport1"))
+
+        if (inherits(conn, "duckdb_connection")) {
+            crsp.dsi <- farr::load_parquet(conn, "dsi", "crsp")
+            crsp.dsedelist <- farr::load_parquet(conn, "dsedelist", "crsp")
+            crsp.dsf <- farr::load_parquet(conn, "dsf", "crsp")
+            crsp.erdport1 <- farr::load_parquet(conn, "erdport1", "crsp")
+        } else {
+            crsp.dsedelist <- dplyr::tbl(conn,
+                                         dplyr::sql("SELECT * FROM crsp.dsedelist"))
+            crsp.dsf <- dplyr::tbl(conn,
+                                   dplyr::sql("SELECT * FROM crsp.dsf"))
+            crsp.erdport1 <- dplyr::tbl(conn,
+                                        dplyr::sql("SELECT * FROM crsp.erdport1"))
+        }
 
         dsedelist <-
             crsp.dsedelist %>%
@@ -100,7 +116,11 @@ get_event_cum_rets <- function(data, conn,
             dplyr::left_join(dsi, by = "date")
     }
 
-    events <- dbplyr::copy_inline(con = conn, df = event_dates)
+    if (inherits(conn, "duckdb_connection")) {
+        events <- dplyr::copy_to(dest = conn, df = event_dates)
+    } else {
+        events <- dbplyr::copy_inline(con = conn, df = event_dates)
+    }
 
     results <-
         events %>%

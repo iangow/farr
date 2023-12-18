@@ -20,8 +20,6 @@
 #' ## End(Not run)
 get_annc_dates <- function(conn) {
 
-    dsi <- dplyr::tbl(conn, dplyr::sql("SELECT * FROM crsp.dsi"))
-
     trading_dates <- farr::get_trading_dates(conn)
 
     annc_dates <-

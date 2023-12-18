@@ -52,20 +52,31 @@ get_event_cum_rets_mth <- function(data, conn,
         drop_end_event_date <- FALSE
     }
 
-    rets_exists <- DBI::dbExistsTable(conn, DBI::Id(table = "mrets",
-                                                  schema = "crsp"))
-
-    crsp.msi <- dplyr::tbl(conn, dplyr::sql("SELECT * FROM crsp.msi"))
+    if (inherits(conn, "duckdb_connection")) {
+        rets_exists <- FALSE
+    } else {
+        rets_exists <- DBI::dbExistsTable(conn, DBI::Id(table = "mrets",
+                                                        schema = "crsp"))
+    }
 
     if (rets_exists) {
-        mrets <-  dplyr::tbl(conn, dplyr::sql("SELECT * FROM crsp.mrets"))
+        mrets <- dplyr::tbl(conn, dplyr::sql("SELECT * FROM crsp.mrets"))
     } else {
-        crsp.msedelist <- dplyr::tbl(conn,
-                                     dplyr::sql("SELECT * FROM crsp.msedelist"))
-        crsp.msf <- dplyr::tbl(conn,
-                               dplyr::sql("SELECT * FROM crsp.msf"))
-        crsp.ermport1 <- dplyr::tbl(conn,
-                                    dplyr::sql("SELECT * FROM crsp.ermport1"))
+
+        if (inherits(conn, "duckdb_connection")) {
+            crsp.msedelist <- farr::load_parquet(conn, "msedelist", "crsp")
+            crsp.msf <- farr::load_parquet(conn, "msf", "crsp")
+            crsp.ermport1 <- farr::load_parquet(conn, "ermport1", "crsp")
+            crsp.msi <- farr::load_parquet(conn, "msi", "crsp")
+        } else {
+            crsp.msedelist <-
+                dplyr::tbl(conn, dplyr::sql("SELECT * FROM crsp.msedelist"))
+            crsp.msf <-
+                dplyr::tbl(conn, dplyr::sql("SELECT * FROM crsp.msf"))
+            crsp.ermport1 <-
+                dplyr::tbl(conn, dplyr::sql("SELECT * FROM crsp.ermport1"))
+            crsp.msi <- dplyr::tbl(conn, dplyr::sql("SELECT * FROM crsp.msi"))
+        }
 
         msedelist <-
             crsp.msedelist %>%
@@ -97,7 +108,11 @@ get_event_cum_rets_mth <- function(data, conn,
             dplyr::left_join(msi, by = "date")
     }
 
-    events <- dbplyr::copy_inline(con = conn, df = data_local)
+    if (inherits(conn, "duckdb_connection")) {
+        events <- dplyr::copy_to(dest = conn, df = data_local)
+    } else {
+        events <- dbplyr::copy_inline(con = conn, df = data_local)
+    }
 
     begin_date_sql <- paste0("date_trunc('MONTH', ", event_date, ") + (",
                              win_start, " * interval '1 month')")
