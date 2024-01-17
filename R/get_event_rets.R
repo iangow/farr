@@ -46,6 +46,13 @@ get_event_rets <- function(data, conn,
         drop_end_event_date <- FALSE
     }
 
+    if (inherits(conn, "duckdb_connection")) {
+        rets_exists <- FALSE
+    } else {
+        rets_exists <- DBI::dbExistsTable(conn, DBI::Id(table = "rets",
+                                                        schema = "crsp"))
+    }
+
     event_dates <-
         get_event_dates(data_local, conn, permno = permno,
                         event_date = event_date,
@@ -54,40 +61,57 @@ get_event_rets <- function(data, conn,
         dplyr::select(.data$permno, dplyr::one_of(event_date, end_event_date),
                       .data$start_date, .data$end_date)
 
-    crsp.dsedelist <- dplyr::tbl(conn, dplyr::sql("SELECT * FROM crsp.dsedelist"))
-    crsp.dsf <- dplyr::tbl(conn, dplyr::sql("SELECT * FROM crsp.dsf"))
-    crsp.erdport1 <- dplyr::tbl(conn, dplyr::sql("SELECT * FROM crsp.erdport1"))
-    crsp.dsi <- dplyr::tbl(conn, dplyr::sql("SELECT * FROM crsp.dsi"))
+    if (inherits(conn, "duckdb_connection")) {
+        event_dates <- dplyr::copy_to(dest = conn, df = event_dates)
+        crsp.dsedelist <- farr::load_parquet(conn, "dsedelist", "crsp")
+        crsp.dsf <- farr::load_parquet(conn, "dsf", "crsp")
+        crsp.erdport1 <- farr::load_parquet(conn, "erdport1", "crsp")
+        crsp.dsi <- farr::load_parquet(conn, "dsi", "crsp")
+    } else {
+        if (grepl("wrds-pgdata", RPostgres::dbGetInfo(db)$host)) {
+            event_dates <- dbplyr::copy_inline(con = conn, df = event_dates)
+        } else {
+            event_dates <- dplyr::copy_to(dest = conn, df = event_dates)
+        }
+        crsp.dsedelist <- dplyr::tbl(conn, dplyr::sql("SELECT * FROM crsp.dsedelist"))
+        crsp.dsf <- dplyr::tbl(conn, dplyr::sql("SELECT * FROM crsp.dsf"))
+        crsp.erdport1 <- dplyr::tbl(conn, dplyr::sql("SELECT * FROM crsp.erdport1"))
+        crsp.dsi <- dplyr::tbl(conn, dplyr::sql("SELECT * FROM crsp.dsi"))
+    }
 
     dsedelist <-
         crsp.dsedelist %>%
-        dplyr::select(.data$permno, date = .data$dlstdt, .data$dlret) %>%
+            dplyr::select(.data$permno, date = .data$dlstdt, .data$dlret) %>%
         dplyr::filter(!is.na(.data$dlret))
-
-    dsf_plus <-
-        crsp.dsf %>%
-        dplyr::full_join(dsedelist, by = c("permno", "date")) %>%
-        dplyr::mutate(ret = (1 + dplyr::coalesce(.data$ret, 0)) * (1 + dplyr::coalesce(.data$dlret, 0)) - 1) %>%
-        dplyr::select(.data$permno, .data$date, .data$ret)
-
-    erdport <-
-        crsp.erdport1 %>%
-        dplyr::select(.data$permno, .data$date, .data$decret)
-
-    dsf_w_erdport <-
-        dsf_plus %>%
-        dplyr::left_join(erdport, by = c("permno", "date"))
 
     dsi <-
         crsp.dsi %>%
         dplyr::select(.data$date, .data$vwretd)
 
-    rets <-
-        dsf_w_erdport %>%
-        dplyr::left_join(dsi, by = "date")
+    if (rets_exists) {
+        rets <- dplyr::tbl(conn, dplyr::sql("SELECT * FROM crsp.rets"))
+    } else {
+        dsf_plus <-
+            crsp.dsf %>%
+            dplyr::full_join(dsedelist, by = c("permno", "date")) %>%
+            dplyr::mutate(ret = (1 + dplyr::coalesce(.data$ret, 0)) *
+                              (1 + dplyr::coalesce(.data$dlret, 0)) - 1) %>%
+            dplyr::select(.data$permno, .data$date, .data$ret)
+
+        erdport <-
+            crsp.erdport1 %>%
+            dplyr::select(.data$permno, .data$date, .data$decret)
+
+        dsf_w_erdport <-
+            dsf_plus %>%
+            dplyr::left_join(erdport, by = c("permno", "date"))
+
+        rets <- dsf_w_erdport %>%
+            dplyr::left_join(dsi, by = "date")
+    }
 
     results_raw <-
-        dbplyr::copy_inline(con = conn, df = event_dates) %>%
+        event_dates %>%
         dplyr::inner_join(rets, by = "permno") %>%
         dplyr::filter(dplyr::between(.data$date, .data$start_date,
                                      .data$end_date)) %>%
@@ -97,6 +121,7 @@ get_event_rets <- function(data, conn,
 
     event_tds <-
         event_dates %>%
+        collect() %>%
         dplyr::inner_join(trading_dates,
                           by = structure(names = event_date, .Data = "date")) %>%
         dplyr::rename(event_td = .data$td) %>%

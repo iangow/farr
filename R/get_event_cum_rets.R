@@ -118,6 +118,8 @@ get_event_cum_rets <- function(data, conn,
 
     if (inherits(conn, "duckdb_connection")) {
         events <- dplyr::copy_to(dest = conn, df = event_dates)
+    } else if (rets_exists) {
+        events <- dplyr::copy_to(dest = conn, df = event_dates)
     } else {
         events <- dbplyr::copy_inline(con = conn, df = event_dates)
     }
