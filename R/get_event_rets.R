@@ -68,7 +68,6 @@ get_event_rets <- function(data, conn,
         crsp.erdport1 <- farr::load_parquet(conn, "erdport1", "crsp")
         crsp.dsi <- farr::load_parquet(conn, "dsi", "crsp")
     } else {
-
         read_only <- dbGetQuery(conn, "SHOW transaction_read_only")[1,1]=="on"
         if (read_only) {
             event_dates <- dbplyr::copy_inline(con = conn, df = event_dates)
