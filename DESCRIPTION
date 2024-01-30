@@ -12,6 +12,7 @@ Description: Handy functions and data to support a course book for accounting re
 License: MIT + file LICENSE
 Encoding: UTF-8
 LazyData: true
+LazyDataCompression: xz
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.2.3
 BugReports: https://github.com/iangow/farr/issues

@@ -413,3 +413,21 @@
 #'   \item{last_date}{Last link date}
 #' }
 "gvkey_ciks"
+
+#' Regression data for GLMs chapter
+#'
+#' Data for exercises in GLMs chapter
+#'
+#' @format A tibble with 112,867 rows and 9 variables:
+#' \describe{
+#'   \item{gvkey}{Compustat firm identifier}
+#'   \item{iid}{Compustat issue identifier}
+#'   \item{vdis_p1y}{Measure of voluntary disclosure over 1 year after 10-K filing}
+#'   \item{mkt_cap}{Market capitalization}
+#'   \item{size}{Logarithm of market capitalization}
+#'   \item{roa}{Return on assets}
+#'   \item{mtb}{Market-to-book ratio}
+#'   \item{special_items}{Indicator for presence of special items}
+#'   \item{ln_grossfilesize}{Measure of voluntary disclosure over 1 year after 10-K filing}
+#' }
+"reg_data_glms"
