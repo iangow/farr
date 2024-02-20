@@ -65,15 +65,24 @@
 #'
 #' A simulated data set of test scores.
 #'
-#' @format A tibble with 4,000 rows and 5 variables:
+#' @format A tibble with 4,000 rows and 3 variables:
 #' \describe{
 #'   \item{id}{Student identifier}
 #'   \item{grade}{School grade at time of test}
-#'   \item{post}{Indicator for being in grade 10 or 11}
-#'   \item{treat}{Indicator for student attending camp after grade 9}
 #'   \item{score}{Test score}
 #' }
 "test_scores"
+
+#' Camp attendance
+#'
+#' A simulated data set related to camp attendance.
+#'
+#' @format A tibble with 1,000 rows and 2 variables:
+#' \describe{
+#'   \item{id}{Student identifier}
+#'   \item{camp}{Indicator for student attendance at camp}
+#' }
+"camp_attendance"
 
 #' Dates for Inevitable Disclosure Doctrine (IDD)
 #'
