@@ -1,5 +1,10 @@
 # farr (development version)
 
+# farr 0.3.0
+
+* Tweaked `test_scores` data (now two files).
+* Added `system_time()`.
+
 # farr 0.2.39
 
 # farr 0.2.38
