@@ -62,7 +62,7 @@ get_event_rets <- function(data, conn,
                       .data$start_date, .data$end_date)
 
     if (inherits(conn, "duckdb_connection")) {
-        event_dates <- dplyr::copy_to(dest = conn, df = event_dates)
+        event_dates <- dplyr::copy_to(dest = conn, df = event_dates, overwrite = TRUE)
         crsp.dsedelist <- farr::load_parquet(conn, "dsedelist", "crsp")
         crsp.dsf <- farr::load_parquet(conn, "dsf", "crsp")
         crsp.erdport1 <- farr::load_parquet(conn, "erdport1", "crsp")
@@ -72,7 +72,7 @@ get_event_rets <- function(data, conn,
         if (read_only) {
             event_dates <- dbplyr::copy_inline(con = conn, df = event_dates)
         } else {
-            event_dates <- dplyr::copy_to(dest = conn, df = event_dates)
+            event_dates <- dplyr::copy_to(dest = conn, df = event_dates, overwrite = TRUE)
         }
         crsp.dsedelist <- dplyr::tbl(conn, dplyr::sql("SELECT * FROM crsp.dsedelist"))
         crsp.dsf <- dplyr::tbl(conn, dplyr::sql("SELECT * FROM crsp.dsf"))
