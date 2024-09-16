@@ -1,6 +1,6 @@
 Package: farr
-Title: Data and Code for Financial Accounting Research
-Version: 0.3.2
+Title: Data and Code for Empirical Research in Accounting
+Version: 0.3.3
 Authors@R: 
     person(given = "Ian",
            family = "Gow",
@@ -8,7 +8,7 @@ Authors@R:
            email = "iandgow@gmail.com",
            comment = c(ORCID = "0000-0002-6243-8409"))
 Description: Handy functions and data to support a course book for accounting research. 
-    Gow, Ian D. and Tongqing Ding (2024) 'Empirical Research in Accounting: Tools and Methods' <https://iangow.github.io/far_book/>.
+    Gow, Ian and Tongqing Ding (2024) 'Empirical Research in Accounting: Tools and Methods' (1st ed.). Chapman and Hall/CRC. <https://doi.org/10.1201/9781003456230> and <https://iangow.github.io/far_book>.
 License: MIT + file LICENSE
 Encoding: UTF-8
 LazyData: true
