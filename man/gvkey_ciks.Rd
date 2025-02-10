@@ -5,7 +5,7 @@
 \alias{gvkey_ciks}
 \title{GVKEY-CIK links}
 \format{
-A tibble with 76,346 rows and 5 variables:
+A tibble with 78,339 rows and 5 variables:
 \describe{
 \item{gvkey}{GVKEY (Compustat firm identifier)}
 \item{iid}{Issue ID}
