@@ -11,10 +11,10 @@ read_data <- function(start, end) {
                     name_repair = fix_names,
                     show_col_types = FALSE) %>%
         dplyr::mutate(month = lubridate::ymd(paste0(.data$date, "01"))) %>%
-        dplyr::select(-.data$date) %>%
+        dplyr::select(-"date") %>%
         tidyr::pivot_longer(names_to = "quantile",
                             values_to = "ret",
-                            cols = -.data$month) %>%
+                            cols = -"month") %>%
         dplyr::mutate(ret = .data$ret / 100,
                       decile = dplyr::case_when(.data$quantile == "Hi 10" ~ "10",
                                                 .data$quantile == "Lo 10" ~ "1",
@@ -49,16 +49,16 @@ get_size_rets_monthly <- function() {
 
     vw_rets <-
         read_data(vw_start, vw_end) %>%
-        dplyr::rename(vw_ret = .data$ret)
+        dplyr::rename(vw_ret = "ret")
 
     ew_rets <-
         read_data(ew_start, ew_end) %>%
-        dplyr::rename(ew_ret = .data$ret)
+        dplyr::rename(ew_ret = "ret")
 
     size_rets <-
         ew_rets %>%
         dplyr::inner_join(vw_rets, by = c("month", "decile")) %>%
-        dplyr::select(.data$month, .data$decile, dplyr::everything())
+        dplyr::select("month", "decile", dplyr::everything())
 
     unlink("Portfolios_Formed_on_ME_CSV.zip")
 

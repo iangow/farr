@@ -58,8 +58,8 @@ get_event_rets <- function(data, conn,
                         event_date = event_date,
                         win_start = win_start, win_end = win_end,
                         end_event_date = end_event_date) %>%
-        dplyr::select(.data$permno, dplyr::one_of(event_date, end_event_date),
-                      .data$start_date, .data$end_date)
+        dplyr::select("permno", dplyr::one_of(event_date, end_event_date),
+                      "start_date", "end_date")
 
     if (inherits(conn, "duckdb_connection")) {
         event_dates <- dplyr::copy_to(dest = conn, df = event_dates, overwrite = TRUE)
@@ -82,12 +82,12 @@ get_event_rets <- function(data, conn,
 
     dsedelist <-
         crsp.dsedelist %>%
-            dplyr::select(.data$permno, date = .data$dlstdt, .data$dlret) %>%
+            dplyr::select("permno", date = "dlstdt", "dlret") %>%
         dplyr::filter(!is.na(.data$dlret))
 
     dsi <-
         crsp.dsi %>%
-        dplyr::select(.data$date, .data$vwretd)
+        dplyr::select("date", "vwretd")
 
     if (rets_exists) {
         rets <- dplyr::tbl(conn, dplyr::sql("SELECT * FROM crsp.rets"))
@@ -97,11 +97,11 @@ get_event_rets <- function(data, conn,
             dplyr::full_join(dsedelist, by = c("permno", "date")) %>%
             dplyr::mutate(ret = (1 + dplyr::coalesce(.data$ret, 0)) *
                               (1 + dplyr::coalesce(.data$dlret, 0)) - 1) %>%
-            dplyr::select(.data$permno, .data$date, .data$ret)
+            dplyr::select("permno", "date", "ret")
 
         erdport <-
             crsp.erdport1 %>%
-            dplyr::select(.data$permno, .data$date, .data$decret)
+            dplyr::select("permno", "date", "decret")
 
         dsf_w_erdport <-
             dsf_plus %>%
@@ -125,8 +125,8 @@ get_event_rets <- function(data, conn,
         dplyr::collect() %>%
         dplyr::inner_join(trading_dates,
                           by = structure(names = event_date, .Data = "date")) %>%
-        dplyr::rename(event_td = .data$td) %>%
-        dplyr::select(.data$permno, .data[[event_date]], .data$event_td)
+        dplyr::rename(event_td = "td") %>%
+        dplyr::select("permno", .data[[event_date]], "event_td")
 
     results <-
         results_raw %>%
@@ -135,7 +135,7 @@ get_event_rets <- function(data, conn,
                                        structure(names = event_date,
                                                  .Data = event_date))) %>%
         dplyr::mutate(relative_td = .data$td - .data$event_td) %>%
-        dplyr::select(-.data$td, -.data$event_td)
+        dplyr::select(-"td", -"event_td")
 
     results
 }

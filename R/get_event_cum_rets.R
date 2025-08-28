@@ -88,7 +88,7 @@ get_event_cum_rets <- function(data, conn,
 
         dsedelist <-
             crsp.dsedelist %>%
-            dplyr::select(permno, date = .data$dlstdt, .data$dlret) %>%
+            dplyr::select(permno, date = "dlstdt", "dlret") %>%
             dplyr::filter(!is.na(.data$dlret))
 
         dsf_plus <-
@@ -97,11 +97,11 @@ get_event_cum_rets <- function(data, conn,
             dplyr::filter(!is.na(.data$ret) | !is.na(.data$dlret)) %>%
             dplyr::mutate(ret = (1 + dplyr::coalesce(.data$ret, 0)) *
                               (1 + dplyr::coalesce(.data$dlret, 0)) - 1) %>%
-            dplyr::select(.data$permno, .data$date, .data$ret)
+            dplyr::select("permno", "date", "ret")
 
         erdport <-
             crsp.erdport1 %>%
-            dplyr::select(.data$permno, .data$date, .data$decret)
+            dplyr::select("permno", "date", "decret")
 
         dsf_w_erdport <-
             dsf_plus %>%
@@ -109,7 +109,7 @@ get_event_cum_rets <- function(data, conn,
 
         dsi <-
             crsp.dsi %>%
-            dplyr::select(.data$date, .data$vwretd)
+            dplyr::select("date", "vwretd")
 
         rets <-
             dsf_w_erdport %>%
