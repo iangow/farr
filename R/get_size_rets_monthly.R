@@ -18,8 +18,8 @@ read_data <- function(start, end) {
         dplyr::mutate(ret = .data$ret / 100,
                       decile = dplyr::case_when(.data$quantile == "Hi 10" ~ "10",
                                                 .data$quantile == "Lo 10" ~ "1",
-                                                grepl("^Dec ", .data$quantile) ~
-                                                    sub("^Dec ", "", .data$quantile),
+                                                grepl("-Dec", .data$quantile) ~
+                                                    sub("-Dec", "", .data$quantile),
                                                 TRUE ~ NA_character_),
                       decile = as.integer(.data$decile)) %>%
         dplyr::filter(!is.na(.data$decile)) %>%
@@ -41,10 +41,10 @@ get_size_rets_monthly <- function() {
 
     # Determine breakpoints (lines) for different tables
     temp <- readr::read_lines("Portfolios_Formed_on_ME_CSV.zip")
-    vw_start <- grep("^\\s+Value Weight Returns -- Monthly", temp)
-    vw_end <- grep("^\\s+Equal Weight Returns -- Monthly", temp) - 4
+    vw_start <- grep("^\\s+Average Value Weight Returns -- Monthly", temp)
+    vw_end <-  grep("^\\s+Average Equal Weighted Returns -- Monthly", temp) - 4
 
-    ew_start <- grep("^\\s+Equal Weight Returns -- Monthly", temp)
+    ew_start <- grep("^\\s+Average Equal Weighted Returns -- Monthly", temp)
     ew_end <- grep("^\\s+Value Weight Returns -- Annual", temp) - 4
 
     vw_rets <-
