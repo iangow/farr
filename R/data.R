@@ -120,7 +120,7 @@
 #'   \item{min_date}{Date of first filing with CIK-state combination in a contiguous series of filings}
 #'   \item{max_date}{Date of last filing with CIK-state combination in a contiguous series of filings}
 #' }
-#' @source \url{https://sraf.nd.edu/data/augmented-10-x-header-data/}
+#' @source \url{https://sraf.nd.edu/sec-edgar-data/10-x-header-data/}
 "state_hq"
 
 #' GVKEYs used in Li, Lin and Zhang (2018)

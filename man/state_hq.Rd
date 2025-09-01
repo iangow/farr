@@ -14,7 +14,7 @@ A tibble with 53,133 rows and 4 variables:
 }
 }
 \source{
-\url{https://sraf.nd.edu/data/augmented-10-x-header-data/}
+\url{https://sraf.nd.edu/sec-edgar-data/10-x-header-data/}
 }
 \usage{
 state_hq
