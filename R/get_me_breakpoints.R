@@ -16,11 +16,11 @@ get_me_breakpoints <- function() {
     temp <- readr::read_lines(t)
 
     me_breakpoints_raw <-
-        readr::read_csv(t, skip = 1,
+        readr::read_csv(t, skip = 2,
                  col_names = c("month", "n",
                                paste0("p", seq(from = 5, to = 100, by = 5))),
                  col_types = "c",
-                 n_max = grep("^Copyright", temp) - 3) %>%
+                 n_max = grep("^Copyright", temp) - 4) %>%
         dplyr::mutate(month = lubridate::ymd(paste0(.data$month, "01"))) %>%
         dplyr::select(-dplyr::ends_with("5"), -"n") %>%
         tidyr::pivot_longer(cols = - "month",
