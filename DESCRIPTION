@@ -1,6 +1,6 @@
 Package: farr
 Title: Data and Code for Empirical Research in Accounting
-Version: 0.3.3
+Version: 0.3.2.9000
 Authors@R: 
     person(given = "Ian",
            family = "Gow",
