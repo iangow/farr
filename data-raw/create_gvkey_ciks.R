@@ -17,9 +17,9 @@ ciq_data <-
   inner_join(ciqgvkeyiid, by=c("companyid"="relatedcompanyid"))
 
 ciq_acc_nos <-
-  ciq_data %>%
-  filter(!is.na(accessionnumber)) %>%
-  distinct(gvkey, iid, accessionnumber) %>%
+  ciq_data |>
+  filter(!is.na(accessionnumber)) |>
+  distinct(gvkey, iid, accessionnumber) |>
   compute()
 
 # sec_index <- tbl(db, sql("SELECT * FROM 'data/index*.parquet'"))
@@ -28,10 +28,14 @@ acc_no_regex <- "edgar/data/\\d+/(.*)\\.txt$"
 
 accession_numbers <-
   sec_index |>
-  mutate(accessionnumber = regexp_replace(file_name, !!acc_no_regex, "\\1"))
+  mutate(accessionnumber = regexp_replace(file_name, !!acc_no_regex, "\\1")) |>
+  group_by(accessionnumber) |>
+  filter(n_distinct(cik) == 1) |>
+  ungroup() |>
+  compute()
 
 gvkey_ciks <-
-  ciq_acc_nos %>%
+  ciq_acc_nos |>
   inner_join(accession_numbers, by = "accessionnumber") |>
   group_by(gvkey, iid, cik) |>
   summarize(first_date = min(date_filed, na.rm = TRUE),
