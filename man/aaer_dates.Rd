@@ -17,6 +17,6 @@ A tibble with 2,920 rows and 4 variables:
 aaer_dates
 }
 \description{
-A data set containing dates and descriptions for AAERs
+A data set containing dates and descriptions for AAERs.
 }
 \keyword{datasets}

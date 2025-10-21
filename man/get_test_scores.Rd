@@ -2,7 +2,7 @@
 % Please edit documentation in R/get_test_scores.R
 \name{get_test_scores}
 \alias{get_test_scores}
-\title{A function returning data on test_scores.}
+\title{A function returning data on test_scores}
 \usage{
 get_test_scores(
   effect_size = 15,

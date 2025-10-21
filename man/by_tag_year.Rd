@@ -17,6 +17,6 @@ A tibble with 40,518 rows and 4 variables:
 by_tag_year
 }
 \description{
-A data set containing data on tagged questions on StackOverflow
+A data set containing data on tagged questions on StackOverflow.
 }
 \keyword{datasets}

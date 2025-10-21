@@ -47,6 +47,6 @@ A tibble with 1,133 rows and 31 variables:
 cmsw_2018
 }
 \description{
-Data on whistleblowers and enforcement actions from Call et al. (2018)
+Data on whistleblowers and enforcement actions from Call et al. (2018).
 }
 \keyword{datasets}

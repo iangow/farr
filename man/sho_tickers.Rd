@@ -3,7 +3,7 @@
 \docType{data}
 \name{sho_tickers}
 \alias{sho_tickers}
-\title{Tickers of pilot firms for Reg SHO.}
+\title{Tickers of pilot firms for Reg SHO}
 \format{
 A tibble with 986 rows × 2 variables.
 \describe{

@@ -1,6 +1,6 @@
-#' Winsorize a vector.
+#' Winsorize a vector
 #'
-#' Winsorize a vector at prob and 1 - prob.
+#' Winsorize a vector at `prob` and `1 - prob`.
 #'
 #' @param x A vector to be winsorized
 #' @param prob Level (two-sided) for winsorization (e.g., 0.01 gives 1% and 99%)

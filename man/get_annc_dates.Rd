@@ -7,14 +7,13 @@
 get_annc_dates(conn)
 }
 \arguments{
-\item{conn}{connection to a PostgreSQL database}
+\item{conn}{connection to a PostgreSQL or DuckDB database}
 }
 \value{
 tbl_df
 }
 \description{
 Produce a table mapping announcements to trading dates.
-See \code{vignette("wrds-conn", package = "farr")} for more on using this function.
 }
 \examples{
 ## Not run:

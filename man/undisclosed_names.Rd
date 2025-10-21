@@ -3,11 +3,11 @@
 \docType{data}
 \name{undisclosed_names}
 \alias{undisclosed_names}
-\title{Customer names that represent non-disclosures.}
+\title{Customer names that represent non-disclosures}
 \format{
 A tibble with 460 rows and 2 variables:
 \describe{
-\item{cnms}{Matches field in compsegd.seg_customer (WRDS)}
+\item{cnms}{Matches field in \code{compsegd.seg_customer} (WRDS)}
 \item{disclosure}{Indicator that name is not disclosed}
 }
 }
@@ -15,7 +15,7 @@ A tibble with 460 rows and 2 variables:
 undisclosed_names
 }
 \description{
-Data to be combined with data in compsegd.seg_customer to create an
+Data to be combined with data in \code{compsegd.seg_customer} to create an
 indicator for non-disclosure of customer names.
 }
 \keyword{datasets}

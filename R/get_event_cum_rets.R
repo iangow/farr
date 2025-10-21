@@ -5,7 +5,7 @@
 #' @param data data frame containing data on events
 #' @param permno string representing column containing PERMNOs for events
 #' @param event_date string representing column containing dates for events
-#' @param conn connection to a PostgreSQL database
+#' @param conn connection to a PostgreSQL or DuckDB database
 #' @param win_start integer representing start of trading window (e.g., -1)
 #' @param win_end integer representing start of trading window (e.g., 1)
 #' @param end_event_date string representing column containing ending dates for

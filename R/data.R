@@ -14,7 +14,7 @@
 
 #' Tags on StackOverflow
 #'
-#' A data set containing data on tagged questions on StackOverflow
+#' A data set containing data on tagged questions on StackOverflow.
 #'
 #' @format A tibble with 40,518 rows and 4 variables:
 #' \describe{
@@ -27,7 +27,7 @@
 
 #' AAER dates from SEC
 #'
-#' A data set containing dates and descriptions for AAERs
+#' A data set containing dates and descriptions for AAERs.
 #'
 #' @format A tibble with 2,920 rows and 4 variables:
 #' \describe{
@@ -123,7 +123,7 @@
 #' @source \url{https://sraf.nd.edu/sec-edgar-data/10-x-header-data/}
 "state_hq"
 
-#' GVKEYs used in Li, Lin and Zhang (2018)
+#' GVKEYs used in Li, Lin and Zhang (2018).
 #'
 #' @format A tibble with 5,830 rows and 1 variable:
 #' \describe{
@@ -132,14 +132,14 @@
 #' @source \doi{10.1111/1475-679X.12187}
 "llz_2018"
 
-#' Customer names that represent non-disclosures.
+#' Customer names that represent non-disclosures
 #'
-#' Data to be combined with data in compsegd.seg_customer to create an
+#' Data to be combined with data in `compsegd.seg_customer` to create an
 #' indicator for non-disclosure of customer names.
 #'
 #' @format A tibble with 460 rows and 2 variables:
 #' \describe{
-#'   \item{cnms}{Matches field in compsegd.seg_customer (WRDS)}
+#'   \item{cnms}{Matches field in `compsegd.seg_customer` (WRDS)}
 #'   \item{disclosure}{Indicator that name is not disclosed}
 #' }
 "undisclosed_names"
@@ -201,8 +201,8 @@
 #' Treatment indicators for SHO pilot firms
 #'
 #' A data set containing the tickers, GVKEYs, and
-#' treatment indicator for SHO pilot program.
-#'i
+#' treatment indicator for the SHO pilot program.
+#'
 #' @format A tibble with 3,030 rows × 4 variables.
 #' \describe{
 #'   \item{ticker}{Ticker}
@@ -226,7 +226,7 @@
 #' @source \doi{10.1111/jofi.12369}
 "fhk_firm_years"
 
-#' Tickers of pilot firms for Reg SHO.
+#' Tickers of pilot firms for Reg SHO
 #'
 #' A data set containing the tickers and
 #' company names for pilot firms from Reg SHO pilot.
@@ -240,7 +240,7 @@
 #' @source \url{https://www.sec.gov/rule-release/34-50104}
 "sho_tickers"
 
-#' Russell 3000 stocks at time of SEC Reg SHO sample formation.
+#' Russell 3000 stocks at time of SEC Reg SHO sample formation
 #'
 #' A data set containing the tickers and
 #' company names for Russell 3000 at time SEC created the pilot sample.
@@ -370,7 +370,7 @@
 
 #' Data for CMSW
 #'
-#' Data on whistleblowers and enforcement actions from Call et al. (2018)
+#' Data on whistleblowers and enforcement actions from Call et al. (2018).
 #'
 #' @format A tibble with 1,133 rows and 31 variables:
 #' \describe{

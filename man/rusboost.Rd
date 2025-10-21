@@ -25,5 +25,5 @@ rusboost(formula, df, size, ir = 1, learn_rate = 1, rus = TRUE, control)
 rusboost object
 }
 \description{
-RUSBoost for two-class problems
+RUSBoost for two-class problems.
 }

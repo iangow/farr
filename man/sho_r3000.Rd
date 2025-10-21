@@ -3,7 +3,7 @@
 \docType{data}
 \name{sho_r3000}
 \alias{sho_r3000}
-\title{Russell 3000 stocks at time of SEC Reg SHO sample formation.}
+\title{Russell 3000 stocks at time of SEC Reg SHO sample formation}
 \format{
 A tibble with 3000 rows × 2 variables.
 \describe{

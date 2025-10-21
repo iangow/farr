@@ -1,9 +1,8 @@
 #' Produce a table mapping announcements to trading dates
 #'
 #' Produce a table mapping announcements to trading dates.
-#' See \code{vignette("wrds-conn", package = "farr")} for more on using this function.
 #'
-#' @param conn connection to a PostgreSQL database
+#' @param conn connection to a PostgreSQL or DuckDB database
 #'
 #' @return tbl_df
 #' @export

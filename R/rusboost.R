@@ -50,6 +50,8 @@ w.update <- function(prediction, response, w, learn_rate) {
 
 #' RUSBoost for two-class problems
 #'
+#' RUSBoost for two-class problems.
+#'
 #' @param formula A formula specify predictors and target variable. Target variable should be a factor of 0 and 1. Predictors can be either numerical and categorical.
 #' @param df A df frame used for training the model, i.e. training set.
 #' @param size Ensemble size, i.e. number of weak learners in the ensemble model

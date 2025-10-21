@@ -97,7 +97,7 @@ ndcg <- function(scores, response, k = 0.01) {
 #' @param scores Probability that response is true or 1.
 #' @param response Responses coded as logical or 0-or-1.
 #'
-#' @return vector including AUC
+#' @return Vector including AUC
 #' @export
 #' @source \url{https://blog.mbq.me/augh-roc/}
 #' @source \url{https://stackoverflow.com/questions/4903092/calculate-auc-in-r}

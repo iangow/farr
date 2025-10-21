@@ -4,7 +4,7 @@
 #' Returned table has two columns: date, a trading date on CRSP;
 #' td, a sequence of integers ordered by date.
 #'
-#' @param conn connection to a PostgreSQL database
+#' @param conn connection to a PostgreSQL or DuckDB database
 #'
 #' @return tbl_df
 #' @export

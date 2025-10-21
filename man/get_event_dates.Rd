@@ -17,7 +17,7 @@ get_event_dates(
 \arguments{
 \item{data}{data frame containing data on events}
 
-\item{conn}{connection to a PostgreSQL database}
+\item{conn}{connection to a PostgreSQL or DuckDB database}
 
 \item{permno}{string representing column containing PERMNOs for events}
 
@@ -34,7 +34,6 @@ tbl_df
 }
 \description{
 Produce a table of event dates for linking with CRSP.
-See \code{vignette("wrds-conn", package = "farr")} for more on using this function.
 }
 \examples{
 ## Not run:

@@ -4,7 +4,7 @@
 \alias{get_me_breakpoints}
 \title{Create a table of with cut-offs for size portfolios}
 \usage{
-get_me_breakpoints()
+get_me_breakpoints(keep_max = FALSE)
 }
 \value{
 tbl_df

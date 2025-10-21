@@ -1,4 +1,4 @@
-#' A function returning data on test_scores.
+#' A function returning data on test_scores
 #'
 #'  A function returning simulated data on test_scores.
 #'

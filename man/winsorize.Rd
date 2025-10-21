@@ -2,7 +2,7 @@
 % Please edit documentation in R/winsorize.R
 \name{winsorize}
 \alias{winsorize}
-\title{Winsorize a vector.}
+\title{Winsorize a vector}
 \usage{
 winsorize(x, prob = 0.01, p_low = prob, p_high = 1 - prob)
 }
@@ -19,7 +19,7 @@ winsorize(x, prob = 0.01, p_low = prob, p_high = 1 - prob)
 vector
 }
 \description{
-Winsorize a vector at prob and 1 - prob.
+Winsorize a vector at \code{prob} and \code{1 - prob}.
 }
 \examples{
 winsorized <- winsorize(1:100, prob = 0.05)

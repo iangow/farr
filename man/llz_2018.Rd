@@ -3,7 +3,7 @@
 \docType{data}
 \name{llz_2018}
 \alias{llz_2018}
-\title{GVKEYs used in Li, Lin and Zhang (2018)}
+\title{GVKEYs used in Li, Lin and Zhang (2018).}
 \format{
 A tibble with 5,830 rows and 1 variable:
 \describe{
@@ -17,6 +17,6 @@ A tibble with 5,830 rows and 1 variable:
 llz_2018
 }
 \description{
-GVKEYs used in Li, Lin and Zhang (2018)
+GVKEYs used in Li, Lin and Zhang (2018).
 }
 \keyword{datasets}

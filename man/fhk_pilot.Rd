@@ -21,7 +21,6 @@ fhk_pilot
 }
 \description{
 A data set containing the tickers, GVKEYs, and
-treatment indicator for SHO pilot program.
-i
+treatment indicator for the SHO pilot program.
 }
 \keyword{datasets}

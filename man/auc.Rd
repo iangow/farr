@@ -17,7 +17,7 @@ auc(scores, response)
 \item{response}{Responses coded as logical or 0-or-1.}
 }
 \value{
-vector including AUC
+Vector including AUC
 }
 \description{
 A function returning AUC.

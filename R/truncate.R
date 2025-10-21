@@ -1,7 +1,7 @@
 #' Truncate a vector.
 #'
-#' Truncate a vector at prob and 1 - prob.
-#' Extreme values are turned in NA values.
+#' Truncate a vector at `prob` and `1 - prob`.
+#' Extreme values are turned into `NA` values.
 #'
 #' @param x A vector to be winsorized
 #' @param prob Level (two-sided) for winsorization (e.g., 0.01 gives 1% and 99%)

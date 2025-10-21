@@ -19,8 +19,8 @@ truncate(x, prob = 0.01, p_low = prob, p_high = 1 - prob)
 vector
 }
 \description{
-Truncate a vector at prob and 1 - prob.
-Extreme values are turned in NA values.
+Truncate a vector at \code{prob} and \code{1 - prob}.
+Extreme values are turned into \code{NA} values.
 }
 \examples{
 trunced <- truncate(1:100, prob = 0.05)

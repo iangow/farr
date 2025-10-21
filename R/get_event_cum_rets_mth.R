@@ -1,12 +1,11 @@
 #' Produce a table of cumulative event returns using monthly data
 #'
 #' Produce a table of event returns from CRSP
-#' See \code{vignette("wrds-conn", package = "farr")} for more on using this function.
 #'
 #' @param data data frame containing data on events
 #' @param permno string representing column containing PERMNOs for events
 #' @param event_date string representing column containing dates for events
-#' @param conn connection to a PostgreSQL database
+#' @param conn connection to a PostgreSQL or DuckDB database
 #' @param win_start integer representing start of trading window (e.g., -1) in
 #' months
 #' @param win_end integer representing start of trading window (e.g., 1) in months

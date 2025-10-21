@@ -7,7 +7,7 @@
 get_trading_dates(conn)
 }
 \arguments{
-\item{conn}{connection to a PostgreSQL database}
+\item{conn}{connection to a PostgreSQL or DuckDB database}
 }
 \value{
 tbl_df

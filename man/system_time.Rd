@@ -13,5 +13,5 @@ system_time(expr)
 Result of evaluating \code{expr}
 }
 \description{
-Print CPU (and other) times that \code{expr} used, return value of \code{expr}
+Print CPU (and other) times that \code{expr} used, return value of \code{expr}.
 }
