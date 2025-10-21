@@ -1,7 +1,5 @@
 #' Create a table of with cut-offs for size portfolios
 #'
-#' @param ind Fama-French industry grouping (e.g., 11, 48)
-#'
 #' @param keep_max Set to `TRUE` to keep upper-bound of highest decile.
 #'   Default is `FALSE`, which will replace upper bound with `Inf`.
 #' @export
