@@ -7,7 +7,7 @@ Authors@R:
            role = c("aut", "cre"),
            email = "iandgow@gmail.com",
            comment = c(ORCID = "0000-0002-6243-8409"))
-Description: Handy functions and data to support the course book 'Empirical Research in Accounting: Tools and Methods' (1st ed.). Chapman and Hall/CRC. <https://doi.org/10.1201/9781003456230> and <https://iangow.github.io/far_book>.
+Description: Handy functions and data to support the course book 'Empirical Research in Accounting: Tools and Methods' (1st ed.). Chapman and Hall/CRC. <doi:10.1201/9781003456230> and <https://iangow.github.io/far_book/>.
 License: MIT + file LICENSE
 Encoding: UTF-8
 LazyData: true

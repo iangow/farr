@@ -1,6 +1,12 @@
 # farr (development version)
 
+# farr 1.0.0
+* The are now no duplicates in `gvkey_ciks`.
+* There is a `keep_max` argument in `get_me_breakpoints()`.
+* Documentation fixes have been made.
+
 # farr 0.3.2
+* The `get_me_breakpoints()` function works with current data format.
 
 # farr 0.3.1
 
