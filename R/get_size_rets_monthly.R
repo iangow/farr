@@ -41,11 +41,11 @@ get_size_rets_monthly <- function() {
 
     # Determine breakpoints (lines) for different tables
     temp <- readr::read_lines("Portfolios_Formed_on_ME_CSV.zip")
-    vw_start <- grep("^\\s+Average Value Weight Returns -- Monthly", temp)
-    vw_end <-  grep("^\\s+Average Equal Weighted Returns -- Monthly", temp) - 4
+    vw_start <- grep("^\\s+.*Value Weight.*Monthly", temp)
+    vw_end <-  grep("^\\s+.*Equal Weight.*Monthly", temp) - 4
 
-    ew_start <- grep("^\\s+Average Equal Weighted Returns -- Monthly", temp)
-    ew_end <- grep("^\\s+Value Weight Returns -- Annual", temp) - 4
+    ew_start <- grep("^\\s+.*Equal Weight.*Monthly", temp)
+    ew_end <- grep("^\\s+Value Weight.*Annual", temp) - 4
 
     vw_rets <-
         read_data(vw_start, vw_end) %>%
