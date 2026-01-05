@@ -1,4 +1,5 @@
-# farr 1.0.0
+# farr 1.0.9000
+* Added `duckdb_to_parquet()`.
 
 # farr 1.0.0
 * The are now no duplicates in `gvkey_ciks`.
