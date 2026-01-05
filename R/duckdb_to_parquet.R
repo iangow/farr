@@ -54,5 +54,5 @@ duckdb_to_parquet <- function(data,
     DBI::dbExecute(db, sql)
 
     # --- Return a lazy table reading the parquet ---
-    dplyr::tbl(db, dbplyr::sql(paste0("read_parquet('", pq_path_sql, "')")))
+    dplyr::tbl(db, paste0("read_parquet('", pq_path_sql, "')"))
 }
