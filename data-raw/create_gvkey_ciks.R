@@ -12,8 +12,8 @@ ciqfinperiod <- load_parquet(db, "ciqfinperiod", ciq_capstrct)
 ciqgvkeyiid <- load_parquet(db, "ciqgvkeyiid", ciq_common)
 
 ciq_data <-
-  ciqfininstance %>%
-  inner_join(ciqfinperiod, by = "financialperiodid") %>%
+  ciqfininstance |>
+  inner_join(ciqfinperiod, by = "financialperiodid") |>
   inner_join(ciqgvkeyiid, by=c("companyid"="relatedcompanyid"))
 
 ciq_acc_nos <-
