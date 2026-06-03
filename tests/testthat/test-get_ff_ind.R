@@ -1,6 +1,8 @@
 library(dplyr, warn.conflicts = FALSE)
 
 test_that("get_ff_ind(5) works", {
+  skip_if_offline("mba.tuck.dartmouth.edu")
+
   cache_dir <- tempfile()
   dir.create(cache_dir)
   old_options <- options(farr.cache_dir = cache_dir)

@@ -14,6 +14,8 @@ Default is \code{FALSE}, which will replace upper bound with \code{Inf}.}
 Create a table of with cut-offs for size portfolios
 }
 \examples{
+\dontrun{
 library(dplyr, warn.conflicts = FALSE)
 get_me_breakpoints() \%>\% filter(month == '2022-04-01')
+}
 }

@@ -3,7 +3,7 @@ pkgdown: 2.2.0
 pkgdown_sha: ~
 articles:
   articles/local_data_examples: local_data_examples.html
-last_built: 2026-06-03T16:09Z
+last_built: 2026-06-03T16:32Z
 urls:
   reference: https://iangow.github.io/farr/reference
   article: https://iangow.github.io/farr/articles

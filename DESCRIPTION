@@ -41,4 +41,3 @@ Suggests:
 Config/testthat/edition: 3
 Language: en-US
 URL: https://github.com/iangow/farr, https://iangow.github.io/farr/
-VignetteBuilder: quarto

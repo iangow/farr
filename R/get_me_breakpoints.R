@@ -5,8 +5,10 @@
 #' @export
 #' @importFrom rlang .data
 #' @examples
+#' \dontrun{
 #' library(dplyr, warn.conflicts = FALSE)
 #' get_me_breakpoints() %>% filter(month == '2022-04-01')
+#' }
 get_me_breakpoints <- function(keep_max = FALSE) {
     t <- tempfile(fileext = ".zip")
     url <- paste0("http://mba.tuck.dartmouth.edu",
