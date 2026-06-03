@@ -33,9 +33,12 @@ Suggests:
     RPostgres,
     duckdb,
     knitr,
+    pkgdown,
+    quarto,
     rmarkdown,
     testthat (>= 3.0.0),
     spelling
 Config/testthat/edition: 3
 Language: en-US
-URL: https://github.com/iangow/farr
+URL: https://github.com/iangow/farr, https://iangow.github.io/farr/
+VignetteBuilder: quarto

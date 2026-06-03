@@ -1,0 +1,78 @@
+url: https://iangow.github.io/farr/
+
+template:
+  bootstrap: 5
+  light-switch: true
+  bootswatch: cosmo
+  theme: arrow-light
+  theme-dark: arrow-dark
+  bslib:
+    primary: "#1f5f99"
+    navbar-light-brand-color: "#123b63"
+    navbar-light-brand-hover-color: "#1f5f99"
+    navbar-dark-brand-color: "#f2f4f6"
+    navbar-dark-brand-hover-color: "#75b8ff"
+  css: pkgdown/extra.css
+
+development:
+  mode: release
+
+navbar:
+  structure:
+    left: [intro, reference, articles, news]
+    right: [search, github, lightswitch]
+
+home:
+  title: Data and code for empirical research in accounting
+
+reference:
+  - title: Event Studies
+    desc: Helpers for event dates, event returns, and event windows.
+    contents:
+      - get_annc_dates
+      - get_event_dates
+      - get_event_rets
+      - get_event_cum_rets
+      - get_event_cum_rets_mth
+      - get_trading_dates
+
+  - title: Data Retrieval
+    desc: Helpers that retrieve external data or convert database outputs.
+    contents:
+      - get_ff_ind
+      - get_me_breakpoints
+      - get_size_rets_monthly
+      - get_got_data
+      - load_parquet
+      - pg_to_parquet
+      - duckdb_to_parquet
+
+  - title: Research Design
+    desc: Utilities used in empirical accounting examples.
+    contents:
+      - form_deciles
+      - get_idd_periods
+      - get_test_scores
+      - system_time
+
+  - title: Data Cleaning and Metrics
+    contents:
+      - truncate
+      - winsorize
+      - auc
+      - confusion_stats
+      - ndcg
+      - roc
+      - rus
+      - rusboost
+
+  - title: Data
+    desc: Included data sets used by the book and examples.
+    contents:
+      - has_keyword("datasets")
+
+articles:
+  - title: Examples
+    navbar: Examples
+    contents:
+      - articles/local_data_examples

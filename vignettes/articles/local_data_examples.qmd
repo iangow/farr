@@ -1,0 +1,42 @@
+---
+title: "Examples with Local Data"
+description: >
+  A Quarto article scaffold for examples that rely on data available in a
+  local research environment.
+vignette: >
+  %\VignetteIndexEntry{Examples with Local Data}
+  %\VignetteEngine{quarto::html}
+  %\VignetteEncoding{UTF-8}
+knitr:
+  opts_chunk:
+    collapse: true
+    comment: "#>"
+---
+
+This article is a placeholder for examples that should be rendered locally
+before publishing the pkgdown site. That workflow is useful when an example
+depends on licensed data, local database access, or files that should not be
+stored in the public GitHub repository.
+
+The package's included data can be used in public examples without additional
+setup:
+
+```{r}
+library(farr)
+library(dplyr, warn.conflicts = FALSE)
+
+comp |>
+  select(gvkey, fyear, big_n, ta, roa) |>
+  slice_head(n = 5)
+```
+
+For examples that depend on private inputs, keep the source code in this
+article and render the site locally with:
+
+```{r}
+#| eval: false
+pkgdown::build_site()
+```
+
+The rendered HTML under `docs/` can then be published without committing the
+underlying private data.

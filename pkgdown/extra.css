@@ -1,0 +1,157 @@
+:root {
+  --farr-blue-ink: #123b63;
+  --farr-blue: #1f5f99;
+  --farr-blue-soft: #dbeaf7;
+  --farr-blue-bg: #f4f9fe;
+  --farr-dark-bg: #222;
+  --farr-dark-surface: #2b3035;
+  --farr-dark-surface-soft: #252a2f;
+  --farr-dark-border: #4c545d;
+  --farr-dark-text: #d7dce2;
+  --farr-dark-link: #75b8ff;
+}
+
+.pkgdown .navbar {
+  border-bottom: 1px solid #bdd7ee;
+}
+
+.pkgdown .template-home .page-header {
+  padding: 1.5rem 1.75rem;
+  margin-bottom: 1.75rem;
+  border: 1px solid #bdd7ee;
+  border-radius: 0.9rem;
+  background: linear-gradient(135deg, #f8fbff 0%, #e7f1fb 100%);
+  box-shadow: 0 12px 32px rgba(31, 95, 153, 0.08);
+}
+
+.pkgdown .template-home .page-header h1,
+.pkgdown h1,
+.pkgdown h2,
+.pkgdown h3,
+.pkgdown h4 {
+  color: var(--farr-blue-ink);
+}
+
+.pkgdown a {
+  color: var(--farr-blue);
+}
+
+.pkgdown a:hover {
+  color: #174a79;
+}
+
+.pkgdown .template-reference-topic h2 {
+  border-bottom-color: var(--farr-blue-soft);
+}
+
+html[data-bs-theme="dark"] {
+  --bs-body-bg: var(--farr-dark-bg);
+  --bs-body-color: var(--farr-dark-text);
+  --bs-border-color: var(--farr-dark-border);
+  --bs-code-color: #f8f9fa;
+  --bs-link-color: var(--farr-dark-link);
+  --bs-link-hover-color: #a4d0ff;
+}
+
+html[data-bs-theme="dark"] body {
+  background-color: var(--bs-body-bg);
+}
+
+html[data-bs-theme="dark"] .navbar {
+  background-color: #1b1f22;
+  border-bottom: 1px solid #3b424a;
+  box-shadow: 0 0.125rem 0.75rem rgb(0 0 0 / 25%);
+}
+
+html[data-bs-theme="dark"] .navbar .navbar-brand,
+html[data-bs-theme="dark"] .navbar .nav-link {
+  color: #f2f4f6;
+}
+
+html[data-bs-theme="dark"] .navbar .nav-link:hover,
+html[data-bs-theme="dark"] .navbar .nav-link:focus,
+html[data-bs-theme="dark"] .navbar .active > .nav-link,
+html[data-bs-theme="dark"] .navbar .nav-link.active {
+  color: var(--farr-dark-link);
+}
+
+html[data-bs-theme="dark"] .nav-text.text-muted,
+html[data-bs-theme="dark"] .dont-index,
+html[data-bs-theme="dark"] .text-muted {
+  color: #abb4be !important;
+}
+
+html[data-bs-theme="dark"] .template-home .page-header {
+  border-color: #3b424a;
+  background: linear-gradient(135deg, #252a2f 0%, #1f2933 100%);
+  box-shadow: 0 12px 32px rgb(0 0 0 / 20%);
+}
+
+html[data-bs-theme="dark"] .template-home .page-header h1,
+html[data-bs-theme="dark"] h1,
+html[data-bs-theme="dark"] h2,
+html[data-bs-theme="dark"] h3,
+html[data-bs-theme="dark"] h4 {
+  color: #f2f4f6;
+}
+
+html[data-bs-theme="dark"] main p code,
+html[data-bs-theme="dark"] main li code,
+html[data-bs-theme="dark"] main dd code,
+html[data-bs-theme="dark"] main td code,
+html[data-bs-theme="dark"] main th code {
+  color: #f8f9fa;
+  background-color: #3b4148;
+  border: 1px solid #535c66;
+}
+
+html[data-bs-theme="dark"] h1 code,
+html[data-bs-theme="dark"] h2 code,
+html[data-bs-theme="dark"] h3 code,
+html[data-bs-theme="dark"] h4 code,
+html[data-bs-theme="dark"] h5 code,
+html[data-bs-theme="dark"] h6 code,
+html[data-bs-theme="dark"] .page-header code {
+  color: inherit;
+  background-color: transparent;
+  border: 0;
+  padding: 0;
+  font-size: inherit;
+}
+
+html[data-bs-theme="dark"] div.sourceCode,
+html[data-bs-theme="dark"] pre.sourceCode,
+html[data-bs-theme="dark"] pre.text {
+  color: #e4e8ed;
+  background-color: var(--farr-dark-surface);
+  border: 1px solid #4d5560;
+}
+
+html[data-bs-theme="dark"] div.sourceCode pre {
+  background-color: transparent;
+}
+
+html[data-bs-theme="dark"] table {
+  --bs-table-bg: transparent;
+  --bs-table-color: var(--farr-dark-text);
+  --bs-table-border-color: var(--farr-dark-border);
+}
+
+html[data-bs-theme="dark"] footer {
+  border-top-color: var(--farr-dark-border);
+  color: #abb4be;
+}
+
+html[data-bs-theme="dark"] .template-reference-topic .ref-description,
+html[data-bs-theme="dark"] .template-reference-topic #arguments dl,
+html[data-bs-theme="dark"] .template-reference-index main > .section.level2 {
+  color: var(--bs-body-color);
+}
+
+html[data-bs-theme="dark"] .template-reference-index main > .section.level2:has(dl:not(:empty)),
+html[data-bs-theme="dark"] .template-reference-topic #arguments dl {
+  background-color: var(--farr-dark-surface-soft);
+  border: 1px solid var(--farr-dark-border);
+  border-radius: 0.5rem;
+  padding: 0.75rem 1rem;
+}
