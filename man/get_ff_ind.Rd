@@ -4,10 +4,13 @@
 \alias{get_ff_ind}
 \title{Fetch Fama-French industry grouping.}
 \usage{
-get_ff_ind(ind)
+get_ff_ind(ind, refresh_cache = FALSE)
 }
 \arguments{
 \item{ind}{Fama-French industry grouping (e.g., 11, 48)}
+
+\item{refresh_cache}{If \code{TRUE}, re-download the underlying zip file even if
+a cached copy is available.}
 }
 \value{
 tbl_df

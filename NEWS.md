@@ -1,5 +1,7 @@
 # farr 1.0.9000
 * Added `duckdb_to_parquet()`.
+* `get_ff_ind()` now caches downloaded Fama-French industry zip files by
+  default and supports `refresh_cache = TRUE`.
 
 # farr 1.0.0
 * The are now no duplicates in `gvkey_ciks`.
