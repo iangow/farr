@@ -2,6 +2,9 @@
 
 ## farr 1.0.9000
 
+- Corrected the `by_tag_year` documentation: `year_total` counts
+  questions across all tags in a year, rather than questions with a
+  specific tag.
 - Added
   [`duckdb_to_parquet()`](https://iangow.github.io/farr/reference/duckdb_to_parquet.md).
 - [`get_ff_ind()`](https://iangow.github.io/farr/reference/get_ff_ind.md)

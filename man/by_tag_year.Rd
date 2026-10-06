@@ -10,13 +10,16 @@ A tibble with 40,518 rows and 4 variables:
 \item{year}{Year}
 \item{tag}{Tag}
 \item{number}{Number of questions with tag during year}
-\item{year_total}{Total number of questions with tag during year}
+\item{year_total}{Total number of questions across all tags during year}
 }
 }
 \usage{
 by_tag_year
 }
 \description{
-A data set containing data on tagged questions on StackOverflow.
+Counts of Stack Overflow questions by tag and year, covering 2008--2018.
+A question can have multiple tags, so summing tag counts does not give
+the number of distinct questions. The annual total is repeated for each
+tag's row in a year.
 }
 \keyword{datasets}

@@ -1,4 +1,6 @@
 # farr 1.0.9000
+* Corrected the `by_tag_year` documentation: `year_total` counts questions
+  across all tags in a year, rather than questions with a specific tag.
 * Added `duckdb_to_parquet()`.
 * `get_ff_ind()` now caches downloaded Fama-French industry zip files by
   default and supports `refresh_cache = TRUE`.
