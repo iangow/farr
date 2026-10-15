@@ -1,4 +1,7 @@
 # farr 1.0.9000
+* `get_event_rets()` now retains non-trading-day announcements (#30),
+  measuring relative trading days from the next trading day while keeping
+  the original announcement dates.
 * Corrected `get_got_data()` to use `rho_E` for firm-specific error
   persistence (#29). Simulations with unequal `rho_X` and `rho_E` now
   follow the requested error process; equal-parameter results are unchanged.

@@ -119,13 +119,15 @@ get_event_rets <- function(data, conn,
 
     trading_dates <- farr::get_trading_dates(conn)
 
+    # Day zero is the mapped announcement date, independent of window offsets.
     event_tds <-
         event_dates %>%
         dplyr::collect() %>%
-        dplyr::inner_join(trading_dates,
-                          by = structure(names = event_date, .Data = "date")) %>%
+        dplyr::inner_join(farr::get_annc_dates(conn),
+                          by = structure(names = event_date, .Data = "annc_date")) %>%
         dplyr::rename(event_td = "td") %>%
-        dplyr::select("permno", .data[[event_date]], "event_td")
+        dplyr::select("permno", dplyr::all_of(event_date), "event_td") %>%
+        dplyr::distinct()
 
     results <-
         results_raw %>%
