@@ -1,4 +1,8 @@
 # farr 1.0.9000
+* `rusboost()` now retains a perfect learner as the sole predictive learner
+  with weight 1 and reports an error if no usable learner is fitted (#32).
+  Random undersampling handles singleton classes safely and validates class
+  counts and majority sample sizes.
 * Monthly cumulative-return windows now include the full ending month for
   nonzero offsets, including transitions from shorter to longer months.
 * Daily and monthly cumulative event returns now handle complete losses

@@ -11,11 +11,11 @@ rusboost(formula, df, size, ir = 1, learn_rate = 1, rus = TRUE, control)
 
 \item{df}{A df frame used for training the model, i.e. training set.}
 
-\item{size}{Ensemble size, i.e. number of weak learners in the ensemble model}
+\item{size}{Positive integer giving the maximum number of weak-learner attempts.}
 
 \item{ir}{Imbalance ratio. Specifies how many times the under-sampled majority instances are over minority instances.}
 
-\item{learn_rate}{Default of 1.}
+\item{learn_rate}{Positive finite learning rate. Default of 1.}
 
 \item{rus}{TRUE for random undersampling; FALSE for AdaBoost with full sample}
 
@@ -26,4 +26,16 @@ rusboost object
 }
 \description{
 RUSBoost for two-class problems.
+}
+\details{
+A learner that correctly classifies every observation in the full training
+data stops training successfully. It replaces any earlier learners and is
+returned as the sole predictive learner with voting weight 1, a finite
+representation of its limiting vote. Its observation-weight vector is the
+normalized vector used for that attempt.
+
+Learners with weighted error at least one half receive no vote. AdaBoost
+(\code{rus = FALSE}) stops at such a learner; RUSBoost skips it and tries another
+sample, up to \code{size} attempts. Training raises an error if no usable learner
+is found. The response must contain two nonmissing classes, including class 1.
 }

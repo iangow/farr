@@ -8,19 +8,39 @@
 #' @details
 #' Following MATLAB, function samples observations of the minority class with
 #' replacement and observations of the majority class without replacement.
+#' Both classes must be present, with no missing responses. The requested
+#' majority sample size must be a positive integer no larger than the majority
+#' class; fractional imbalance ratios are allowed if they meet this requirement.
 #' @return vector
 #'
 rus <- function(y_train, ir = 1) {
 
-    # Determine the majority class empirically
+    # Determine the majority class from the two observed classes.
     tab <- table(y_train)
-    maj_class = ifelse(tab[2] >= tab[1], names(tab[2]), names(tab[1]))
-
+    tab <- tab[tab > 0]
+    if (anyNA(y_train) || length(tab) != 2L) {
+        stop("Random undersampling requires two nonempty classes and no missing responses.")
+    }
+    maj_class <- if (tab[2] >= tab[1]) names(tab)[2] else names(tab)[1]
     rows_minor_class <- which(y_train != maj_class)
-    p <- sample(rows_minor_class, length(rows_minor_class), replace = TRUE)
-
     rows_major_class <- which(y_train == maj_class)
-    n <- sample(rows_major_class, length(p) * ir, replace = FALSE)
+
+    if (!is.numeric(ir) || is.complex(ir) || length(ir) != 1L ||
+        !is.finite(ir) || ir <= 0) {
+        stop("`ir` must be a positive finite number.")
+    }
+    n_major <- length(rows_minor_class) * ir
+    if (!is.finite(n_major) || n_major < 1 || n_major != floor(n_major) ||
+        n_major > length(rows_major_class)) {
+        stop("The requested majority sample must be a positive integer no larger ",
+             "than the majority class.")
+    }
+
+    # Sample positions: sample(5, 1) would draw from 1:5, not just row 5.
+    p <- rows_minor_class[sample.int(length(rows_minor_class),
+                                     length(rows_minor_class), replace = TRUE)]
+    n <- rows_major_class[sample.int(length(rows_major_class), n_major,
+                                     replace = FALSE)]
 
     rows <- c(p, n)
     return(rows)
@@ -54,17 +74,37 @@ w.update <- function(prediction, response, w, learn_rate) {
 #'
 #' @param formula A formula specify predictors and target variable. Target variable should be a factor of 0 and 1. Predictors can be either numerical and categorical.
 #' @param df A df frame used for training the model, i.e. training set.
-#' @param size Ensemble size, i.e. number of weak learners in the ensemble model
+#' @param size Positive integer giving the maximum number of weak-learner attempts.
 #' @param ir Imbalance ratio. Specifies how many times the under-sampled majority instances are over minority instances.
-#' @param learn_rate Default of 1.
+#' @param learn_rate Positive finite learning rate. Default of 1.
 #' @param rus TRUE for random undersampling; FALSE for AdaBoost with full sample
 #' @param control Control object passed onto rpart function.
 #'
+#' @details
+#' A learner that correctly classifies every observation in the full training
+#' data stops training successfully. It replaces any earlier learners and is
+#' returned as the sole predictive learner with voting weight 1, a finite
+#' representation of its limiting vote. Its observation-weight vector is the
+#' normalized vector used for that attempt.
+#'
+#' Learners with weighted error at least one half receive no vote. AdaBoost
+#' (`rus = FALSE`) stops at such a learner; RUSBoost skips it and tries another
+#' sample, up to `size` attempts. Training raises an error if no usable learner
+#' is found. The response must contain two nonmissing classes, including class 1.
 #' @return rusboost object
 #' @importFrom stats predict
 #' @export
 #'
 rusboost <- function(formula, df, size, ir = 1, learn_rate = 1, rus = TRUE, control) {
+
+    if (!is.numeric(size) || is.complex(size) || length(size) != 1L ||
+        !is.finite(size) || size < 1 || size != floor(size)) {
+        stop("`size` must be a positive integer.")
+    }
+    if (!is.numeric(learn_rate) || is.complex(learn_rate) || length(learn_rate) != 1L ||
+        !is.finite(learn_rate) || learn_rate <= 0) {
+        stop("`learn_rate` must be a positive finite number.")
+    }
 
     formula <- stats::as.formula(formula)
     environment(formula) <- environment()
@@ -72,11 +112,16 @@ rusboost <- function(formula, df, size, ir = 1, learn_rate = 1, rus = TRUE, cont
     # Prepare df
     df <- as.data.frame(df)
     target <- as.character(stats::as.formula(formula)[[2]])
-    df[[target]] <- ifelse(df[[target]]=="1", 1, -1)
+    response <- as.character(df[[target]])
+    if (anyNA(response) || length(unique(response)) != 2L || !any(response == "1")) {
+        stop("Training response must contain two nonempty classes, including class 1, ",
+             "and no missing values.")
+    }
+    df[[target]] <- ifelse(response == "1", 1, -1)
     label <- df[[target]]
 
     # Set up variables
-    alpha <- 0
+    alpha <- numeric()
     weakLearners <- list()
     ws <- list()
 
@@ -84,7 +129,7 @@ rusboost <- function(formula, df, size, ir = 1, learn_rate = 1, rus = TRUE, cont
     # df$wt <- rep(1/nrow(df), nrow(df))
     df$wt <- rep(1/nrow(df), nrow(df))
 
-    for (i in 1:size) {
+    for (i in seq_len(size)) {
 
         # Get training sample and fit model
         if (rus) {
@@ -104,20 +149,34 @@ rusboost <- function(formula, df, size, ir = 1, learn_rate = 1, rus = TRUE, cont
 
         pred <- as.integer(as.character(predict(fm, df, type = "class")))
 
+        # A perfect learner on the full data dominates the limiting vote.
+        # Check every prediction, not just a potentially zero-weighted error.
+        if (all(pred == label)) {
+            weakLearners <- list(fm)
+            alpha <- 1
+            ws <- list(df$wt)
+            break
+        }
+
         # Get updated w
         new <- w.update(prediction = pred, response = label, w = df$wt,
                         learn_rate = learn_rate)
 
-        # If alpha is zero (perhaps because err > 0.5) *and*
-        # we're running regular AdaBoost, then stop here.
-        # May make sense to continue if using RUSBoost due to randomness of sampling.
+        # AdaBoost stops at an unusable learner; RUSBoost can try another sample.
         if (new[["alpha"]] == 0 && !rus) break
+        # Preserve normalization even for skipped RUS attempts: tiny changes in
+        # observation weights can affect split ties in a later tree.
         df$wt <- new[["w"]]
+        if (new[["alpha"]] == 0) next
 
-        # Append model, alpha value, and weight vector to sequence
-        weakLearners[[i]] <- fm
-        alpha[i] <- new[["alpha"]]
-        ws[[i]] <- df$wt
+        # Keep the retained learners and their weights aligned when attempts skip.
+        j <- length(weakLearners) + 1L
+        weakLearners[[j]] <- fm
+        alpha[j] <- new[["alpha"]]
+        ws[[j]] <- df$wt
+    }
+    if (length(weakLearners) == 0L) {
+        stop("No usable weak learner was fitted.")
     }
     result <- list(weakLearners = weakLearners, alpha = alpha, w = ws,
                    formula = formula)
