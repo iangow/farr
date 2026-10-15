@@ -1,4 +1,7 @@
 # farr 1.0.9000
+* `get_size_rets_monthly()` now downloads over HTTPS to a temporary file,
+  removes it even on failure, and restores `VROOM_CONNECTION_SIZE` after parsing
+  instead of changing the caller's files or environment (#33).
 * `rusboost()` now retains a perfect learner as the sole predictive learner
   with weight 1 and reports an error if no usable learner is fitted (#32).
   Random undersampling handles singleton classes safely and validates class
