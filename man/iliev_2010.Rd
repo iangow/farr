@@ -5,7 +5,7 @@
 \alias{iliev_2010}
 \title{Data on public float}
 \format{
-A tibble with 7,214 and 9 variables:
+A tibble with 7,214 rows and 9 variables:
 \describe{
 \item{gvkey}{Compustat firm identifier (GVKEY)}
 \item{fyear}{Fiscal year}
@@ -26,5 +26,17 @@ iliev_2010
 }
 \description{
 Data on public float of listed companies from Iliev (2010).
+}
+\details{
+Five public-float dates have been corrected against the companies'
+Form 10-K cover pages: Spectrum Control (CIK 92769), fiscal year 2004, and
+Whitehall Jewellers (CIK 868984), fiscal years 2003--2006. These corrections
+replace four fractional values of \code{pfyear} and correct four months, with
+corresponding updates to \code{pfdate}. The original source CSV is preserved.
+The original values, corrected dates, and filing links are recorded in
+\code{data-raw/iliev_2010_date_corrections.csv} in the source repository; see also
+\href{https://github.com/iangow/farr/issues/28}{the investigation and filing evidence}.
+Other source anomalies, including invalid dates represented by missing
+values, remain in the data.
 }
 \keyword{datasets}

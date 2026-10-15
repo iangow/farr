@@ -56,7 +56,7 @@
 
     <div class="section level2">
     <h2 id="format">Format<a class="anchor" aria-label="anchor" href="#format"></a></h2>
-    <p>A tibble with 7,214 and 9 variables:</p><dl><dt>gvkey</dt>
+    <p>A tibble with 7,214 rows and 9 variables:</p><dl><dt>gvkey</dt>
 <dd><p>Compustat firm identifier (GVKEY)</p></dd>
 
 <dt>fyear</dt>
@@ -89,6 +89,19 @@
     <h2 id="source">Source<a class="anchor" aria-label="anchor" href="#source"></a></h2>
     <p><a href="https://doi.org/10.1111/j.1540-6261.2010.01564.x" class="external-link">doi:10.1111/j.1540-6261.2010.01564.x</a></p>
     </div>
+    <div class="section level2">
+    <h2 id="details">Details<a class="anchor" aria-label="anchor" href="#details"></a></h2>
+    <p>Five public-float dates have been corrected against the companies'
+Form 10-K cover pages: Spectrum Control (CIK 92769), fiscal year 2004, and
+Whitehall Jewellers (CIK 868984), fiscal years 2003–2006. These corrections
+replace four fractional values of <code>pfyear</code> and correct four months, with
+corresponding updates to <code>pfdate</code>. The original source CSV is preserved.
+The original values, corrected dates, and filing links are recorded in
+<code>data-raw/iliev_2010_date_corrections.csv</code> in the source repository; see also
+<a href="https://github.com/iangow/farr/issues/28" class="external-link">the investigation and filing evidence</a>.
+Other source anomalies, including invalid dates represented by missing
+values, remain in the data.</p>
+    </div>
 
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
     </nav></aside></div>
@@ -99,7 +112,7 @@
 </div>
 
 <div class="pkgdown-footer-right">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.2.0.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.2.1.</p>
 </div>
 
     </footer></div>

@@ -1,4 +1,7 @@
 # farr 1.0.9000
+* Corrected five public-float dates in `iliev_2010` using the original 10-Ks,
+  including four fractional years. The original CSV is preserved, with an
+  explicit correction table and filing references in `data-raw` (#28).
 * Corrected tree weights in `predict.rusboost(type = "prob")` (#26), including
   predictions for a single observation or weak learner. Probability predictions
   require finite, nonnegative weights with a positive finite total.

@@ -46,7 +46,9 @@
 
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="1.0.9000" id="farr-109000">farr 1.0.9000<a class="anchor" aria-label="anchor" href="#farr-109000"></a></h2>
-<ul><li>Corrected the <code>by_tag_year</code> documentation: <code>year_total</code> counts questions across all tags in a year, rather than questions with a specific tag.</li>
+<ul><li>Corrected five public-float dates in <code>iliev_2010</code> using the original 10-Ks, including four fractional years. The original CSV is preserved, with an explicit correction table and filing references in <code>data-raw</code> (<a href="https://github.com/iangow/farr/issues/28" class="external-link">#28</a>).</li>
+<li>Corrected tree weights in <code>predict.rusboost(type = "prob")</code> (<a href="https://github.com/iangow/farr/issues/26" class="external-link">#26</a>), including predictions for a single observation or weak learner. Probability predictions require finite, nonnegative weights with a positive finite total.</li>
+<li>Corrected the <code>by_tag_year</code> documentation: <code>year_total</code> counts questions across all tags in a year, rather than questions with a specific tag.</li>
 <li>Added <code><a href="../reference/duckdb_to_parquet.html">duckdb_to_parquet()</a></code>.</li>
 <li>
 <code><a href="../reference/get_ff_ind.html">get_ff_ind()</a></code> now caches downloaded Fama-French industry zip files by default and supports <code>refresh_cache = TRUE</code>.</li>
