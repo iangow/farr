@@ -139,12 +139,22 @@ predict.rusboost <- function(object, newdata, type = "prob", ...) {
     models <- object[["weakLearners"]]
     alpha <- object[["alpha"]]
 
+    if (type == "prob" &&
+        (!is.numeric(alpha) || is.complex(alpha) || !is.null(dim(alpha)) ||
+         length(alpha) != length(models) || any(!is.finite(alpha)) ||
+         any(alpha < 0) || !is.finite(sum(alpha)) || sum(alpha) <= 0)) {
+        stop("Probability predictions require one finite, nonnegative weight ",
+             "per weak learner and a positive finite total weight.")
+    }
+
     predict_class <- function(x) {
         ifelse(predict(x, newdata, type = "class") == "1", 1, -1)
     }
 
-    c_b <- lapply(models, predict_class)
-    g_b <- mapply("*", c_b, alpha)
+    # Keep observations in rows and weak learners in columns, including when
+    # there is only one observation or one weak learner.
+    c_b <- do.call(cbind, lapply(models, predict_class))
+    g_b <- sweep(c_b, 2, alpha, "*")
     # G_b <- rowCumSums(g_b)
 
     # Weight models
@@ -153,7 +163,7 @@ predict.rusboost <- function(object, newdata, type = "prob", ...) {
     if (type == "class") {
         return(sign(C_b))
     } else if (type =="prob") {
-        rowSums(ifelse(g_b > 0, 1, 0)*alpha)/sum(alpha)
+        as.numeric((c_b > 0) %*% alpha) / sum(alpha)
     }
 }
 

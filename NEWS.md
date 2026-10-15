@@ -1,4 +1,7 @@
 # farr 1.0.9000
+* Corrected tree weights in `predict.rusboost(type = "prob")` (#26), including
+  predictions for a single observation or weak learner. Probability predictions
+  require finite, nonnegative weights with a positive finite total.
 * Corrected the `by_tag_year` documentation: `year_total` counts questions
   across all tags in a year, rather than questions with a specific tag.
 * Added `duckdb_to_parquet()`.
