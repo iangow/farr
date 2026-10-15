@@ -1,6 +1,7 @@
 with_cumulative_returns_fixture <- function(config, stock, market = c(0.03, 0.04),
                                              size = c(0.02, 0.01),
-                                             dlret = rep(NA_real_, length(stock)), code) {
+                                             dlret = rep(NA_real_, length(stock)),
+                                             code, dates = NULL) {
   stopifnot(length(stock) == length(market), length(stock) == length(size),
             length(stock) == length(dlret), length(stock) %in% 2:3)
   old_options <- options(lifecycle_verbosity = "quiet")
@@ -31,12 +32,15 @@ with_cumulative_returns_fixture <- function(config, stock, market = c(0.03, 0.04
             add = TRUE, after = FALSE)
   }
 
-  dates <- if (config$frequency == "daily") {
-    as.Date(c("2026-01-28", "2026-01-29", "2026-01-30"))
-  } else {
-    as.Date(c("2025-12-31", "2026-01-30", "2026-02-27"))
+  if (is.null(dates)) {
+    dates <- if (config$frequency == "daily") {
+      as.Date(c("2026-01-28", "2026-01-29", "2026-01-30"))
+    } else {
+      as.Date(c("2025-12-31", "2026-01-30", "2026-02-27"))
+    }
+    dates <- dates[seq_along(stock)]
   }
-  dates <- dates[seq_along(stock)]
+  stopifnot(inherits(dates, "Date"), length(dates) == length(stock), !anyNA(dates))
   series <- tibble::tibble(permno = 10001L, date = dates, ret = stock)
   benchmarks <- tibble::tibble(date = dates, vwretd = market)
   size_returns <- tibble::tibble(permno = 10001L, date = dates, decret = size)

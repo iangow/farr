@@ -119,9 +119,9 @@ get_event_cum_rets_mth <- function(data, conn,
                              win_start, " * interval '1 month')")
     begin_date <- dplyr::sql(begin_date_sql)
 
-    end_date_sql <- paste0("(date_trunc('MONTH', ", end_event_date, ") + ",
-                           "interval '1 month' - interval '1 day') + (",
-                           win_end, " * interval '1 month')")
+    # Shift month starts before finding month end to avoid clipping short months.
+    end_date_sql <- paste0("date_trunc('MONTH', ", end_event_date, ") + (",
+                           win_end + 1, " * interval '1 month') - interval '1 day'")
     end_date <- dplyr::sql(end_date_sql)
 
     results <-

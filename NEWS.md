@@ -1,4 +1,6 @@
 # farr 1.0.9000
+* Monthly cumulative-return windows now include the full ending month for
+  nonzero offsets, including transitions from shorter to longer months.
 * Daily and monthly cumulative event returns now handle complete losses
   (`ret = -1`) in stocks and benchmarks (#31). Missing-value handling is
   unchanged, and returns below -1 continue to raise an error.
