@@ -1,0 +1,3 @@
+# AAER CSVs retain source whitespace, including line breaks inside quoted fields.
+data-raw/aaer_dates_historical.csv -text whitespace=-blank-at-eol
+data-raw/aaer_dates_refresh_*/*.csv -text whitespace=-blank-at-eol

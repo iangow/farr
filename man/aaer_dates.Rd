@@ -5,7 +5,7 @@
 \alias{aaer_dates}
 \title{AAER dates from SEC}
 \format{
-A tibble with 2,920 rows and 4 variables:
+A tibble with 3,386 rows and 4 variables:
 \describe{
 \item{aaer_num}{AAER number}
 \item{aaer_date}{Date}
@@ -18,5 +18,17 @@ aaer_dates
 }
 \description{
 A data set containing dates and descriptions for AAERs.
+}
+\details{
+The SEC index was refreshed through October 8, 2026. Exact duplicate
+rows are removed; distinct entries sharing an AAER number are retained.
+Source-backed corrections retain November 16, 1999 for AAER-1209 and restore
+AAER-1470 dated October 23, 2001. Historical entries missing from the current
+index are preserved, including three intentionally omitted numbers with
+missing dates. The malformed historical identifier AAER-x2218 is replaced
+by AAER-2218. Raw snapshots, historical supplements, and the correction table
+with release links are maintained in \code{data-raw}; see also
+\href{https://github.com/iangow/farr/issues/27}{the refresh investigation}.
+Index dates have not all been checked against the underlying releases.
 }
 \keyword{datasets}

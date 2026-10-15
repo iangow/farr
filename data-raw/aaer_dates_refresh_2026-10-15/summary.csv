@@ -1,0 +1,17 @@
+measure,value
+bundled_rows,2920
+candidate_rows,3361
+index_rows,3339
+candidate_1999_2021,3053
+candidate_2022_onward,308
+candidate_through_old_last_date,2981
+bundled_exact_duplicate_excess,1
+candidate_exact_duplicate_excess,1
+old_number_date_pairs_retained,2846
+old_number_date_pairs_removed,71
+new_number_date_pairs_added,492
+old_numbers_missing,27
+changed_date_sets,47
+bao_date_pairs_removed,6
+bao_date_pairs_added,11
+bao_firm_year_first_date_changes,27

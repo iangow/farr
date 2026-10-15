@@ -1,4 +1,7 @@
 # farr 1.0.9000
+* Refreshed `aaer_dates` through October 2026, with 3,386 rows. The data steps
+  apply source-backed date and coverage corrections, preserve historical
+  entries absent from the current SEC index, and remove exact duplicates (#27).
 * Corrected five public-float dates in `iliev_2010` using the original 10-Ks,
   including four fractional years. The original CSV is preserved, with an
   explicit correction table and filing references in `data-raw` (#28).

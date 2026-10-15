@@ -56,7 +56,7 @@
 
     <div class="section level2">
     <h2 id="format">Format<a class="anchor" aria-label="anchor" href="#format"></a></h2>
-    <p>A tibble with 2,920 rows and 4 variables:</p><dl><dt>aaer_num</dt>
+    <p>A tibble with 3,386 rows and 4 variables:</p><dl><dt>aaer_num</dt>
 <dd><p>AAER number</p></dd>
 
 <dt>aaer_date</dt>
@@ -70,6 +70,19 @@
 
 
 </dl></div>
+    <div class="section level2">
+    <h2 id="details">Details<a class="anchor" aria-label="anchor" href="#details"></a></h2>
+    <p>The SEC index was refreshed through October 8, 2026. Exact duplicate
+rows are removed; distinct entries sharing an AAER number are retained.
+Source-backed corrections retain November 16, 1999 for AAER-1209 and restore
+AAER-1470 dated October 23, 2001. Historical entries missing from the current
+index are preserved, including three intentionally omitted numbers with
+missing dates. The malformed historical identifier AAER-x2218 is replaced
+by AAER-2218. Raw snapshots, historical supplements, and the correction table
+with release links are maintained in <code>data-raw</code>; see also
+<a href="https://github.com/iangow/farr/issues/27" class="external-link">the refresh investigation</a>.
+Index dates have not all been checked against the underlying releases.</p>
+    </div>
 
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
     </nav></aside></div>
@@ -80,7 +93,7 @@
 </div>
 
 <div class="pkgdown-footer-right">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.2.0.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.2.1.</p>
 </div>
 
     </footer></div>
