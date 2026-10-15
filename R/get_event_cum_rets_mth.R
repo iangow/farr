@@ -131,15 +131,14 @@ get_event_cum_rets_mth <- function(data, conn,
         dplyr::group_by(dplyr::across(dplyr::all_of(c("permno",
                                                       !!event_date,
                                                       !!end_event_date)))) %>%
-        dplyr::summarize(ret_raw =
-                      exp(sum(dplyr::sql("ln((1 + ret))"), na.rm = TRUE)) - 1,
-                  ret_mkt =
-                      exp(sum(dplyr::sql("ln((1 + ret))"), na.rm = TRUE)) -
-                      exp(sum(dplyr::sql("ln((1 + vwretd))"), na.rm = TRUE)) ,
-                  ret_sz =
-                      exp(sum(dplyr::sql("ln((1 + ret))"), na.rm = TRUE)) -
-                      exp(sum(dplyr::sql("ln((1 + decret))"), na.rm = TRUE)),
-                  .groups = "drop") %>%
+        dplyr::summarize(gross_ret = !!gross_return_sql("ret"),
+                          gross_mkt = !!gross_return_sql("vwretd"),
+                          gross_sz = !!gross_return_sql("decret"),
+                          .groups = "drop") %>%
+        dplyr::mutate(ret_raw = .data$gross_ret - 1,
+                       ret_mkt = .data$gross_ret - .data$gross_mkt,
+                       ret_sz = .data$gross_ret - .data$gross_sz) %>%
+        dplyr::select(-"gross_ret", -"gross_mkt", -"gross_sz") %>%
         dplyr::collect() %>%
         dplyr::rename_with(function(x) gsub("^ret", paste0("ret", suffix), x),
                            dplyr::one_of(c("ret_raw", "ret_mkt", "ret_sz")))

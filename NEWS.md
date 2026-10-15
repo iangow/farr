@@ -1,4 +1,7 @@
 # farr 1.0.9000
+* Daily and monthly cumulative event returns now handle complete losses
+  (`ret = -1`) in stocks and benchmarks (#31). Missing-value handling is
+  unchanged, and returns below -1 continue to raise an error.
 * `get_event_rets()` now retains non-trading-day announcements (#30),
   measuring relative trading days from the next trading day while keeping
   the original announcement dates.
