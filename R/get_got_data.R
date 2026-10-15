@@ -10,7 +10,8 @@
 #' @param rho_X Autocorrelation coefficient for firm-effect portion of *X*
 #' @param rho_E Autocorrelation coefficient for firm-effect portion of epsilon
 #'
-#' @return tibble
+#' @return A tibble with columns `y` (outcome), `x` (predictor), `firm`
+#'   (integer firm identifier), and `year` (integer year index), with `N * T` rows.
 #' @export
 #' @importFrom tibble tibble
 #' @examples

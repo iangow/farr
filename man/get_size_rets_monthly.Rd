@@ -7,8 +7,16 @@
 get_size_rets_monthly()
 }
 \value{
-tbl_df
+A tibble with columns \code{month} (a Date), \code{decile} (integers 1--10),
+\code{ew_ret} (equal-weighted returns), and \code{vw_ret} (value-weighted returns).
+Returns are expressed as decimal fractions.
 }
 \description{
 Create a table of monthly returns for size portfolios
+}
+\examples{
+\donttest{
+# Downloads portfolio returns from Ken French's website.
+head(get_size_rets_monthly())
+}
 }

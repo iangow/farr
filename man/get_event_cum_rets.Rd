@@ -34,21 +34,23 @@ events}
 \item{suffix}{Text to be appended after "ret" in variable names}
 }
 \value{
-tbl_df
+A tibble with one row per security and event window, containing
+\code{ret_raw} (compounded stock return), \code{ret_mkt} (stock minus market return),
+and \code{ret_sz} (stock minus size-portfolio return). Returns are decimal
+fractions; \code{suffix} is inserted after \code{ret} in these column names.
 }
 \description{
 Produce a table of event returns from CRSP.
 }
 \examples{
-## Not run:
 \dontrun{
-library(DBI)
-library(dplyr, warn.conflicts = FALSE)
-library(RPostgres)
-pg <- dbConnect(Postgres())
-events <- tibble(permno = c(14593L, 10107L),
-                 event_date = as.Date(c("2019-01-31", "2019-01-31")))
-get_event_cum_rets(events, pg)
+# Requires an authenticated PostgreSQL connection with access to CRSP data.
+local({
+  pg <- DBI::dbConnect(RPostgres::Postgres())
+  on.exit(DBI::dbDisconnect(pg), add = TRUE)
+  events <- data.frame(permno = c(14593L, 10107L),
+                        event_date = as.Date(c("2019-01-31", "2019-01-31")))
+  get_event_cum_rets(events, pg, win_start = -1, win_end = 1)
+})
 }
-## End(Not run)
 }

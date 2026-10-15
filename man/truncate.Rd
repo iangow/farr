@@ -16,7 +16,8 @@ truncate(x, prob = 0.01, p_low = prob, p_high = 1 - prob)
 \item{p_high}{Optional upper level for winsorization (e.g., 0.99 gives 99\%)}
 }
 \value{
-vector
+A vector the same length as \code{x}, with values outside the specified
+quantiles replaced by \code{NA}.
 }
 \description{
 Truncate a vector at \code{prob} and \code{1 - prob}.

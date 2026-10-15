@@ -1,4 +1,7 @@
-# farr 1.0.9000
+# farr 1.1.0
+* Expanded runnable examples and return-value documentation, documented the
+  prediction method for `rusboost()` objects, and clarified which examples
+  require internet access or database credentials.
 * `get_size_rets_monthly()` now downloads over HTTPS to a temporary file,
   removes it even on failure, and restores `VROOM_CONNECTION_SIZE` after parsing
   instead of changing the caller's files or environment (#33).
@@ -28,11 +31,14 @@
   require finite, nonnegative weights with a positive finite total.
 * Corrected the `by_tag_year` documentation: `year_total` counts questions
   across all tags in a year, rather than questions with a specific tag.
-* Added `duckdb_to_parquet()`.
 * `get_ff_ind()` now caches downloaded Fama-French industry zip files by
   default and supports `refresh_cache = TRUE`.
 * Added a pkgdown site with Bootstrap 5 styling, a dark-mode toggle, and a
   Quarto article scaffold.
+
+# farr 1.0.1
+* Added `duckdb_to_parquet()`.
+* Updated internet-dependent examples and tests so they do not run on CRAN.
 
 # farr 1.0.0
 * The are now no duplicates in `gvkey_ciks`.

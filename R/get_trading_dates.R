@@ -6,16 +6,18 @@
 #'
 #' @param conn connection to a PostgreSQL or DuckDB database
 #'
-#' @return tbl_df
+#' @return A tibble with columns `date` (CRSP trading dates) and `td`
+#'   (consecutive integer indices ordered by date).
 #' @export
 #' @importFrom rlang .data
 #' @examples
 #' \dontrun{
-#' library(DBI)
-#' library(dplyr, warn.conflicts = FALSE)
-#' pg <- dbConnect(RPostgres::Postgres())
-#' get_trading_dates(pg) %>%
-#'   filter(between(date, as.Date("2022-03-18"), as.Date("2022-03-31")))
+#' # Requires an authenticated PostgreSQL connection with access to CRSP data.
+#' local({
+#'   pg <- DBI::dbConnect(RPostgres::Postgres())
+#'   on.exit(DBI::dbDisconnect(pg), add = TRUE)
+#'   head(get_trading_dates(pg))
+#' })
 #' }
 get_trading_dates <- function(conn) {
 

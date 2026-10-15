@@ -2,7 +2,7 @@
 % Please edit documentation in R/get_me_breakpoints.R
 \name{get_me_breakpoints}
 \alias{get_me_breakpoints}
-\title{Create a table of with cut-offs for size portfolios}
+\title{Create a table with cut-offs for size portfolios}
 \usage{
 get_me_breakpoints(keep_max = FALSE)
 }
@@ -10,12 +10,17 @@ get_me_breakpoints(keep_max = FALSE)
 \item{keep_max}{Set to \code{TRUE} to keep upper-bound of highest decile.
 Default is \code{FALSE}, which will replace upper bound with \code{Inf}.}
 }
+\value{
+A tibble with columns \code{month} (a Date), \code{decile} (integers 1--10),
+\code{me_min} and \code{me_max} (lower and upper market-equity cut-offs in millions
+of dollars). Unless \code{keep_max} is \code{TRUE}, the highest upper bound is \code{Inf}.
+}
 \description{
-Create a table of with cut-offs for size portfolios
+Create a table with cut-offs for size portfolios
 }
 \examples{
-\dontrun{
-library(dplyr, warn.conflicts = FALSE)
-get_me_breakpoints() \%>\% filter(month == '2022-04-01')
+\donttest{
+# Downloads market-equity breakpoints from Ken French's website.
+head(get_me_breakpoints())
 }
 }

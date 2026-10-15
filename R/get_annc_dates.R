@@ -4,19 +4,19 @@
 #'
 #' @param conn connection to a PostgreSQL or DuckDB database
 #'
-#' @return tbl_df
+#' @return A tibble with `annc_date` (each calendar date) and `td` (the index
+#'   of that date's trading day, or the next trading day for a non-trading date).
 #' @export
 #' @importFrom rlang .data
 #' @examples
-#' ## Not run:
 #' \dontrun{
-#' library(DBI)
-#' library(dplyr, warn.conflicts = FALSE)
-#' library(RPostgres)
-#' pg <- dbConnect(Postgres())
-#' get_annc_dates(pg)
+#' # Requires an authenticated PostgreSQL connection with access to CRSP data.
+#' local({
+#'   pg <- DBI::dbConnect(RPostgres::Postgres())
+#'   on.exit(DBI::dbDisconnect(pg), add = TRUE)
+#'   head(get_annc_dates(pg))
+#' })
 #' }
-#' ## End(Not run)
 get_annc_dates <- function(conn) {
 
     trading_dates <- farr::get_trading_dates(conn)

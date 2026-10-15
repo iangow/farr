@@ -10,7 +10,8 @@ form_deciles(x)
 \item{x}{A vector for which deciles are to be calculated.}
 }
 \value{
-vector
+An integer vector the same length as \code{x}, with decile assignments
+from 1 (lowest values) to 10 (highest values).
 }
 \description{
 Calculate deciles for a variable.

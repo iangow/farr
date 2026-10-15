@@ -16,8 +16,15 @@ confusion_stats(scores, response, predicted = NULL, k = NULL)
 \item{k}{Percentage to classify as TRUE or 1.}
 }
 \value{
-vector including sensitivity and precision
+A named numeric vector containing sensitivity (the fraction of
+positive responses detected) and precision (the fraction of predictions
+classified as positive that have a positive response).
 }
 \description{
 A function returning sensitivity and precision.
+}
+\examples{
+scores <- c(0.1, 0.4, 0.35, 0.8)
+response <- c(0, 0, 1, 1)
+confusion_stats(scores, response)
 }

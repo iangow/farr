@@ -8,7 +8,9 @@
 #' @param include_unobservables Include talent in returned data (TRUE or FALSE)
 #' @param random_assignment Is assignment to treatment completely random? (TRUE or FALSE)
 #'
-#' @return tbl_df
+#' @return A tibble with student identifiers, grades, treatment and post-treatment
+#'   indicators, and simulated test scores. If `include_unobservables` is `TRUE`,
+#'   it also includes student talent and grade effects.
 #' @export
 #' @importFrom rlang .data
 #' @examples

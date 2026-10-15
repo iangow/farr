@@ -14,8 +14,14 @@ ndcg(scores, response, k = 0.01)
 \item{k}{Percentage to classify as TRUE or 1.}
 }
 \value{
-vector including sensitivity and precision
+A named numeric vector containing normalized discounted cumulative
+gain among the highest-scoring fraction \code{k} of observations.
 }
 \description{
 A function returning NDCG-at-k metric.
+}
+\examples{
+scores <- c(0.1, 0.4, 0.35, 0.8)
+response <- c(0, 0, 1, 1)
+ndcg(scores, response, k = 0.5)
 }

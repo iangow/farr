@@ -24,7 +24,9 @@ get_test_scores(
 \item{random_assignment}{Is assignment to treatment completely random? (TRUE or FALSE)}
 }
 \value{
-tbl_df
+A tibble with student identifiers, grades, treatment and post-treatment
+indicators, and simulated test scores. If \code{include_unobservables} is \code{TRUE},
+it also includes student talent and grade effects.
 }
 \description{
 A function returning simulated data on test_scores.

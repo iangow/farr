@@ -1,13 +1,28 @@
-## R CMD check results
+## Test environments
 
-There were no ERRORs, WARNINGs. There was 1 NOTE.
+* Local macOS arm64, R 4.6.1: `R CMD check --as-cran --run-donttest`,
+  including the PDF manual, completed with 0 errors, 0 warnings and 0 notes.
+* Windows R-devel: submitted to win-builder; result pending.
 
-    1. Note is about a 403 for a URL, but URL is good.
+## Additional checks
 
-## Downstream dependencies
+* `urlchecker::url_check()` found no URL problems.
+* The full local test suite passed 499 assertions, including synthetic DuckDB
+  and PostgreSQL fixtures. Two live-download tests were skipped in that run;
+  the release check separately ran the internet-dependent help examples.
+* Every exported function is covered by an example and return-value
+  documentation. Credential-dependent database examples explain why they are
+  wrapped in `\dontrun{}`; download examples use `\donttest{}`.
+* Software names are quoted in DESCRIPTION and the book reference is given
+  as authors (year) followed by its DOI.
 
-There are currently no downstream dependencies for this package.
+## Reverse dependencies
 
-## Notes
+There are no CRAN reverse dependencies in Depends, Imports, LinkingTo or
+Suggests, verified against the current CRAN package database.
 
-Flagged misspellings are not misspellings.
+## Release changes
+
+This update corrects event-return calculations and boosting edge cases,
+refreshes the AAER dates and corrects selected public-float dates, and expands
+the documentation. Details are in NEWS.md.

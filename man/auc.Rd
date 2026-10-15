@@ -17,8 +17,13 @@ auc(scores, response)
 \item{response}{Responses coded as logical or 0-or-1.}
 }
 \value{
-Vector including AUC
+A named numeric vector containing the area under the ROC curve.
 }
 \description{
 A function returning AUC.
+}
+\examples{
+scores <- c(0.1, 0.4, 0.35, 0.8)
+response <- c(0, 0, 1, 1)
+auc(scores, response)
 }

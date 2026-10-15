@@ -8,7 +8,8 @@
 #' @param p_low Optional lower level for winsorization (e.g., 0.01 gives 1%)
 #' @param p_high Optional upper level for winsorization (e.g., 0.99 gives 99%)
 #'
-#' @return vector
+#' @return A vector the same length as `x`, with values outside the specified
+#'   quantiles replaced by `NA`.
 #' @export
 #' @examples
 #' trunced <- truncate(1:100, prob = 0.05)

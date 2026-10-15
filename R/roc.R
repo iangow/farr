@@ -5,8 +5,13 @@
 #' @param scores Probability that response is true or 1.
 #' @param response Responses coded as logical or 0-or-1.
 #'
-#' @return tbl_df
+#' @return A tibble with columns `fpr` (false positive rate) and `tpr`
+#'   (true positive rate), with one row per distinct point on the ROC curve.
 #' @export
+#' @examples
+#' scores <- c(0.1, 0.4, 0.35, 0.8)
+#' response <- c(0, 0, 1, 1)
+#' roc(scores, response)
 roc <- function(scores, response) {
 
   thresholds <- seq(0, 1, 0.00025)
@@ -41,8 +46,14 @@ roc <- function(scores, response) {
 #' @param predicted Predicted value coded as 0-or-1.
 #' @param k Percentage to classify as TRUE or 1.
 #'
-#' @return vector including sensitivity and precision
+#' @return A named numeric vector containing sensitivity (the fraction of
+#'   positive responses detected) and precision (the fraction of predictions
+#'   classified as positive that have a positive response).
 #' @export
+#' @examples
+#' scores <- c(0.1, 0.4, 0.35, 0.8)
+#' response <- c(0, 0, 1, 1)
+#' confusion_stats(scores, response)
 confusion_stats <- function(scores, response, predicted = NULL, k = NULL) {
 
   # Organize data
@@ -70,8 +81,13 @@ confusion_stats <- function(scores, response, predicted = NULL, k = NULL) {
 #' @param response Responses coded as logical or 0-1.
 #' @param k Percentage to classify as TRUE or 1.
 #'
-#' @return vector including sensitivity and precision
+#' @return A named numeric vector containing normalized discounted cumulative
+#'   gain among the highest-scoring fraction `k` of observations.
 #' @export
+#' @examples
+#' scores <- c(0.1, 0.4, 0.35, 0.8)
+#' response <- c(0, 0, 1, 1)
+#' ndcg(scores, response, k = 0.5)
 ndcg <- function(scores, response, k = 0.01) {
 
   ranks <- sort(scores, index.return = TRUE, decreasing = TRUE)$ix
@@ -97,10 +113,14 @@ ndcg <- function(scores, response, k = 0.01) {
 #' @param scores Probability that response is true or 1.
 #' @param response Responses coded as logical or 0-or-1.
 #'
-#' @return Vector including AUC
+#' @return A named numeric vector containing the area under the ROC curve.
 #' @export
 #' @source \url{https://blog.mbq.me/augh-roc/}
 #' @source \url{https://stackoverflow.com/questions/4903092/calculate-auc-in-r}
+#' @examples
+#' scores <- c(0.1, 0.4, 0.35, 0.8)
+#' response <- c(0, 0, 1, 1)
+#' auc(scores, response)
 auc <- function(scores, response) {
   response <- as.integer(response)
 

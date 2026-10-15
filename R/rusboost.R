@@ -91,10 +91,20 @@ w.update <- function(prediction, response, w, learn_rate) {
 #' (`rus = FALSE`) stops at such a learner; RUSBoost skips it and tries another
 #' sample, up to `size` attempts. Training raises an error if no usable learner
 #' is found. The response must contain two nonmissing classes, including class 1.
-#' @return rusboost object
+#' @return `rusboost()` returns an object of class `rusboost`, a list
+#'   containing fitted trees (`weakLearners`), their voting weights (`alpha`),
+#'   observation-weight vectors (`w`), and the training `formula`.
+#'   `predict()` returns a numeric vector of weighted positive-vote shares for
+#'   `type = "prob"`, or classes -1 and 1 (0 for a tied vote) for `type = "class"`.
 #' @importFrom stats predict
 #' @export
 #'
+#' @examples
+#' training <- data.frame(x = 1:8, y = factor(c(rep(0, 4), rep(1, 4))))
+#' control <- rpart::rpart.control(minsplit = 2, minbucket = 1, cp = 0, xval = 0)
+#' fit <- rusboost(y ~ x, training, size = 3, rus = FALSE, control = control)
+#' predict(fit, training, type = "prob")
+#' predict(fit, training, type = "class")
 rusboost <- function(formula, df, size, ir = 1, learn_rate = 1, rus = TRUE, control) {
 
     if (!is.numeric(size) || is.complex(size) || length(size) != 1L ||
@@ -192,6 +202,12 @@ sigmoidal <- function(x) {
     1/(1 + exp(-2 * x))
 }
 
+#' @rdname rusboost
+#' @param object A fitted `rusboost` object.
+#' @param newdata A data frame containing the predictors used in training.
+#' @param type Prediction type: `"prob"` for the weighted share of positive
+#'   votes, or `"class"` for the sign of the weighted class vote.
+#' @param ... Additional arguments; currently unused.
 #' @method predict rusboost
 #' @export
 predict.rusboost <- function(object, newdata, type = "prob", ...) {

@@ -10,20 +10,21 @@
 #' @param win_end integer representing start of trading window (e.g., 1)
 #' @param end_event_date string representing column containing ending dates for events
 #'
-#' @return tbl_df
+#' @return A tibble retaining the security and event-date columns from `data`,
+#'   with `start_date` and `end_date` giving the mapped trading-window boundaries.
 #' @export
 #' @importFrom rlang .data
 #' @examples
-#' ## Not run:
 #' \dontrun{
-#' library(DBI)
-#' library(dplyr, warn.conflicts = FALSE)
-#' pg <- dbConnect(RPostgres::Postgres())
-#' events <- tibble(permno = c(14593L, 10107L),
-#'                  event_date = as.Date(c("2019-01-31", "2019-01-31")))
-#' get_event_dates(events, pg, win_start = -3, win_end = + 3)
+#' # Requires an authenticated PostgreSQL connection with access to CRSP data.
+#' local({
+#'   pg <- DBI::dbConnect(RPostgres::Postgres())
+#'   on.exit(DBI::dbDisconnect(pg), add = TRUE)
+#'   events <- data.frame(permno = c(14593L, 10107L),
+#'                         event_date = as.Date(c("2019-01-31", "2019-01-31")))
+#'   get_event_dates(events, pg, win_start = -1, win_end = 1)
+#' })
 #' }
-#' ## End(Not run)
 get_event_dates <- function(data, conn,
                             permno = "permno",
                             event_date = "event_date",

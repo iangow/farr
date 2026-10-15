@@ -30,20 +30,21 @@ get_event_dates(
 \item{end_event_date}{string representing column containing ending dates for events}
 }
 \value{
-tbl_df
+A tibble retaining the security and event-date columns from \code{data},
+with \code{start_date} and \code{end_date} giving the mapped trading-window boundaries.
 }
 \description{
 Produce a table of event dates for linking with CRSP.
 }
 \examples{
-## Not run:
 \dontrun{
-library(DBI)
-library(dplyr, warn.conflicts = FALSE)
-pg <- dbConnect(RPostgres::Postgres())
-events <- tibble(permno = c(14593L, 10107L),
-                 event_date = as.Date(c("2019-01-31", "2019-01-31")))
-get_event_dates(events, pg, win_start = -3, win_end = + 3)
+# Requires an authenticated PostgreSQL connection with access to CRSP data.
+local({
+  pg <- DBI::dbConnect(RPostgres::Postgres())
+  on.exit(DBI::dbDisconnect(pg), add = TRUE)
+  events <- data.frame(permno = c(14593L, 10107L),
+                        event_date = as.Date(c("2019-01-31", "2019-01-31")))
+  get_event_dates(events, pg, win_start = -1, win_end = 1)
+})
 }
-## End(Not run)
 }

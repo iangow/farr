@@ -9,6 +9,16 @@
 #'
 #' @return Number of rows created
 #' @export
+#' @examples
+#' \dontrun{
+#' # Requires PostgreSQL credentials for a WRDS database and the duckdb package.
+#' local({
+#'   data_dir <- tempfile("farr-example-")
+#'   dir.create(data_dir)
+#'   on.exit(unlink(data_dir, recursive = TRUE), add = TRUE)
+#'   pg_to_parquet("dsi", "crsp", data_dir = data_dir)
+#' })
+#' }
 pg_to_parquet <- function(table_name, schema,
                           data_dir = Sys.getenv("DATA_DIR")) {
     orig_warn <- getOption("warn")

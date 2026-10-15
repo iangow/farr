@@ -30,21 +30,22 @@ get_event_rets(
 \item{end_event_date}{string representing column containing ending dates for events}
 }
 \value{
-tbl_df
+A tibble containing security and event dates, trading dates, stock
+returns (\code{ret}), benchmark returns (\code{vwretd} and \code{decret}), window boundaries,
+and \code{relative_td} (trading days from the mapped announcement date).
 }
 \description{
 Produce a table of event returns from CRSP.
 }
 \examples{
-## Not run:
 \dontrun{
-library(DBI)
-library(dplyr, warn.conflicts = FALSE)
-pg <- dbConnect(RPostgres::Postgres())
-events <- tibble(permno = c(14593L, 10107L),
-                 event_date = as.Date(c("2019-01-31", "2019-01-31")))
-get_event_rets(events, pg, win_start = -3, win_end = +3) \%>\%
-  select(permno, event_date, date, ret)
+# Requires an authenticated PostgreSQL connection with access to CRSP data.
+local({
+  pg <- DBI::dbConnect(RPostgres::Postgres())
+  on.exit(DBI::dbDisconnect(pg), add = TRUE)
+  events <- data.frame(permno = c(14593L, 10107L),
+                        event_date = as.Date(c("2019-01-31", "2019-01-31")))
+  get_event_rets(events, pg, win_start = -1, win_end = 1)
+})
 }
-## End(Not run)
 }

@@ -23,7 +23,8 @@ get_got_data(N = 400, T = 20, Xvol, Evol, rho_X, rho_E)
 \item{rho_E}{Autocorrelation coefficient for firm-effect portion of epsilon}
 }
 \value{
-tibble
+A tibble with columns \code{y} (outcome), \code{x} (predictor), \code{firm}
+(integer firm identifier), and \code{year} (integer year index), with \code{N * T} rows.
 }
 \description{
 Function to generate simulated panel data as described in Gow, Ormazabal and

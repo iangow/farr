@@ -12,8 +12,14 @@ roc(scores, response)
 \item{response}{Responses coded as logical or 0-or-1.}
 }
 \value{
-tbl_df
+A tibble with columns \code{fpr} (false positive rate) and \code{tpr}
+(true positive rate), with one row per distinct point on the ROC curve.
 }
 \description{
 A function returning data for a ROC plot.
+}
+\examples{
+scores <- c(0.1, 0.4, 0.35, 0.8)
+response <- c(0, 0, 1, 1)
+roc(scores, response)
 }

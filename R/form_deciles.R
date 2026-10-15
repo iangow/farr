@@ -11,7 +11,8 @@ get_deciles <- function(x) {
 #'
 #' @param x A vector for which deciles are to be calculated.
 #'
-#' @return vector
+#' @return An integer vector the same length as `x`, with decile assignments
+#'   from 1 (lowest values) to 10 (highest values).
 #' @export
 #' @examples
 #' library(farr)

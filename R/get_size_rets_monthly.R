@@ -36,9 +36,16 @@ read_data <- function(path, start, end) {
 
 #' Create a table of monthly returns for size portfolios
 #'
-#' @return tbl_df
+#' @return A tibble with columns `month` (a Date), `decile` (integers 1--10),
+#'   `ew_ret` (equal-weighted returns), and `vw_ret` (value-weighted returns).
+#'   Returns are expressed as decimal fractions.
 #' @export
 #' @importFrom rlang .data
+#' @examples
+#' \donttest{
+#' # Downloads portfolio returns from Ken French's website.
+#' head(get_size_rets_monthly())
+#' }
 get_size_rets_monthly <- function() {
 
     # Download the data

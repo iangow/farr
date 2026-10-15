@@ -10,7 +10,8 @@ get_trading_dates(conn)
 \item{conn}{connection to a PostgreSQL or DuckDB database}
 }
 \value{
-tbl_df
+A tibble with columns \code{date} (CRSP trading dates) and \code{td}
+(consecutive integer indices ordered by date).
 }
 \description{
 Produce a table mapping dates on CRSP to "trading days".
@@ -19,10 +20,11 @@ td, a sequence of integers ordered by date.
 }
 \examples{
 \dontrun{
-library(DBI)
-library(dplyr, warn.conflicts = FALSE)
-pg <- dbConnect(RPostgres::Postgres())
-get_trading_dates(pg) \%>\%
-  filter(between(date, as.Date("2022-03-18"), as.Date("2022-03-31")))
+# Requires an authenticated PostgreSQL connection with access to CRSP data.
+local({
+  pg <- DBI::dbConnect(RPostgres::Postgres())
+  on.exit(DBI::dbDisconnect(pg), add = TRUE)
+  head(get_trading_dates(pg))
+})
 }
 }

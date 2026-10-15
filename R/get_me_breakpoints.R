@@ -1,13 +1,16 @@
-#' Create a table of with cut-offs for size portfolios
+#' Create a table with cut-offs for size portfolios
 #'
 #' @param keep_max Set to `TRUE` to keep upper-bound of highest decile.
 #'   Default is `FALSE`, which will replace upper bound with `Inf`.
+#' @return A tibble with columns `month` (a Date), `decile` (integers 1--10),
+#'   `me_min` and `me_max` (lower and upper market-equity cut-offs in millions
+#'   of dollars). Unless `keep_max` is `TRUE`, the highest upper bound is `Inf`.
 #' @export
 #' @importFrom rlang .data
 #' @examples
-#' \dontrun{
-#' library(dplyr, warn.conflicts = FALSE)
-#' get_me_breakpoints() %>% filter(month == '2022-04-01')
+#' \donttest{
+#' # Downloads market-equity breakpoints from Ken French's website.
+#' head(get_me_breakpoints())
 #' }
 get_me_breakpoints <- function(keep_max = FALSE) {
     t <- tempfile(fileext = ".zip")

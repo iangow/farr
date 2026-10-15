@@ -6,6 +6,9 @@
 #'
 #' @return Result of evaluating `expr`
 #' @export
+#' @examples
+#' result <- system_time(sum(1:10))
+#' result
 system_time <- function(expr) {
     print(system.time(expr))
     expr
