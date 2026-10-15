@@ -1,4 +1,7 @@
 # farr 1.0.9000
+* Corrected `get_got_data()` to use `rho_E` for firm-specific error
+  persistence (#29). Simulations with unequal `rho_X` and `rho_E` now
+  follow the requested error process; equal-parameter results are unchanged.
 * Refreshed `aaer_dates` through October 2026, with 3,386 rows. The data steps
   apply source-backed date and coverage corrections, preserve historical
   entries absent from the current SEC index, and remove exact duplicates (#27).

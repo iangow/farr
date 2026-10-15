@@ -61,7 +61,7 @@ get_got_data <- function(N = 400, T = 20, Xvol, Evol, rho_X, rho_E) {
   gamma_F <- matrix(nrow = N, ncol = T)
   gamma_F[ ,1] <- nu[ ,1]
   for (t in 2:T) {
-    gamma_F[ , t] <- gamma_F[ , t-1] * rho_X + nu[ ,t]
+    gamma_F[ , t] <- gamma_F[ , t-1] * rho_E + nu[ ,t]
   }
 
   epsilon <- gamma_T + gamma_F;
