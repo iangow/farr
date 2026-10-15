@@ -74,7 +74,10 @@ test_that("size returns use distinct temporary downloads and preserve parsed dat
     expect_length(downloads, 2)
     paths <- vapply(downloads, `[[`, "", "path")
     expect_length(unique(paths), 2)
-    expect_true(all(dirname(paths) == tempdir()))
+    expect_true(all(
+      normalizePath(dirname(paths), winslash = "/", mustWork = TRUE) ==
+        normalizePath(tempdir(), winslash = "/", mustWork = TRUE)
+    ))
     expect_false(any(file.exists(paths)))
     for (download in downloads) {
       expect_identical(download$url, paste0(
@@ -148,6 +151,7 @@ for (buffer in c(NA_character_, "", "12345")) {
         } else {
           Sys.setenv(VROOM_CONNECTION_SIZE = buffer)
         }
+        initial_buffer <- Sys.getenv("VROOM_CONNECTION_SIZE", unset = NA_character_)
         path <- NULL
         local_mocked_bindings(download.file = function(url, destfile, ...) {
           path <<- destfile
@@ -171,7 +175,7 @@ for (buffer in c(NA_character_, "", "12345")) {
           expect_identical(parser_calls, fail_on_read)
         }
         expect_identical(Sys.getenv("VROOM_CONNECTION_SIZE", unset = NA_character_),
-                         buffer)
+                         initial_buffer)
         expect_false(file.exists(path))
         expect_size_rets_sentinel(fixture)
       })

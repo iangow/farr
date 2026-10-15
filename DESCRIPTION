@@ -10,8 +10,8 @@ Authors@R:
 Description: Data sets and functions for empirical accounting research,
     including event-return calculations, panel-data simulations, classification
     performance measures, and 'Parquet' file workflows using 'DuckDB'. Supports
-    methods described in Gow and Ding (2024), "Empirical Research in Accounting:
-    Tools and Methods" <doi:10.1201/9781003456230>. The online companion is
+    methods described in "Empirical Research in Accounting: Tools and Methods"
+    (2024) <doi:10.1201/9781003456230>. The online companion is
     available at <https://iangow.github.io/far_book/>.
 License: MIT + file LICENSE
 Encoding: UTF-8
