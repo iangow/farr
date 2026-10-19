@@ -28,4 +28,16 @@ confusion_stats(scores, response, predicted = NULL, k = NULL)
 
 ## Value
 
-vector including sensitivity and precision
+A named numeric vector containing sensitivity (the fraction of positive
+responses detected) and precision (the fraction of predictions
+classified as positive that have a positive response).
+
+## Examples
+
+``` r
+scores <- c(0.1, 0.4, 0.35, 0.8)
+response <- c(0, 0, 1, 1)
+confusion_stats(scores, response)
+#> sensitivity   precision
+#>         0.5         1.0
+```

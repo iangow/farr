@@ -28,4 +28,7 @@ vector
 
 Following MATLAB, function samples observations of the minority class
 with replacement and observations of the majority class without
-replacement.
+replacement. Both classes must be present, with no missing responses.
+The requested majority sample size must be a positive integer no larger
+than the majority class; fractional imbalance ratios are allowed if they
+meet this requirement.

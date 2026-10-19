@@ -38,7 +38,9 @@ get_test_scores(
 
 ## Value
 
-tbl_df
+A tibble with student identifiers, grades, treatment and post-treatment
+indicators, and simulated test scores. If `include_unobservables` is
+`TRUE`, it also includes student talent and grade effects.
 
 ## Examples
 

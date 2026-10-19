@@ -48,7 +48,7 @@ Helpers that retrieve external data or convert database outputs.
 - [`get_ff_ind()`](https://iangow.github.io/farr/reference/get_ff_ind.md)
   : Fetch Fama-French industry grouping.
 - [`get_me_breakpoints()`](https://iangow.github.io/farr/reference/get_me_breakpoints.md)
-  : Create a table of with cut-offs for size portfolios
+  : Create a table with cut-offs for size portfolios
 - [`get_size_rets_monthly()`](https://iangow.github.io/farr/reference/get_size_rets_monthly.md)
   : Create a table of monthly returns for size portfolios
 - [`get_got_data()`](https://iangow.github.io/farr/reference/get_got_data.md)
@@ -96,8 +96,9 @@ Utilities used in empirical accounting examples.
   returning data for a ROC plot.
 - [`rus()`](https://iangow.github.io/farr/reference/rus.md) : Random
   under-sampling function
-- [`rusboost()`](https://iangow.github.io/farr/reference/rusboost.md) :
-  RUSBoost for two-class problems
+- [`rusboost()`](https://iangow.github.io/farr/reference/rusboost.md)
+  [`predict(`*`<rusboost>`*`)`](https://iangow.github.io/farr/reference/rusboost.md)
+  : RUSBoost for two-class problems
 
 ## Data
 

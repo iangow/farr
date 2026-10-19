@@ -41,7 +41,8 @@ get_got_data(N = 400, T = 20, Xvol, Evol, rho_X, rho_E)
 
 ## Value
 
-tibble
+A tibble with columns `y` (outcome), `x` (predictor), `firm` (integer
+firm identifier), and `year` (integer year index), with `N * T` rows.
 
 ## Examples
 

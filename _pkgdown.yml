@@ -17,6 +17,9 @@ template:
 development:
   mode: release
 
+news:
+  cran_dates: false
+
 navbar:
   structure:
     left: [intro, reference, articles, news]

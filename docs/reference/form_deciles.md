@@ -16,7 +16,8 @@ form_deciles(x)
 
 ## Value
 
-vector
+An integer vector the same length as `x`, with decile assignments from 1
+(lowest values) to 10 (highest values).
 
 ## Examples
 
@@ -29,17 +30,17 @@ df <-
     mutate(dec_x = form_deciles(x))
 df
 #> # A tibble: 100 × 2
-#>           x dec_x
-#>       <dbl> <int>
-#>  1 -1.40        2
-#>  2  0.255       6
-#>  3 -2.44        1
-#>  4 -0.00557     5
-#>  5  0.622       8
-#>  6  1.15        9
-#>  7 -1.82        1
-#>  8 -0.247       4
-#>  9 -0.244       4
-#> 10 -0.283       3
+#>         x dec_x
+#>     <dbl> <int>
+#>  1 -1.82      1
+#>  2 -0.247     4
+#>  3 -0.244     4
+#>  4 -0.283     4
+#>  5 -0.554     3
+#>  6  0.629     8
+#>  7  2.07     10
+#>  8 -1.63      1
+#>  9  0.512     7
+#> 10 -1.86      1
 #> # ℹ 90 more rows
 ```

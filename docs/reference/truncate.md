@@ -29,7 +29,8 @@ truncate(x, prob = 0.01, p_low = prob, p_high = 1 - prob)
 
 ## Value
 
-vector
+A vector the same length as `x`, with values outside the specified
+quantiles replaced by `NA`.
 
 ## Examples
 

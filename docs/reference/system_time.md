@@ -17,3 +17,13 @@ system_time(expr)
 ## Value
 
 Result of evaluating `expr`
+
+## Examples
+
+``` r
+result <- system_time(sum(1:10))
+#>    user  system elapsed
+#>       0       0       0
+result
+#> [1] 55
+```

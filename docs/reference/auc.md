@@ -26,4 +26,14 @@ auc(scores, response)
 
 ## Value
 
-Vector including AUC
+A named numeric vector containing the area under the ROC curve.
+
+## Examples
+
+``` r
+scores <- c(0.1, 0.4, 0.35, 0.8)
+response <- c(0, 0, 1, 1)
+auc(scores, response)
+#>  auc
+#> 0.75
+```

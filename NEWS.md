@@ -38,6 +38,8 @@
 
 # farr 1.0.1
 * Added `duckdb_to_parquet()`.
+* Fixed the lazy table returned by `duckdb_to_parquet()` by removing the
+  `dbplyr::sql()` wrapper around `read_parquet()`.
 * Updated internet-dependent examples and tests so they do not run on CRAN.
 
 # farr 1.0.0

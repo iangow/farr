@@ -24,4 +24,15 @@ ndcg(scores, response, k = 0.01)
 
 ## Value
 
-vector including sensitivity and precision
+A named numeric vector containing normalized discounted cumulative gain
+among the highest-scoring fraction `k` of observations.
+
+## Examples
+
+``` r
+scores <- c(0.1, 0.4, 0.35, 0.8)
+response <- c(0, 0, 1, 1)
+ndcg(scores, response, k = 0.5)
+#>  ndcg_0.5
+#> 0.6131472
+```

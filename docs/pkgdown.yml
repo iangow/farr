@@ -1,9 +1,9 @@
-pandoc: 3.9.0.2
-pkgdown: 2.2.0
+pandoc: 3.8.3
+pkgdown: 2.2.1
 pkgdown_sha: ~
 articles:
   articles/local_data_examples: local_data_examples.html
-last_built: 2026-06-03T16:32Z
+last_built: 2026-10-19T20:59Z
 urls:
   reference: https://iangow.github.io/farr/reference
   article: https://iangow.github.io/farr/articles

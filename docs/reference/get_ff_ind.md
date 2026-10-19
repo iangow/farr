@@ -21,26 +21,33 @@ get_ff_ind(ind, refresh_cache = FALSE)
 
 ## Value
 
-tbl_df
+A tibble with industry identifiers (`ff_ind`), short and long
+descriptions (`ff_ind_short_desc`, `ff_ind_desc`), SIC interval
+endpoints (`sic_min`, `sic_max`), and SIC interval descriptions
+(`sic_desc`).
 
 ## Examples
 
 ``` r
-## Not run:
-get_ff_ind(5)
-#> # A tibble: 58 × 6
-#>    ff_ind ff_ind_short_desc ff_ind_desc                 sic_min sic_max sic_desc
-#>     <int> <chr>             <chr>                         <int>   <int> <chr>   
-#>  1      1 Cnsmr             Consumer Durables, Nondura…     100     999 ""      
-#>  2      1 Cnsmr             Consumer Durables, Nondura…    2000    2399 ""      
-#>  3      1 Cnsmr             Consumer Durables, Nondura…    2700    2749 ""      
-#>  4      1 Cnsmr             Consumer Durables, Nondura…    2770    2799 ""      
-#>  5      1 Cnsmr             Consumer Durables, Nondura…    3100    3199 ""      
-#>  6      1 Cnsmr             Consumer Durables, Nondura…    3940    3989 ""      
-#>  7      1 Cnsmr             Consumer Durables, Nondura…    2500    2519 ""      
-#>  8      1 Cnsmr             Consumer Durables, Nondura…    2590    2599 ""      
-#>  9      1 Cnsmr             Consumer Durables, Nondura…    3630    3659 ""      
-#> 10      1 Cnsmr             Consumer Durables, Nondura…    3710    3711 ""      
-#> # ℹ 48 more rows
-## End(Not run)
+# \donttest{
+# Downloads an industry classification from Ken French's website.
+local({
+  cache_dir <- tempfile("farr-example-cache-")
+  old_options <- options(farr.cache_dir = cache_dir)
+  on.exit({
+    options(old_options)
+    unlink(cache_dir, recursive = TRUE)
+  }, add = TRUE)
+  head(get_ff_ind(5))
+})
+#> # A tibble: 6 × 6
+#>   ff_ind ff_ind_short_desc ff_ind_desc                  sic_min sic_max sic_desc
+#>    <int> <chr>             <chr>                          <int>   <int> <chr>
+#> 1      1 Cnsmr             Consumer Durables, Nondurab…     100     999 ""
+#> 2      1 Cnsmr             Consumer Durables, Nondurab…    2000    2399 ""
+#> 3      1 Cnsmr             Consumer Durables, Nondurab…    2700    2749 ""
+#> 4      1 Cnsmr             Consumer Durables, Nondurab…    2770    2799 ""
+#> 5      1 Cnsmr             Consumer Durables, Nondurab…    3100    3199 ""
+#> 6      1 Cnsmr             Consumer Durables, Nondurab…    3940    3989 ""
+# }
 ```

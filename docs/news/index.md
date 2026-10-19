@@ -1,7 +1,42 @@
 # Changelog
 
-## farr 1.0.9000
+## farr 1.1.0
 
+- Expanded runnable examples and return-value documentation, documented
+  the prediction method for
+  [`rusboost()`](https://iangow.github.io/farr/reference/rusboost.md)
+  objects, and clarified which examples require internet access or
+  database credentials.
+- [`get_size_rets_monthly()`](https://iangow.github.io/farr/reference/get_size_rets_monthly.md)
+  now downloads over HTTPS to a temporary file, removes it even on
+  failure, and restores `VROOM_CONNECTION_SIZE` after parsing instead of
+  changing the caller’s files or environment
+  ([\#33](https://github.com/iangow/farr/issues/33)).
+- [`rusboost()`](https://iangow.github.io/farr/reference/rusboost.md)
+  now retains a perfect learner as the sole predictive learner with
+  weight 1 and reports an error if no usable learner is fitted
+  ([\#32](https://github.com/iangow/farr/issues/32)). Random
+  undersampling handles singleton classes safely and validates class
+  counts and majority sample sizes.
+- Monthly cumulative-return windows now include the full ending month
+  for nonzero offsets, including transitions from shorter to longer
+  months.
+- Daily and monthly cumulative event returns now handle complete losses
+  (`ret = -1`) in stocks and benchmarks
+  ([\#31](https://github.com/iangow/farr/issues/31)). Missing-value
+  handling is unchanged, and returns below -1 continue to raise an
+  error.
+- [`get_event_rets()`](https://iangow.github.io/farr/reference/get_event_rets.md)
+  now retains non-trading-day announcements
+  ([\#30](https://github.com/iangow/farr/issues/30)), measuring relative
+  trading days from the next trading day while keeping the original
+  announcement dates.
+- Corrected
+  [`get_got_data()`](https://iangow.github.io/farr/reference/get_got_data.md)
+  to use `rho_E` for firm-specific error persistence
+  ([\#29](https://github.com/iangow/farr/issues/29)). Simulations with
+  unequal `rho_X` and `rho_E` now follow the requested error process;
+  equal-parameter results are unchanged.
 - Refreshed `aaer_dates` through October 2026, with 3,386 rows. The data
   steps apply source-backed date and coverage corrections, preserve
   historical entries absent from the current SEC index, and remove exact
@@ -18,17 +53,25 @@
 - Corrected the `by_tag_year` documentation: `year_total` counts
   questions across all tags in a year, rather than questions with a
   specific tag.
-- Added
-  [`duckdb_to_parquet()`](https://iangow.github.io/farr/reference/duckdb_to_parquet.md).
 - [`get_ff_ind()`](https://iangow.github.io/farr/reference/get_ff_ind.md)
   now caches downloaded Fama-French industry zip files by default and
   supports `refresh_cache = TRUE`.
 - Added a pkgdown site with Bootstrap 5 styling, a dark-mode toggle, and
   a Quarto article scaffold.
 
-## farr 1.0.0
+## farr 1.0.1
 
-CRAN release: 2025-11-17
+- Added
+  [`duckdb_to_parquet()`](https://iangow.github.io/farr/reference/duckdb_to_parquet.md).
+- Fixed the lazy table returned by
+  [`duckdb_to_parquet()`](https://iangow.github.io/farr/reference/duckdb_to_parquet.md)
+  by removing the
+  [`dbplyr::sql()`](https://dbplyr.tidyverse.org/reference/sql.html)
+  wrapper around `read_parquet()`.
+- Updated internet-dependent examples and tests so they do not run on
+  CRAN.
+
+## farr 1.0.0
 
 - The are now no duplicates in `gvkey_ciks`.
 - There is a `keep_max` argument in
@@ -36,8 +79,6 @@ CRAN release: 2025-11-17
 - Documentation fixes have been made.
 
 ## farr 0.3.2
-
-CRAN release: 2025-09-01
 
 - The
   [`get_me_breakpoints()`](https://iangow.github.io/farr/reference/get_me_breakpoints.md)
@@ -50,15 +91,11 @@ CRAN release: 2025-09-01
 
 ## farr 0.3.0
 
-CRAN release: 2024-02-29
-
 - Tweaked `test_scores` data (now two files).
 - Added
   [`system_time()`](https://iangow.github.io/farr/reference/system_time.md).
 
 ## farr 0.2.39
-
-CRAN release: 2023-12-13
 
 ## farr 0.2.38
 
@@ -91,8 +128,6 @@ CRAN release: 2023-12-13
 
 ## farr 0.2.30
 
-CRAN release: 2023-01-28
-
 - Added `aus_banks` data sets.
 
 ## farr 0.2.29
@@ -104,8 +139,6 @@ CRAN release: 2023-01-28
 - Added Zhang (2007) data.
 
 ## farr 0.2.27
-
-CRAN release: 2022-06-30
 
 - Added tests.
 - Added examples.
