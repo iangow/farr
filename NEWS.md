@@ -1,3 +1,7 @@
+# farr 1.1.1
+* Cumulative event returns explicitly reject returns below -1 in DuckDB,
+  including DuckDB 2.0 with `ieee_floating_point_ops` enabled (#34).
+
 # farr 1.1.0
 * Expanded runnable examples and return-value documentation, documented the
   prediction method for `rusboost()` objects, and clarified which examples

@@ -1,7 +1,8 @@
 with_cumulative_returns_fixture <- function(config, stock, market = c(0.03, 0.04),
                                              size = c(0.02, 0.01),
                                              dlret = rep(NA_real_, length(stock)),
-                                             code, dates = NULL) {
+                                             code, dates = NULL,
+                                             ieee_floating_point_ops = NULL) {
   stopifnot(length(stock) == length(market), length(stock) == length(size),
             length(stock) == length(dlret), length(stock) %in% 2:3)
   old_options <- options(lifecycle_verbosity = "quiet")
@@ -15,6 +16,12 @@ with_cumulative_returns_fixture <- function(config, stock, market = c(0.03, 0.04
     }
     conn <- DBI::dbConnect(do.call(duckdb::duckdb, driver_args))
     on.exit(DBI::dbDisconnect(conn, shutdown = TRUE), add = TRUE)
+    if (!is.null(ieee_floating_point_ops)) {
+      settings <- DBI::dbGetQuery(conn, "SELECT name FROM duckdb_settings()")
+      skip_if(!"ieee_floating_point_ops" %in% settings$name,
+              "DuckDB does not support ieee_floating_point_ops")
+      DBI::dbExecute(conn, paste("SET ieee_floating_point_ops =", ieee_floating_point_ops))
+    }
   } else {
     skip_if_not_installed("RPostgres")
     dbname <- Sys.getenv("FARR_TEST_POSTGRES_DBNAME")

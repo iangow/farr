@@ -11,12 +11,12 @@ Source:
 [`DESCRIPTION`](https://github.com/iangow/farr/blob/HEAD/DESCRIPTION)
 
 Gow I (2026). *farr: Data and Code for Empirical Research in
-Accounting*. R package version 1.1.0, <https://github.com/iangow/farr>.
+Accounting*. R package version 1.1.1, <https://github.com/iangow/farr>.
 
     @Manual{,
       title = {farr: Data and Code for Empirical Research in Accounting},
       author = {Ian Gow},
       year = {2026},
-      note = {R package version 1.1.0},
+      note = {R package version 1.1.1},
       url = {https://github.com/iangow/farr},
     }

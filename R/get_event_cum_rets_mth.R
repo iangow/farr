@@ -133,9 +133,9 @@ get_event_cum_rets_mth <- function(data, conn,
         dplyr::group_by(dplyr::across(dplyr::all_of(c("permno",
                                                       !!event_date,
                                                       !!end_event_date)))) %>%
-        dplyr::summarize(gross_ret = !!gross_return_sql("ret"),
-                          gross_mkt = !!gross_return_sql("vwretd"),
-                          gross_sz = !!gross_return_sql("decret"),
+        dplyr::summarize(gross_ret = !!gross_return_sql("ret", conn),
+                          gross_mkt = !!gross_return_sql("vwretd", conn),
+                          gross_sz = !!gross_return_sql("decret", conn),
                           .groups = "drop") %>%
         dplyr::mutate(ret_raw = .data$gross_ret - 1,
                        ret_mkt = .data$gross_ret - .data$gross_mkt,
