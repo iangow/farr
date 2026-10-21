@@ -19,8 +19,12 @@ missing-value handling, and does not change the public API or packaged data.
   completed with 0 errors, 0 warnings and 1 NOTE, both with DuckDB 1.5.6
   and with the DuckDB 2.0.0 release candidate. These checks included the
   internet-dependent help examples and PDF manual.
-* The sole NOTE was "Days since last update: 5". The reason for this early
-  compatibility update is explained above.
+* Windows Server 2022 x64, R-devel (2026-10-20 r90728 ucrt): win-builder
+  completed with 0 errors, 0 warnings and 1 NOTE.
+  <https://win-builder.r-project.org/ygPqaJDmAqcS/00check.log>
+* The only notes concern the recent previous release: "Days since last
+  update: 5" locally and "Days since last update: 6" on Windows. The reason
+  for this early compatibility update is explained above.
 * The full local suite passed 571 assertions with no failures or warnings,
   including synthetic DuckDB 2.0.0 and PostgreSQL fixtures. Two live-download
   tests were skipped in that run.
