@@ -1,3 +1,8 @@
+# farr (development version)
+* Added the SEC quarterly-index API proposed in #35, with Python-compatible
+  Parquet vintages, explicit update statuses, validated staged downloads, and
+  collision-safe archives of replaced files.
+
 # farr 1.1.1
 * Cumulative event returns explicitly reject returns below -1 in DuckDB,
   including DuckDB 2.0 with `ieee_floating_point_ops` enabled (#34).

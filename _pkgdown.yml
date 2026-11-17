@@ -50,6 +50,11 @@ reference:
       - pg_to_parquet
       - duckdb_to_parquet
 
+  - title: SEC Filing Indexes
+    desc: Download, inspect, and safely update quarterly SEC indexes.
+    contents:
+      - sec_index
+
   - title: Research Design
     desc: Utilities used in empirical accounting examples.
     contents:

@@ -1,6 +1,6 @@
 Package: farr
 Title: Data and Code for Empirical Research in Accounting
-Version: 1.1.1
+Version: 1.1.1.9000
 Authors@R: 
     person(given = "Ian",
            family = "Gow",
@@ -30,19 +30,23 @@ Imports:
     stringr,
     DBI,
     lubridate,
-    rpart
+    rpart,
+    httr2 (>= 1.0.0),
+    xml2
 Depends: 
     R (>= 3.5.0)
 Suggests: 
+    arrow,
     RPostgres,
     duckdb,
     knitr,
     pkgdown,
     quarto,
     rmarkdown,
-    testthat (>= 3.0.0),
-    spelling
+    testthat (>= 3.1.7),
+    spelling,
+    withr
 Config/testthat/edition: 3
 Language: en-US
 URL: https://github.com/iangow/farr, https://iangow.github.io/farr/
-Config/roxygen2/version: 8.1.0
+Config/roxygen2/version: 8.1.1
