@@ -1,7 +1,24 @@
 # farr (development version)
+* Refreshed `apple_events` through September 2026 (76 events), adding 17 recent
+  events and 12 historical omissions. Corrected the Macworld 2008 date to
+  January 15 and retained the December 2019 entry missing from Wikipedia.
+  The updater now reads article headings, records source snapshots and
+  corrections, and refuses empty or incomplete refreshes.
+* `sec_index_update_all()` now checks quarters newest first and stops at the
+  first unchanged file by default. Use `check_all = TRUE` for a full historical
+  scan. Results contain every target quarter in newest-first order. Older local
+  files skipped by the stopping rule are reported as `unchanged`, with their
+  local timestamps; missing or unreadable local files are reported as `failed`.
+* `load_parquet()` now checks that `DATA_DIR` is set or a nonempty `data_dir`
+  is supplied before constructing a file path or querying DuckDB.
 * Added the SEC quarterly-index API proposed in #35, with Python-compatible
   Parquet vintages, explicit update statuses, validated staged downloads, and
-  collision-safe archives of replaced files.
+  optional collision-safe archives of replaced files.
+* SEC downloads and updates now default to `archive = FALSE`. Set
+  `archive = TRUE` to preserve replaced files in the schema's archive directory.
+* `sec_parquet_last_modified()` now takes `year` and `quarter` instead of a file
+  path, with `data_dir` defaulting to `DATA_DIR` and `schema` to `"edgar"`, matching
+  the SEC index update functions.
 
 # farr 1.1.1
 * Cumulative event returns explicitly reject returns below -1 in DuckDB,

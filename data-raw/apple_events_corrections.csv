@@ -1,0 +1,4 @@
+year,event,expected_date_text,event_date,end_event_date,source_url,reason
+2005,Macworld 2005,"January 17, 2005, San Francisco",2005-01-11,2005-01-11,https://www.apple.com/newsroom/2005/01/11Apple-Introduces-Mac-mini/,The Mac mini announcement at the Macworld keynote was January 11; Wikipedia says January 17.
+2005,Apple special event,October 2005,2005-10-12,2005-10-12,https://www.apple.com/newsroom/2005/10/12Apple-Unveils-the-New-iPod/,Wikipedia gives only the month; Apple dates the video iPod announcement October 12.
+2008,Macworld Conference & Expo San Francisco 2008,"January 16, 2008",2008-01-15,2008-01-15,https://www.apple.com/newsroom/2008/01/15Apple-Introduces-MacBook-Air-The-Worlds-Thinnest-Notebook/,Apple dates the MacBook Air announcement January 15; both Wikipedia and the old package say January 16.

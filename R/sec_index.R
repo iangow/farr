@@ -16,9 +16,13 @@
 #'   `POSIXct` instant or ISO 8601 string with an explicit UTC offset (or `Z`).
 #'   This avoids the initial directory request; the vintage is still checked
 #'   after downloading. It is never used to relabel an existing file.
-#' @param path Path to a Parquet file.
 #' @param report One of `"all"`, `"update"`, or `"none"`. `"update"` reports
 #'   downloads, replacements, and failures; `"all"` also reports unchanged files.
+#' @param archive Preserve an existing file in `schema/archive` before replacing
+#'   it? Defaults to `FALSE`. Existing archives are left untouched.
+#' @param check_all Check every target quarter, including quarters older than an
+#'   unchanged file? Defaults to `FALSE`, ending remote checks at the first
+#'   unchanged file.
 #'
 #' @details
 #' Files are stored at `data_dir/schema/sec_index_YYYYqQ.parquet`, with columns
@@ -29,6 +33,11 @@
 #' daylight saving time. Ambiguous timestamps in the repeated autumn hour are
 #' rejected. Comparisons use instants, never filesystem timestamps.
 #'
+#' `sec_parquet_last_modified(year, quarter)` reads the saved index's timestamp
+#' without contacting the SEC. Like the download and update functions, it uses
+#' `DATA_DIR` by default and looks in the `"edgar"` schema, with `data_dir` and
+#' `schema` arguments to select another repository or directory.
+#'
 #' `sec_get_index(overwrite = FALSE)` reuses an existing file without contacting
 #' the SEC. `sec_index_update()` downloads a missing file and replaces files
 #' with missing/invalid vintage metadata or an older vintage. Equal or newer
@@ -37,7 +46,8 @@
 #'
 #' Downloads are staged in the destination directory, parsed, and validated
 #' before replacing an active file. A changed remote vintage during download
-#' produces a failed status. Existing files are copied, byte for byte, into
+#' produces a failed status. By default, replaced files are not archived.
+#' With `archive = TRUE`, existing files are copied, byte for byte, into
 #' `schema/archive` before replacement. Archive names include the old UTC vintage;
 #' unknown vintages and timestamp collisions use a content checksum suffix.
 #' Existing archives are never overwritten. A directory lock prevents concurrent
@@ -46,8 +56,9 @@
 #'
 #' Replacement uses a same-directory rename. If the platform cannot replace an
 #' existing file this way, the operation fails and retains the active file.
-#' A failure may leave a verified archive, but never advances the active file's
-#' metadata. Network requests use a five-per-second throttle per R session,
+#' With archiving enabled, a failure may leave a verified archive, but never
+#' advances the active file's metadata. Network requests use a five-per-second
+#' throttle per R session,
 #' with retries spaced at least one second apart and at most three attempts for connection failures, HTTP 429, and selected 5xx
 #' responses. Separate R processes must coordinate their request rates.
 #'
@@ -56,8 +67,19 @@
 #' not a guarantee that each historical index exists. `sec_index_local()` lists
 #' only active, correctly named files, without descending into archives.
 #'
+#' `sec_index_update_all()` checks quarters from newest to oldest. By default it
+#' ends remote checks at the first unchanged file. Older local files are included
+#' in the result as `"unchanged"`, with their locally stored timestamps and no
+#' further SEC requests. Missing or unreadable older files return `"failed"`
+#' without resuming remote checks. Downloads, updates, and failures during the
+#' remote scan do not stop it. Use `check_all = TRUE`
+#' to check every target quarter, including older missing files or revisions
+#' that the default scan may not reach. An empty repository is populated by
+#' checking every target because no existing file can be unchanged.
+#'
 #' @return `sec_get_index()` and `sec_index_update()` return a one-row tibble;
-#'   `sec_index_update_all()` returns one row per target quarter. Columns are
+#'   `sec_index_update_all()` returns one row per target quarter, newest first.
+#'   Columns are
 #'   `year`, `quarter`, `status` (`"unchanged"`, `"downloaded"`, `"updated"`, or
 #'   `"failed"`), `path`, `last_modified` (active vintage as UTC `POSIXct`),
 #'   `archive_path` (or `NA`), and `error` (or `NA`). Invalid arguments and missing
@@ -78,8 +100,12 @@
 #' # Supply your own organisation/contact in USER_AGENT or HTTPUserAgent.
 #' result <- sec_get_index(2022, 2)
 #' result$status
+#' sec_parquet_last_modified(2022, 2)
 #' sec_index_local()
 #' sec_index_update(2022, 2)
+#' sec_index_update_all()
+#' # Check the full history, including older missing or revised files:
+#' sec_index_update_all(check_all = TRUE)
 #' # With an existing DuckDB connection:
 #' filings <- load_parquet(conn, "sec_index_2022q2", schema = "edgar")
 #' }
@@ -90,8 +116,9 @@ NULL
 #' @export
 sec_get_index <- function(year, quarter, overwrite = FALSE,
                           data_dir = Sys.getenv("DATA_DIR"), schema = "edgar",
-                          user_agent = NULL, last_modified = NULL) {
+                          user_agent = NULL, last_modified = NULL, archive = FALSE) {
     sec_check_quarter(year, quarter)
+    sec_check_archive(archive)
     if (!is.logical(overwrite) || length(overwrite) != 1L || is.na(overwrite)) {
         stop("`overwrite` must be TRUE or FALSE.", call. = FALSE)
     }
@@ -102,7 +129,8 @@ sec_get_index <- function(year, quarter, overwrite = FALSE,
         return(sec_reuse(year, quarter, path))
     }
     agent <- sec_user_agent(user_agent)
-    sec_acquire(year, quarter, path, agent, expected, update = FALSE, overwrite = overwrite)
+    sec_acquire(year, quarter, path, agent, expected, update = FALSE,
+                overwrite = overwrite, archive = archive)
 }
 
 #' @rdname sec_index
@@ -115,10 +143,11 @@ sec_index_available_update <- function(year, quarter, user_agent = NULL) {
 
 #' @rdname sec_index
 #' @export
-sec_parquet_last_modified <- function(path) {
-    sec_require_arrow()
-    metadata <- arrow::ParquetFileReader$create(path)$GetSchema()$metadata
-    sec_parse_vintage(metadata[["last_modified"]])
+sec_parquet_last_modified <- function(year, quarter, data_dir = Sys.getenv("DATA_DIR"),
+                                      schema = "edgar") {
+    sec_check_quarter(year, quarter)
+    path <- sec_index_path(year, quarter, data_dir, schema)
+    sec_read_parquet_vintage(path)
 }
 
 #' @rdname sec_index
@@ -134,7 +163,7 @@ sec_index_local <- function(data_dir = Sys.getenv("DATA_DIR"), schema = "edgar")
         quarter = as.integer(substr(basename(paths), 16, 16)),
         path = paths,
         last_modified = sec_time(vapply(paths, function(path) {
-            as.numeric(sec_parquet_last_modified(path))
+            as.numeric(sec_read_parquet_vintage(path))
         }, numeric(1)))
     )
 }
@@ -153,14 +182,15 @@ sec_index_targets <- function() {
 #' @export
 sec_index_update <- function(year, quarter, data_dir = Sys.getenv("DATA_DIR"),
                              schema = "edgar", user_agent = NULL,
-                             last_modified = NULL, report = "all") {
+                             last_modified = NULL, report = "all", archive = FALSE) {
     sec_check_quarter(year, quarter)
+    sec_check_archive(archive)
     path <- sec_index_path(year, quarter, data_dir, schema)
     report <- match.arg(report, c("all", "update", "none"))
     sec_require_arrow()
     agent <- sec_user_agent(user_agent)
     expected <- sec_expected_vintage(last_modified)
-    result <- sec_acquire(year, quarter, path, agent, expected, update = TRUE)
+    result <- sec_acquire(year, quarter, path, agent, expected, update = TRUE, archive = archive)
     sec_report(result, report)
     result
 }
@@ -169,16 +199,31 @@ sec_index_update <- function(year, quarter, data_dir = Sys.getenv("DATA_DIR"),
 #' @export
 sec_index_update_all <- function(data_dir = Sys.getenv("DATA_DIR"),
                                  schema = "edgar", user_agent = NULL,
-                                 report = "update") {
+                                 report = "update", archive = FALSE, check_all = FALSE) {
     sec_index_directory(data_dir, schema)
+    sec_check_archive(archive)
+    if (!is.logical(check_all) || length(check_all) != 1L || is.na(check_all)) {
+        stop("`check_all` must be TRUE or FALSE.", call. = FALSE)
+    }
     sec_require_arrow()
     agent <- sec_user_agent(user_agent)
     report <- match.arg(report, c("all", "update", "none"))
     targets <- sec_index_targets()
-    results <- lapply(seq_len(nrow(targets)), function(i) {
-        sec_index_update(targets$year[i], targets$quarter[i], data_dir, schema,
-                         agent, report = report)
-    })
+    targets <- targets[rev(seq_len(nrow(targets))), ]
+    results <- vector("list", nrow(targets))
+    check_remote <- TRUE
+    for (i in seq_len(nrow(targets))) {
+        if (check_remote) {
+            result <- sec_index_update(targets$year[i], targets$quarter[i], data_dir, schema,
+                                       agent, report = report, archive = archive)
+            if (!check_all && result$status == "unchanged") check_remote <- FALSE
+        } else {
+            path <- sec_index_path(targets$year[i], targets$quarter[i], data_dir, schema)
+            result <- sec_reuse(targets$year[i], targets$quarter[i], path)
+            sec_report(result, report)
+        }
+        results[[i]] <- result
+    }
     dplyr::bind_rows(results)
 }
 
@@ -191,6 +236,18 @@ sec_today <- function() as.Date(format(Sys.time(), tz = "America/New_York", "%Y-
 sec_require_arrow <- function() {
     if (!requireNamespace("arrow", quietly = TRUE)) {
         stop("The arrow package is required for SEC Parquet indexes.", call. = FALSE)
+    }
+}
+
+sec_read_parquet_vintage <- function(path) {
+    sec_require_arrow()
+    metadata <- arrow::ParquetFileReader$create(path)$GetSchema()$metadata
+    sec_parse_vintage(metadata[["last_modified"]])
+}
+
+sec_check_archive <- function(archive) {
+    if (!is.logical(archive) || length(archive) != 1L || is.na(archive)) {
+        stop("`archive` must be TRUE or FALSE.", call. = FALSE)
     }
 }
 
@@ -358,7 +415,7 @@ sec_validate_parquet <- function(path, vintage, rows) {
     types <- vapply(expected, function(name) table$schema$GetFieldByName(name)$type$ToString(), character(1))
     if (any(!types[c(1, 2, 5)] %in% c("string", "large_string")) ||
         types[3] != "int32" || types[4] != "date32[day]") stop("Staged SEC index has incorrect column types.")
-    if (!isTRUE(sec_parquet_last_modified(path) == vintage)) stop("Staged SEC index has incorrect vintage metadata.")
+    if (!isTRUE(sec_read_parquet_vintage(path) == vintage)) stop("Staged SEC index has incorrect vintage metadata.")
 }
 
 sec_status <- function(year, quarter, path, status, vintage = sec_time(),
@@ -368,7 +425,7 @@ sec_status <- function(year, quarter, path, status, vintage = sec_time(),
 }
 
 sec_reuse <- function(year, quarter, path) {
-    tryCatch(sec_status(year, quarter, path, "unchanged", sec_parquet_last_modified(path)),
+    tryCatch(sec_status(year, quarter, path, "unchanged", sec_read_parquet_vintage(path)),
              error = function(e) sec_status(year, quarter, path, "failed", error = conditionMessage(e)))
 }
 
@@ -395,9 +452,10 @@ sec_replace <- function(from, to) {
     if (!file.rename(from, to)) stop("Could not atomically replace the SEC index; active file retained.")
 }
 
-sec_acquire <- function(year, quarter, path, agent, expected, update, overwrite = FALSE) {
+sec_acquire <- function(year, quarter, path, agent, expected, update,
+                        overwrite = FALSE, archive = FALSE) {
     old_vintage <- sec_time()
-    archive <- NA_character_
+    archive_path <- NA_character_
     tryCatch({
         directory <- dirname(path)
         dir.create(directory, recursive = TRUE, showWarnings = FALSE)
@@ -407,7 +465,7 @@ sec_acquire <- function(year, quarter, path, agent, expected, update, overwrite 
         if (dir.exists(path)) stop("SEC index destination is a directory.")
         existed <- file.exists(path)
         original <- if (existed) sec_checksum(path) else NA_character_
-        if (existed) old_vintage <- sec_parquet_last_modified(path)
+        if (existed) old_vintage <- sec_read_parquet_vintage(path)
         if (existed && !update && !overwrite) {
             return(sec_status(year, quarter, path, "unchanged", old_vintage))
         }
@@ -425,14 +483,14 @@ sec_acquire <- function(year, quarter, path, agent, expected, update, overwrite 
         if (file.exists(path) != existed || (existed && !identical(sec_checksum(path), original))) {
             stop("Active SEC index changed during download; no replacement made.")
         }
-        if (existed) archive <- sec_archive(path, old_vintage, original)
+        if (existed && archive) archive_path <- sec_archive(path, old_vintage, original)
         sec_replace(staged, path)
-        sec_status(year, quarter, path, if (existed) "updated" else "downloaded", vintage, archive)
+        sec_status(year, quarter, path, if (existed) "updated" else "downloaded", vintage, archive_path)
     }, error = function(e) {
         active_vintage <- tryCatch({
-            if (file.exists(path) && !dir.exists(path)) sec_parquet_last_modified(path) else sec_time()
+            if (file.exists(path) && !dir.exists(path)) sec_read_parquet_vintage(path) else sec_time()
         }, error = function(e) sec_time())
-        sec_status(year, quarter, path, "failed", active_vintage, archive, conditionMessage(e))
+        sec_status(year, quarter, path, "failed", active_vintage, archive_path, conditionMessage(e))
     })
 }
 

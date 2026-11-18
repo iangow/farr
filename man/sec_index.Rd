@@ -18,12 +18,18 @@ sec_get_index(
   data_dir = Sys.getenv("DATA_DIR"),
   schema = "edgar",
   user_agent = NULL,
-  last_modified = NULL
+  last_modified = NULL,
+  archive = FALSE
 )
 
 sec_index_available_update(year, quarter, user_agent = NULL)
 
-sec_parquet_last_modified(path)
+sec_parquet_last_modified(
+  year,
+  quarter,
+  data_dir = Sys.getenv("DATA_DIR"),
+  schema = "edgar"
+)
 
 sec_index_local(data_dir = Sys.getenv("DATA_DIR"), schema = "edgar")
 
@@ -36,14 +42,17 @@ sec_index_update(
   schema = "edgar",
   user_agent = NULL,
   last_modified = NULL,
-  report = "all"
+  report = "all",
+  archive = FALSE
 )
 
 sec_index_update_all(
   data_dir = Sys.getenv("DATA_DIR"),
   schema = "edgar",
   user_agent = NULL,
-  report = "update"
+  report = "update",
+  archive = FALSE,
+  check_all = FALSE
 )
 }
 \arguments{
@@ -67,14 +76,20 @@ A nonempty value is required for network requests.}
 This avoids the initial directory request; the vintage is still checked
 after downloading. It is never used to relabel an existing file.}
 
-\item{path}{Path to a Parquet file.}
+\item{archive}{Preserve an existing file in \code{schema/archive} before replacing
+it? Defaults to \code{FALSE}. Existing archives are left untouched.}
 
 \item{report}{One of \code{"all"}, \code{"update"}, or \code{"none"}. \code{"update"} reports
 downloads, replacements, and failures; \code{"all"} also reports unchanged files.}
+
+\item{check_all}{Check every target quarter, including quarters older than an
+unchanged file? Defaults to \code{FALSE}, ending remote checks at the first
+unchanged file.}
 }
 \value{
 \code{sec_get_index()} and \code{sec_index_update()} return a one-row tibble;
-\code{sec_index_update_all()} returns one row per target quarter. Columns are
+\code{sec_index_update_all()} returns one row per target quarter, newest first.
+Columns are
 \code{year}, \code{quarter}, \code{status} (\code{"unchanged"}, \code{"downloaded"}, \code{"updated"}, or
 \code{"failed"}), \code{path}, \code{last_modified} (active vintage as UTC \code{POSIXct}),
 \code{archive_path} (or \code{NA}), and \code{error} (or \code{NA}). Invalid arguments and missing
@@ -101,6 +116,11 @@ string. Directory timestamps are interpreted in \code{America/New_York}, includi
 daylight saving time. Ambiguous timestamps in the repeated autumn hour are
 rejected. Comparisons use instants, never filesystem timestamps.
 
+\code{sec_parquet_last_modified(year, quarter)} reads the saved index's timestamp
+without contacting the SEC. Like the download and update functions, it uses
+\code{DATA_DIR} by default and looks in the \code{"edgar"} schema, with \code{data_dir} and
+\code{schema} arguments to select another repository or directory.
+
 \code{sec_get_index(overwrite = FALSE)} reuses an existing file without contacting
 the SEC. \code{sec_index_update()} downloads a missing file and replaces files
 with missing/invalid vintage metadata or an older vintage. Equal or newer
@@ -109,7 +129,8 @@ local vintages are unchanged. Missing or malformed metadata is reported as
 
 Downloads are staged in the destination directory, parsed, and validated
 before replacing an active file. A changed remote vintage during download
-produces a failed status. Existing files are copied, byte for byte, into
+produces a failed status. By default, replaced files are not archived.
+With \code{archive = TRUE}, existing files are copied, byte for byte, into
 \code{schema/archive} before replacement. Archive names include the old UTC vintage;
 unknown vintages and timestamp collisions use a content checksum suffix.
 Existing archives are never overwritten. A directory lock prevents concurrent
@@ -118,8 +139,9 @@ must be removed manually after checking that no update is running.
 
 Replacement uses a same-directory rename. If the platform cannot replace an
 existing file this way, the operation fails and retains the active file.
-A failure may leave a verified archive, but never advances the active file's
-metadata. Network requests use a five-per-second throttle per R session,
+With archiving enabled, a failure may leave a verified archive, but never
+advances the active file's metadata. Network requests use a five-per-second
+throttle per R session,
 with retries spaced at least one second apart and at most three attempts for connection failures, HTTP 429, and selected 5xx
 responses. Separate R processes must coordinate their request rates.
 
@@ -127,6 +149,16 @@ responses. Separate R processes must coordinate their request rates.
 yesterday's quarter, using the SEC's New York calendar. This is a target list,
 not a guarantee that each historical index exists. \code{sec_index_local()} lists
 only active, correctly named files, without descending into archives.
+
+\code{sec_index_update_all()} checks quarters from newest to oldest. By default it
+ends remote checks at the first unchanged file. Older local files are included
+in the result as \code{"unchanged"}, with their locally stored timestamps and no
+further SEC requests. Missing or unreadable older files return \code{"failed"}
+without resuming remote checks. Downloads, updates, and failures during the
+remote scan do not stop it. Use \code{check_all = TRUE}
+to check every target quarter, including older missing files or revisions
+that the default scan may not reach. An empty repository is populated by
+checking every target because no existing file can be unchanged.
 }
 \examples{
 head(sec_index_targets())
@@ -134,8 +166,12 @@ head(sec_index_targets())
 # Supply your own organisation/contact in USER_AGENT or HTTPUserAgent.
 result <- sec_get_index(2022, 2)
 result$status
+sec_parquet_last_modified(2022, 2)
 sec_index_local()
 sec_index_update(2022, 2)
+sec_index_update_all()
+# Check the full history, including older missing or revised files:
+sec_index_update_all(check_all = TRUE)
 # With an existing DuckDB connection:
 filings <- load_parquet(conn, "sec_index_2022q2", schema = "edgar")
 }

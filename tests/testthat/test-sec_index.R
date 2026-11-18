@@ -32,9 +32,10 @@ sec_mock_http <- function(content = sec_fixture(), stamp = "04/02/2022 10:15:30 
     }, .env = env, .package = "farr")
 }
 
-sec_seed <- function(directory, vintage = "2022-04-03T02:15:30Z", company = "OLD CO") {
-    dir.create(file.path(directory, "edgar"), showWarnings = FALSE)
-    path <- file.path(directory, "edgar", "sec_index_2022q2.parquet")
+sec_seed <- function(directory, vintage = "2022-04-03T02:15:30Z", company = "OLD CO",
+                     schema = "edgar", year = 2022, quarter = 2) {
+    dir.create(file.path(directory, schema), showWarnings = FALSE)
+    path <- file.path(directory, schema, sprintf("sec_index_%dq%d.parquet", year, quarter))
     table <- arrow::as_arrow_table(sec_parse_company(sec_fixture(company)))
     metadata <- table$schema$metadata
     if (!is.null(vintage)) metadata$last_modified <- vintage
@@ -81,18 +82,48 @@ test_that("metadata reads aware timestamps and treats unknown vintages as missin
     utc <- sec_parse_vintage("2022-04-03T02:15:30Z")
     for (stamp in c("2022-04-03T02:15:30Z", "2022-04-02T22:15:30-04:00",
                     "2022-04-03T12:15:30+10:00")) {
-        expect_equal(sec_parquet_last_modified(sec_seed(directory, stamp)), utc)
+        sec_seed(directory, stamp)
+        expect_equal(sec_parquet_last_modified(2022, 2, data_dir = directory), utc)
     }
     for (stamp in list(NULL, "", "garbage", "2022-04-03T02:15:30", "2022-02-30T00:00:00Z", "2022-04-01T00:00:00+25:00")) {
-        expect_true(is.na(sec_parquet_last_modified(sec_seed(directory, stamp))))
+        sec_seed(directory, stamp)
+        expect_true(is.na(sec_parquet_last_modified(2022, 2, data_dir = directory)))
     }
-    expect_error(sec_parquet_last_modified(file.path(directory, "absent.parquet")))
+    expect_error(sec_parquet_last_modified(2022, 1, data_dir = directory))
     data <- arrow::as_arrow_table(sec_parse_company(sec_fixture()))
     data <- data$ReplaceSchemaMetadata(list(custom = "retained"))
     path <- file.path(directory, "custom.parquet")
     sec_write_parquet(data, path, utc)
     expect_identical(arrow::ParquetFileReader$create(path)$GetSchema()$metadata$custom, "retained")
-    expect_equal(sec_parquet_last_modified(path), utc)
+    expect_equal(sec_read_parquet_vintage(path), utc)
+})
+
+test_that("metadata lookup uses DATA_DIR and supports repository and schema overrides offline", {
+    skip_if_not_installed("arrow")
+    directory <- sec_test_dir()
+    other <- sec_test_dir()
+    stamps <- paste0("2022-04-0", 1:4, "T00:00:00Z")
+    sec_seed(directory, stamps[1])
+    sec_seed(directory, stamps[2], schema = "filings")
+    sec_seed(other, stamps[3])
+    sec_seed(other, stamps[4], schema = "filings")
+    withr::local_envvar(DATA_DIR = directory, USER_AGENT = NA)
+    withr::local_options(HTTPUserAgent = NULL)
+    local_mocked_bindings(sec_request = function(...) stop("Unexpected request"))
+
+    expect_equal(sec_parquet_last_modified(2022, 2), sec_parse_vintage(stamps[1]))
+    expect_equal(sec_parquet_last_modified(2022, 2, schema = "filings"), sec_parse_vintage(stamps[2]))
+    expect_equal(sec_parquet_last_modified(2022, 2, data_dir = other), sec_parse_vintage(stamps[3]))
+    expect_equal(sec_parquet_last_modified(2022, 2, data_dir = other, schema = "filings"),
+                 sec_parse_vintage(stamps[4]))
+    expect_error(sec_parquet_last_modified(2022, 2, schema = "absent"))
+    expect_false(dir.exists(file.path(directory, "absent")))
+    writeLines("not a parquet file", file.path(directory, "edgar", "sec_index_2022q2.parquet"))
+    expect_error(sec_parquet_last_modified(2022, 2))
+
+    withr::local_envvar(DATA_DIR = NA)
+    expect_error(sec_parquet_last_modified(2022, 2), "data_dir")
+    expect_equal(sec_parquet_last_modified(2022, 2, data_dir = other), sec_parse_vintage(stamps[3]))
 })
 
 test_that("downloads produce typed Parquet, status records, and lazy DuckDB tables", {
@@ -139,19 +170,65 @@ test_that("get reuses without an agent or any request and update compares instan
     expect_false(dir.exists(file.path(directory, "edgar", "archive")))
 })
 
-test_that("updates archive old bytes and overwrite refreshes an equal vintage", {
+test_that("updates and forced downloads do not archive by default", {
+    skip_if_not_installed("arrow")
+    directory <- sec_test_dir()
+    path <- sec_seed(directory, "2022-04-01T00:00:00Z")
+    sec_mock_http()
+    updated <- sec_index_update(2022, 2, data_dir = directory, user_agent = "test", report = "none")
+    expect_identical(updated$status, "updated")
+    expect_identical(arrow::read_parquet(path)$company_name, "CAFÉ INC")
+    expect_true(is.na(updated$archive_path))
+    archive_dir <- file.path(directory, "edgar", "archive")
+    expect_false(dir.exists(archive_dir))
+
+    dir.create(archive_dir)
+    existing_archive <- file.path(archive_dir, "existing.parquet")
+    file.copy(path, existing_archive)
+    checksum <- sec_checksum(existing_archive)
+    forced <- sec_get_index(2022, 2, overwrite = TRUE, data_dir = directory, user_agent = "test")
+    expect_identical(forced$status, "updated")
+    expect_true(is.na(forced$archive_path))
+    expect_identical(list.files(archive_dir), "existing.parquet")
+    expect_identical(sec_checksum(existing_archive), checksum)
+})
+
+test_that("archiving is optional for batch updates and respects the selected schema", {
+    skip_if_not_installed("arrow")
+    directory <- sec_test_dir()
+    sec_mock_http()
+    local_mocked_bindings(sec_index_targets = function() tibble::tibble(year = 2022L, quarter = 2L))
+    sec_seed(directory, "2022-04-01T00:00:00Z", schema = "filings")
+    updated <- sec_index_update_all(directory, schema = "filings", user_agent = "test", report = "none")
+    expect_identical(updated$status, "updated")
+    expect_true(is.na(updated$archive_path))
+    expect_false(dir.exists(file.path(directory, "filings", "archive")))
+
+    path <- sec_seed(directory, "2022-04-01T00:00:00Z", schema = "filings")
+    checksum <- sec_checksum(path)
+    archived <- sec_index_update_all(directory, schema = "filings", user_agent = "test",
+                                     report = "none", archive = TRUE)
+    expect_identical(archived$status, "updated")
+    expect_identical(dirname(archived$archive_path), normalizePath(file.path(directory, "filings", "archive")))
+    expect_identical(sec_checksum(archived$archive_path), checksum)
+    expect_false(dir.exists(file.path(directory, "edgar")))
+})
+
+test_that("explicit archiving preserves old bytes for updates and forced downloads", {
     skip_if_not_installed("arrow")
     directory <- sec_test_dir()
     path <- sec_seed(directory, "2022-04-01T00:00:00Z")
     before <- sec_checksum(path)
     sec_mock_http()
-    updated <- sec_index_update(2022, 2, data_dir = directory, user_agent = "test", report = "none")
+    updated <- sec_index_update(2022, 2, data_dir = directory, user_agent = "test",
+                                report = "none", archive = TRUE)
     expect_identical(updated$status, "updated")
     expect_identical(sec_checksum(updated$archive_path), before)
     expect_identical(basename(updated$archive_path), "sec_index_2022q2_20220401T000000Z.parquet")
-    expect_equal(sec_parquet_last_modified(updated$archive_path), sec_parse_vintage("2022-04-01T00:00:00Z"))
-    expect_equal(sec_parquet_last_modified(path), updated$last_modified)
-    forced <- sec_get_index(2022, 2, overwrite = TRUE, data_dir = directory, user_agent = "test")
+    expect_equal(sec_read_parquet_vintage(updated$archive_path), sec_parse_vintage("2022-04-01T00:00:00Z"))
+    expect_equal(sec_parquet_last_modified(2022, 2, data_dir = directory), updated$last_modified)
+    forced <- sec_get_index(2022, 2, overwrite = TRUE, data_dir = directory,
+                            user_agent = "test", archive = TRUE)
     expect_identical(forced$status, "updated")
     expect_true(file.exists(forced$archive_path))
 })
@@ -164,7 +241,8 @@ test_that("unknown vintages are refreshed, archived distinctly, and never merely
     for (vintage in list(NULL, "not-a-vintage")) {
         path <- sec_seed(directory, vintage)
         before <- sec_checksum(path)
-        updated <- sec_index_update(2022, 2, data_dir = directory, user_agent = "test", report = "none")
+        updated <- sec_index_update(2022, 2, data_dir = directory, user_agent = "test",
+                                    report = "none", archive = TRUE)
         expect_identical(updated$status, "updated")
         expect_match(updated$archive_path, "unknown_modified_")
         expect_identical(sec_checksum(updated$archive_path), before)
@@ -183,7 +261,8 @@ test_that("timestamp archive collisions preserve every distinct version", {
     for (company in c("ONE", "TWO", "TWO")) {
         path <- sec_seed(directory, "2022-04-01T00:00:00Z", company)
         before <- sec_checksum(path)
-        updated <- sec_get_index(2022, 2, overwrite = TRUE, data_dir = directory, user_agent = "test")
+        updated <- sec_get_index(2022, 2, overwrite = TRUE, data_dir = directory,
+                                 user_agent = "test", archive = TRUE)
         expect_identical(updated$status, "updated")
         expect_identical(sec_checksum(updated$archive_path), before)
         archives <- c(archives, updated$archive_path)
@@ -203,11 +282,12 @@ test_that("download, parse, validation, archive and replacement failures retain 
             sec_mock_http()
             mocks <- setNames(list(function(...) stop("Injected failure")), stage)
             do.call(local_mocked_bindings, c(mocks, list(.env = environment(), .package = "farr")))
-            result <- sec_index_update(2022, 2, data_dir = directory, user_agent = "test", report = "none")
+            result <- sec_index_update(2022, 2, data_dir = directory, user_agent = "test",
+                                       report = "none", archive = stage == "sec_archive")
             expect_identical(result$status, "failed", info = stage)
             expect_match(result$error, "Injected failure", info = stage)
             expect_identical(sec_checksum(path), before, info = stage)
-            expect_equal(result$last_modified, sec_parquet_last_modified(path))
+            expect_equal(result$last_modified, sec_parquet_last_modified(2022, 2, data_dir = directory))
             expect_length(list.files(dirname(path), all.files = TRUE, pattern = "lock|sec-index"), 0L)
         })
     }
@@ -261,7 +341,7 @@ test_that("locks and external changes prevent replacement", {
     changed <- sec_get_index(2022, 2, overwrite = TRUE, data_dir = directory, user_agent = "test")
     expect_identical(changed$status, "failed")
     expect_match(changed$error, "Active SEC index changed")
-    expect_equal(changed$last_modified, sec_parquet_last_modified(path))
+    expect_equal(changed$last_modified, sec_parquet_last_modified(2022, 2, data_dir = directory))
     expect_identical(arrow::read_parquet(path)$company_name, "OTHER WRITER")
 })
 
@@ -297,19 +377,110 @@ test_that("target generation handles year and quarter transitions", {
     }
 })
 
-test_that("batch reports each status and continues after a failed quarter", {
+test_that("default batch scans newest first and stops only at an unchanged quarter", {
+    skip_if_not_installed("arrow")
+    cases <- list(
+        list(statuses = c("unchanged", "updated", "failed", "downloaded"), checked = 1L),
+        list(statuses = c("downloaded", "updated", "unchanged", "failed"), checked = 3L),
+        list(statuses = c("failed", "updated", "unchanged", "downloaded"), checked = 3L),
+        list(statuses = rep("downloaded", 4), checked = 4L)
+    )
+    for (case in cases) local({
+        directory <- sec_test_dir()
+        calls <- character()
+        skipped <- character()
+        local_mocked_bindings(
+            sec_index_targets = function() tibble::tibble(
+                year = c(2021L, 2021L, 2022L, 2022L), quarter = c(3L, 4L, 1L, 2L)),
+            sec_index_update = function(year, quarter, ...) {
+                calls <<- c(calls, sprintf("%dq%d", year, quarter))
+                sec_status(year, quarter, file.path(directory, tail(calls, 1)),
+                            case$statuses[length(calls)])
+            },
+            sec_reuse = function(year, quarter, path) {
+                skipped <<- c(skipped, sprintf("%dq%d", year, quarter))
+                sec_status(year, quarter, path, "unchanged")
+            }
+        )
+        result <- sec_index_update_all(directory, user_agent = "test", report = "none")
+        expected <- c("2022q2", "2022q1", "2021q4", "2021q3")
+        expect_identical(calls, expected[seq_len(case$checked)])
+        expect_identical(skipped, expected[seq_along(expected) > case$checked])
+        expect_identical(sprintf("%dq%d", result$year, result$quarter), expected)
+        expect_identical(result$status, c(case$statuses[seq_len(case$checked)],
+                                          rep("unchanged", length(expected) - case$checked)))
+    })
+})
+
+test_that("skipped files count as unchanged and retain local metadata without SEC requests", {
+    skip_if_not_installed("arrow")
+    directory <- sec_test_dir()
+    stamps <- list("2022-04-01T00:00:00Z", NULL, "2022-04-02T00:00:00Z", "2022-04-03T02:15:30Z")
+    paths <- vapply(1:4, function(quarter) {
+        sec_seed(directory, stamps[[quarter]], schema = "filings", quarter = quarter)
+    }, character(1))
+    before <- sec_checksum(paths)
+    requests <- character()
+    local_mocked_bindings(
+        sec_index_targets = function() tibble::tibble(year = rep(2022L, 4), quarter = 1:4),
+        sec_request = function(url, user_agent) {
+            requests <<- c(requests, url)
+            if (!identical(url, sec_index_url(2022, 4))) stop("Unexpected SEC request")
+            sec_listing()
+        }
+    )
+    result <- sec_index_update_all(directory, schema = "filings", user_agent = "test", report = "none")
+    expect_identical(requests, sec_index_url(2022, 4))
+    expect_identical(result$quarter, 4:1)
+    expect_identical(dplyr::count(result, status), tibble::tibble(status = "unchanged", n = 4L))
+    expected <- sec_time(vapply(rev(stamps), function(stamp) as.numeric(sec_parse_vintage(stamp)), numeric(1)))
+    expect_equal(result$last_modified, expected)
+    expect_identical(result$path, normalizePath(rev(paths)))
+    expect_true(all(is.na(result$error)))
+    expect_true(all(is.na(result$archive_path)))
+    expect_identical(sec_checksum(paths), before)
+})
+
+test_that("missing or unreadable skipped files are failures without resuming SEC checks", {
+    skip_if_not_installed("arrow")
+    directory <- sec_test_dir()
+    sec_seed(directory, quarter = 4)
+    sec_seed(directory, quarter = 1)
+    writeLines("not a parquet file", file.path(directory, "edgar", "sec_index_2022q2.parquet"))
+    requests <- 0L
+    local_mocked_bindings(
+        sec_index_targets = function() tibble::tibble(year = rep(2022L, 4), quarter = 1:4),
+        sec_request = function(url, user_agent) {
+            requests <<- requests + 1L
+            if (!identical(url, sec_index_url(2022, 4))) stop("Unexpected SEC request")
+            sec_listing()
+        }
+    )
+    result <- sec_index_update_all(directory, user_agent = "test", report = "none")
+    expect_identical(requests, 1L)
+    expect_identical(result$quarter, 4:1)
+    expect_identical(result$status, c("unchanged", "failed", "failed", "unchanged"))
+    expect_true(all(!is.na(result$error[2:3])))
+    expect_true(all(is.na(result$last_modified[2:3])))
+    expect_false(file.exists(file.path(directory, "edgar", "sec_index_2022q3.parquet")))
+})
+
+test_that("full batch scans pass unchanged quarters and continue after failures", {
     skip_if_not_installed("arrow")
     directory <- sec_test_dir()
     sec_seed(directory)
-    local_mocked_bindings(sec_index_targets = function() tibble::tibble(year = rep(2022L, 3), quarter = 1:3),
+    local_mocked_bindings(sec_index_targets = function() tibble::tibble(
+                              year = c(2021L, rep(2022L, 3)), quarter = c(4L, 1:3)),
                           sec_request = function(url, user_agent) {
         if (grepl("QTR1", url)) stop("Fixture HTTP 404")
         if (endsWith(url, "company.gz")) sec_fixture() else sec_listing()
     })
-    result <- sec_index_update_all(directory, user_agent = "test", report = "none")
-    expect_identical(result$status, c("failed", "unchanged", "downloaded"))
-    expect_match(result$error[1], "404")
-    expect_true(all(is.na(result$error[2:3])))
+    result <- sec_index_update_all(directory, user_agent = "test", report = "none", check_all = TRUE)
+    expect_identical(sprintf("%dq%d", result$year, result$quarter),
+                     c("2022q3", "2022q2", "2022q1", "2021q4"))
+    expect_identical(result$status, c("downloaded", "unchanged", "failed", "downloaded"))
+    expect_match(result$error[3], "404")
+    expect_true(all(is.na(result$error[c(1, 2, 4)])))
     expect_message(sec_index_update(2022, 2, directory, user_agent = "test"), "unchanged")
     expect_message(sec_index_update(2022, 1, directory, user_agent = "test", report = "update"), "failed")
     expect_message(sec_index_update(2022, 2, directory, user_agent = "test", report = "update"), NA)
@@ -324,9 +495,19 @@ test_that("invalid inputs and user-agent resolution fail before requests", {
     expect_error(sec_get_index(2022, NA), "quarter")
     expect_error(sec_get_index(c(2022, 2023), 1), "year")
     expect_error(sec_get_index(2022, 2, overwrite = NA), "overwrite")
+    expect_error(sec_get_index(2022, 2, archive = NA), "archive")
+    expect_error(sec_index_update(2022, 2, archive = "yes"), "archive")
+    expect_error(sec_index_update_all(data_dir = tempdir(), archive = c(TRUE, FALSE)), "archive")
+    expect_error(sec_index_update_all(data_dir = tempdir(), check_all = NA), "check_all")
+    expect_error(sec_index_update_all(data_dir = tempdir(), check_all = c(TRUE, FALSE)), "check_all")
     expect_error(sec_get_index(2022, 2, data_dir = ""), "data_dir")
     expect_error(sec_get_index(2022, 2, data_dir = tempdir(), schema = "../escape"), "schema")
     expect_error(sec_get_index(2022, 2, data_dir = tempdir(), schema = "a\\b"), "schema")
+    expect_error(sec_parquet_last_modified(1992, 1), "year")
+    expect_error(sec_parquet_last_modified(2026, 3), "quarter")
+    expect_error(sec_parquet_last_modified(2022, 2, data_dir = ""), "data_dir")
+    expect_error(sec_parquet_last_modified(2022, 2, data_dir = tempdir(), schema = "../escape"), "schema")
+    expect_error(sec_parquet_last_modified(2022, 2, data_dir = tempdir(), schema = "a\\b"), "schema")
     expect_error(sec_expected_vintage("2022-04-01T00:00:00"), "timezone")
     withr::local_envvar(USER_AGENT = "environment contact")
     withr::local_options(HTTPUserAgent = "option contact")
@@ -366,7 +547,7 @@ test_that("Python string and large_string fixtures are readable in R", {
     for (type in c("string", "large_string")) {
         path <- test_path("fixtures", "sec-index", paste0("python-", type, ".parquet"))
         expected <- sec_parse_vintage("2022-04-03T02:15:30Z")
-        expect_equal(sec_parquet_last_modified(path), expected)
+        expect_equal(sec_read_parquet_vintage(path), expected)
         expect_equal(arrow::read_parquet(path), sec_parse_company(sec_fixture()))
         sec_validate_parquet(path, expected, 1L)
         expect_identical(arrow::ParquetFileReader$create(path)$GetSchema()$metadata$fixture_note,
@@ -399,7 +580,8 @@ test_that("an archive checksum conflict cannot destroy the active file", {
     writeLines("different existing archive", primary)
     writeLines("conflicting checksum archive", collision)
     sec_mock_http()
-    result <- sec_get_index(2022, 2, overwrite = TRUE, data_dir = directory, user_agent = "test")
+    result <- sec_get_index(2022, 2, overwrite = TRUE, data_dir = directory,
+                            user_agent = "test", archive = TRUE)
     expect_identical(result$status, "failed")
     expect_match(result$error, "checksum mismatch")
     expect_identical(sec_checksum(path), checksum)

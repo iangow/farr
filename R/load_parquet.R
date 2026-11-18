@@ -6,7 +6,8 @@
 #' @param conn DuckDB connection
 #' @param table Name of table to be loaded
 #' @param schema Database schema for table
-#' @param data_dir Directory for data repository
+#' @param data_dir Directory for data repository. Defaults to the `DATA_DIR`
+#'   environment variable and must be a nonempty path.
 #'
 #' @return A lazy dbplyr table backed by `conn`, with the columns and rows
 #'   stored in the requested Parquet file. Use `dplyr::collect()` to retrieve it.
@@ -30,6 +31,10 @@
 #' }
 load_parquet <- function(conn, table, schema = "",
                          data_dir = Sys.getenv("DATA_DIR")) {
+    if (!is.character(data_dir) || length(data_dir) != 1L || is.na(data_dir) ||
+        !nzchar(trimws(data_dir))) {
+        stop("Set DATA_DIR or supply a nonempty `data_dir` before loading data.", call. = FALSE)
+    }
     file_path <- file.path(data_dir, schema,
                            paste0(table, ".parquet"))
     df_sql <- paste0("SELECT * FROM read_parquet('", file_path, "')")

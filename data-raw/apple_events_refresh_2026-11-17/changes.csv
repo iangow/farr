@@ -1,0 +1,78 @@
+event_old,event_date,end_event_date_old,event_new,end_event_date_new,change
+NA,2005-01-11,NA,Macworld 2005,2005-01-11,added
+WWDC 2005,2005-06-06,2005-06-10,WWDC 2005,2005-06-10,unchanged
+NA,2005-09-07,NA,Apple music event,2005-09-07,added
+NA,2005-10-12,NA,Apple special event,2005-10-12,added
+NA,2006-01-10,NA,Macworld 2006,2006-01-10,added
+Apple Special Event,2006-02-28,2006-02-28,Apple special event,2006-02-28,revised
+WWDC 2006,2006-08-07,2006-08-11,WWDC 2006,2006-08-11,unchanged
+Apple Special Event,2006-09-12,2006-09-12,Apple special event,2006-09-12,revised
+Macworld Conference & Expo San Francisco 2007,2007-01-09,2007-01-09,Macworld Conference & Expo San Francisco 2007,2007-01-09,unchanged
+NA,2007-06-11,NA,WWDC 2007,2007-06-15,added
+NA,2007-08-07,NA,Apple special event,2007-08-07,added
+NA,2007-09-05,NA,Apple music event,2007-09-05,added
+NA,2008-01-15,NA,Macworld Conference & Expo San Francisco 2008,2008-01-15,added
+Macworld Conference & Expo San Francisco 2008,2008-01-16,2008-01-16,NA,NA,removed
+NA,2008-03-06,NA,iPhone Software Roadmap event,2008-03-06,added
+WWDC 2008,2008-06-09,2008-06-13,WWDC 2008,2008-06-13,unchanged
+Apple Special Event,2008-09-09,2008-09-09,Apple special event,2008-09-09,revised
+NA,2008-10-14,NA,Apple special event,2008-10-14,added
+NA,2009-01-06,NA,Macworld SF,2009-01-06,added
+WWDC 2009,2009-06-08,2009-06-12,WWDC 2009,2009-06-12,unchanged
+NA,2009-09-09,NA,Apple special event,2009-09-09,added
+Apple Special Event,2010-01-27,2010-01-27,Apple special event,2010-01-27,revised
+Apple Special Event,2010-04-08,2010-04-08,Apple special event,2010-04-08,revised
+WWDC 2010,2010-06-07,2010-06-11,WWDC 2010,2010-06-11,unchanged
+Apple Special Event,2010-09-01,2010-09-01,Apple special event,2010-09-01,revised
+NA,2010-10-20,NA,Apple's 'Back to the Mac' event,2010-10-20,added
+Apple Special Event,2011-03-02,2011-03-02,Apple special event,2011-03-02,revised
+WWDC 2011,2011-06-06,2011-06-10,WWDC 2011,2011-06-10,unchanged
+Apple Special Event,2011-10-04,2011-10-04,Apple special event,2011-10-04,revised
+Apple Special Event,2012-03-07,2012-03-07,Apple special event,2012-03-07,revised
+WWDC 2012,2012-06-11,2012-06-15,WWDC 2012,2012-06-15,unchanged
+Apple Special Event,2012-09-12,2012-09-12,Apple special event,2012-09-12,revised
+Apple Special Event,2012-10-23,2012-10-23,Apple special event,2012-10-23,revised
+WWDC 2013,2013-06-10,2013-06-14,WWDC 2013,2013-06-14,unchanged
+Apple Special Event,2013-09-10,2013-09-10,Apple special event,2013-09-10,revised
+Apple Special Event,2013-10-22,2013-10-22,Apple special event,2013-10-22,revised
+WWDC 2014,2014-06-02,2014-06-06,WWDC 2014,2014-06-06,unchanged
+Apple Special Event,2014-09-09,2014-09-09,Apple special event,2014-09-09,revised
+Apple Special Event,2014-10-16,2014-10-16,Apple special event,2014-10-16,revised
+Apple Special Event,2015-03-09,2015-03-09,Apple special event,2015-03-09,revised
+WWDC 2015,2015-06-08,2015-06-12,WWDC 2015,2015-06-12,unchanged
+Apple Special Event,2015-09-09,2015-09-09,Apple special event,2015-09-09,revised
+Apple Special Event,2016-03-21,2016-03-21,Apple special event,2016-03-21,revised
+WWDC 2016,2016-06-13,2016-06-17,WWDC 2016,2016-06-17,unchanged
+Apple Special Event,2016-09-07,2016-09-07,Apple special event,2016-09-07,revised
+Apple Special Event,2016-10-27,2016-10-27,Apple special event,2016-10-27,revised
+WWDC 2017,2017-06-05,2017-06-09,WWDC 2017,2017-06-09,unchanged
+Apple Special Event,2017-09-12,2017-09-12,Apple special event,2017-09-12,revised
+Apple Special Event,2018-03-27,2018-03-27,Apple special event,2018-03-27,revised
+WWDC 2018,2018-06-04,2018-06-08,WWDC 2018,2018-06-08,unchanged
+Apple Special Event,2018-09-12,2018-09-12,Apple special event,2018-09-12,revised
+Apple Special Event,2018-10-30,2018-10-30,Apple special event,2018-10-30,revised
+Apple Special Event,2019-03-25,2019-03-25,Apple special event,2019-03-25,revised
+WWDC 2019,2019-06-03,2019-06-07,WWDC 2019,2019-06-07,unchanged
+Apple Special Event,2019-09-10,2019-09-10,Apple special event,2019-09-10,revised
+Apple Special Event,2019-12-02,2019-12-02,Apple Special Event,2019-12-02,unchanged
+WWDC 2020,2020-06-22,2020-06-26,WWDC 2020,2020-06-26,unchanged
+Apple Special Event,2020-09-15,2020-09-15,Apple event,2020-09-15,revised
+Apple Special Event,2020-10-13,2020-10-13,Apple event,2020-10-13,revised
+Apple Special Event,2020-11-10,2020-11-10,Apple event,2020-11-10,revised
+NA,2021-04-20,NA,Apple event,2021-04-20,added
+NA,2021-06-07,NA,WWDC 2021,2021-06-11,added
+NA,2021-09-14,NA,Apple event,2021-09-14,added
+NA,2021-10-18,NA,Apple event,2021-10-18,added
+NA,2022-03-08,NA,Apple event,2022-03-08,added
+NA,2022-06-06,NA,WWDC 2022,2022-06-10,added
+NA,2022-09-07,NA,Apple event,2022-09-07,added
+NA,2023-06-05,NA,WWDC 2023,2023-06-09,added
+NA,2023-09-12,NA,Apple event,2023-09-12,added
+NA,2023-10-30,NA,Apple event,2023-10-30,added
+NA,2024-05-07,NA,Apple event,2024-05-07,added
+NA,2024-06-10,NA,WWDC 2024,2024-06-14,added
+NA,2024-09-09,NA,Apple event,2024-09-09,added
+NA,2025-06-09,NA,WWDC 2025,2025-06-13,added
+NA,2025-09-09,NA,Apple event,2025-09-09,added
+NA,2026-06-08,NA,WWDC 2026,2026-06-12,added
+NA,2026-09-09,NA,Apple event,2026-09-09,added

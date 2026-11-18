@@ -13,7 +13,8 @@ load_parquet(conn, table, schema = "", data_dir = Sys.getenv("DATA_DIR"))
 
 \item{schema}{Database schema for table}
 
-\item{data_dir}{Directory for data repository}
+\item{data_dir}{Directory for data repository. Defaults to the \code{DATA_DIR}
+environment variable and must be a nonempty path.}
 }
 \value{
 A lazy dbplyr table backed by \code{conn}, with the columns and rows

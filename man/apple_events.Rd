@@ -5,7 +5,7 @@
 \alias{apple_events}
 \title{Dates for Apple Events}
 \format{
-A tibble with 47 rows and 3 variables:
+A tibble with 76 rows and 3 variables:
 \describe{
 \item{event}{Description of event}
 \item{event_date}{First date of event}
@@ -20,6 +20,8 @@ apple_events
 }
 \description{
 A data set containing the dates of Apple media events
-since 2005.
+from January 2005 through September 2026. Wikipedia event headings are
+supplemented by documented historical entries and date corrections checked
+against Apple announcements. WWDC dates cover the full conference.
 }
 \keyword{datasets}
